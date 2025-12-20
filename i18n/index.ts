@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { storage } from "@/utils/storage";
+import { STORAGE_KEYS } from "@/constants/storage-keys";
 import en from "./locales/en.json";
 import tr from "./locales/tr.json";
 
@@ -16,7 +17,7 @@ const LANGUAGE_DETECTOR = {
   detect: async (callback: (lang: string) => void) => {
     try {
       // 1. Check AsyncStorage for user preference
-      const savedLanguage = await storage.getItem("user-language");
+      const savedLanguage = await storage.getItem(STORAGE_KEYS.LANGUAGE);
       if (savedLanguage) {
         return callback(savedLanguage);
       }
@@ -39,7 +40,7 @@ const LANGUAGE_DETECTOR = {
   },
   init: () => {},
   cacheUserLanguage: async (language: string) => {
-    await storage.setItem("user-language", language);
+    await storage.setItem(STORAGE_KEYS.LANGUAGE, language);
   },
 };
 

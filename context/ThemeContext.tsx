@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { useColorScheme } from "react-native";
 import { storage } from "@/utils/storage";
+import { STORAGE_KEYS } from "@/constants/storage-keys";
 
 type ThemePreference = "light" | "dark" | "system";
 type ThemeType = "light" | "dark";
@@ -19,8 +20,6 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const STORAGE_KEY = "THEME_PREFERENCE";
-
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const systemColorScheme = useColorScheme();
   const [themePreference, setThemeState] = useState<ThemePreference>("system");
@@ -28,7 +27,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Load saved preference on mount
   useEffect(() => {
     const loadTheme = async () => {
-      const savedTheme = await storage.getItem(STORAGE_KEY);
+      const savedTheme = await storage.getItem(STORAGE_KEYS.THEME);
       if (savedTheme) {
         setThemeState(savedTheme as ThemePreference);
       }
@@ -38,7 +37,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const setThemePreference = async (theme: ThemePreference) => {
     setThemeState(theme);
-    await storage.setItem(STORAGE_KEY, theme);
+    await storage.setItem(STORAGE_KEYS.THEME, theme);
   };
 
   // Determine the effective theme
