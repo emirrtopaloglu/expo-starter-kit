@@ -4,9 +4,12 @@ import { Stack } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 import { useStore } from "@/store/useStore";
 import { Trash2, Plus } from "lucide-react-native";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function ListScreen() {
   const { items, addItem, removeItem } = useStore();
+  const { activeTheme } = useTheme();
+  const styles = getStyles(activeTheme);
 
   const handleAddItem = () => {
     addItem(`New Item ${items.length + 1}`);
@@ -43,55 +46,58 @@ export default function ListScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-    padding: 20,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  addButton: {
-    backgroundColor: "#007AFF",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    gap: 5,
-  },
-  addButtonText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  listContainer: {
-    flex: 1,
-    height: "100%",
-    width: "100%",
-  },
-  itemContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  itemText: {
-    fontSize: 16,
-  },
-});
+const getStyles = (theme: "light" | "dark") =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme === "dark" ? "#121212" : "#f5f5f5",
+      padding: 20,
+    },
+    header: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: "bold",
+      color: theme === "dark" ? "#fff" : "#000",
+    },
+    addButton: {
+      backgroundColor: "#007AFF",
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 8,
+      gap: 5,
+    },
+    addButtonText: {
+      color: "white",
+      fontWeight: "bold",
+    },
+    listContainer: {
+      flex: 1,
+      height: "100%",
+      width: "100%",
+    },
+    itemContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      backgroundColor: theme === "dark" ? "#1e1e1e" : "white",
+      padding: 15,
+      borderRadius: 10,
+      marginBottom: 10,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.1,
+      shadowRadius: 2,
+      elevation: 2,
+    },
+    itemText: {
+      fontSize: 16,
+      color: theme === "dark" ? "#fff" : "#000",
+    },
+  });

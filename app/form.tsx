@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Input from "@/components/ui/Input";
+import { useTheme } from "@/context/ThemeContext";
 
 const schema = z.object({
   fullName: z.string().min(3, { message: "Required" }),
@@ -24,6 +25,9 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function FormScreen() {
+  const { activeTheme } = useTheme();
+  const styles = getStyles(activeTheme);
+
   const {
     control,
     handleSubmit,
@@ -84,34 +88,35 @@ export default function FormScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-    flexGrow: 1,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 5,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
-    marginBottom: 30,
-  },
-  form: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  buttonContainer: {
-    marginTop: 10,
-  },
-});
+const getStyles = (theme: "light" | "dark") =>
+  StyleSheet.create({
+    container: {
+      padding: 20,
+      backgroundColor: theme === "dark" ? "#121212" : "#f5f5f5",
+      flexGrow: 1,
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: "bold",
+      color: theme === "dark" ? "#fff" : "#333",
+      marginBottom: 5,
+    },
+    subtitle: {
+      fontSize: 16,
+      color: theme === "dark" ? "#aaa" : "#666",
+      marginBottom: 30,
+    },
+    form: {
+      backgroundColor: theme === "dark" ? "#1e1e1e" : "white",
+      padding: 20,
+      borderRadius: 12,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+    buttonContainer: {
+      marginTop: 10,
+    },
+  });

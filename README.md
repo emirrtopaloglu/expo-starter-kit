@@ -10,6 +10,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **Lucide Icons**: Beautiful & consistent icons via `lucide-react-native`.
 - **State Management**: Simple and fast state management with **Zustand**.
 - **Forms & Validation**: Built with **React Hook Form** and **Zod** schema validation.
+- **Dark Mode**: System-aware dark mode with persistence using **AsyncStorage**.
 - **Data Fetching**: Powerful asynchronous state management with **TanStack React Query** and **Axios**.
 - **High Performance Lists**: Fast & efficient lists using **FlashList**.
 - **Organized Structure**: Robust folder structure including `components/ui`, `hooks`, `constants`, and `utils`.
