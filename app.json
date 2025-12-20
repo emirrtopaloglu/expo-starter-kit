@@ -3,6 +3,7 @@
     "name": "expo-starter-kit",
     "slug": "expo-starter-kit",
     "version": "1.0.0",
+    "scheme": "expo-starter-kit",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -25,6 +26,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
