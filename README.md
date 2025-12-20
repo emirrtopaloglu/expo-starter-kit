@@ -6,6 +6,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 
 - **Expo Router**: File-based routing for React Native and web.
 - **TypeScript**: Statically typed code for better maintainability.
+- **Absolute Paths**: Cleaner imports using the `@/` alias (e.g., `@/components/Test`).
 - **Expo**: A framework for universal React applications.
 - **Scalable Structure**: Designed to support additional features and integrations.
 
