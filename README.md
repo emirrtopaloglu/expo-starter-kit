@@ -8,6 +8,8 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **TypeScript**: Statically typed code for better maintainability.
 - **Absolute Paths**: Cleaner imports using the `@/` alias (e.g., `@/components/Test`).
 - **Lucide Icons**: Beautiful & consistent icons via `lucide-react-native`.
+- **State Management**: Simple and fast state management with **Zustand**.
+- **High Performance Lists**: Fast & efficient lists using **FlashList**.
 - **Expo**: A framework for universal React applications.
 - **Scalable Structure**: Designed to support additional features and integrations.
 

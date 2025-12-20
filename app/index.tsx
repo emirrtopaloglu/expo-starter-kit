@@ -27,6 +27,10 @@ export default function HomeScreen() {
         Go to Details Screen
       </Link>
 
+      <Link href="/list" style={styles.link}>
+        Go to Todo List (Zustand + FlashList)
+      </Link>
+
       {/* 
         StatusBar controls the appearance of the status bar text and icons.
         style="auto" adjusts automatically based on the system theme.
