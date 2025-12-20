@@ -31,6 +31,10 @@ export default function HomeScreen() {
         Go to Todo List (Zustand + FlashList)
       </Link>
 
+      <Link href="/form" style={styles.link}>
+        Go to Form Demo (React Hook Form + Zod)
+      </Link>
+
       {/* 
         StatusBar controls the appearance of the status bar text and icons.
         style="auto" adjusts automatically based on the system theme.
