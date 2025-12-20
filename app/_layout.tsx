@@ -1,4 +1,7 @@
 import { Stack } from "expo-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 /**
  * RootLayout component.
@@ -9,12 +12,14 @@ import { Stack } from "expo-router";
  */
 export default function RootLayout() {
   return (
-    <Stack>
-      {/* 
-        The "index" screen corresponds to app/index.tsx.
-        We set the header title to "Home" for the initial screen.
-      */}
-      <Stack.Screen name="index" options={{ title: "Home" }} />
-    </Stack>
+    <QueryClientProvider client={queryClient}>
+      <Stack>
+        {/* 
+          The "index" screen corresponds to app/index.tsx.
+          We set the header title to "Home" for the initial screen.
+        */}
+        <Stack.Screen name="index" options={{ title: "Home" }} />
+      </Stack>
+    </QueryClientProvider>
   );
 }
