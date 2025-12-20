@@ -6,6 +6,7 @@ import {
   DefaultTheme,
 } from "@react-navigation/native";
 import { ThemeProvider, useTheme } from "@/context/ThemeContext";
+import "@/i18n"; // Initialize i18n
 
 const queryClient = new QueryClient();
 

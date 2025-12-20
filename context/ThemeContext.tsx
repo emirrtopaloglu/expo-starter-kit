@@ -6,7 +6,7 @@ import React, {
   ReactNode,
 } from "react";
 import { useColorScheme } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storage } from "@/utils/storage";
 
 type ThemePreference = "light" | "dark" | "system";
 type ThemeType = "light" | "dark";
@@ -28,25 +28,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Load saved preference on mount
   useEffect(() => {
     const loadTheme = async () => {
-      try {
-        const savedTheme = await AsyncStorage.getItem(STORAGE_KEY);
-        if (savedTheme) {
-          setThemeState(savedTheme as ThemePreference);
-        }
-      } catch (error) {
-        console.error("Failed to load theme preference:", error);
+      const savedTheme = await storage.getItem(STORAGE_KEY);
+      if (savedTheme) {
+        setThemeState(savedTheme as ThemePreference);
       }
     };
     loadTheme();
   }, []);
 
   const setThemePreference = async (theme: ThemePreference) => {
-    try {
-      setThemeState(theme);
-      await AsyncStorage.setItem(STORAGE_KEY, theme);
-    } catch (error) {
-      console.error("Failed to save theme preference:", error);
-    }
+    setThemeState(theme);
+    await storage.setItem(STORAGE_KEY, theme);
   };
 
   // Determine the effective theme

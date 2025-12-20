@@ -1,0 +1,13 @@
+{
+    "welcome": "Welcome to Expo Router!",
+    "description": "Start editing app/index.tsx to change this screen.",
+    "links": {
+        "details": "Go to Details Screen",
+        "list": "Go to Todo List (Zustand + FlashList)",
+        "form": "Go to Form Demo (React Hook Form + Zod)"
+    },
+    "language": {
+        "current": "Current Language: {{lang}}",
+        "switch": "Switch Language"
+    }
+}
