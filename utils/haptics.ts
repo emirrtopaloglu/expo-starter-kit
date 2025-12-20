@@ -1,4 +1,4 @@
-import * as Haptics from "expo-haptics";
+import * as Haptics from 'expo-haptics';
 
 /**
  * Haptic feedback utility.
@@ -23,7 +23,7 @@ export const haptics = {
     try {
       await Haptics.selectionAsync();
     } catch (error) {
-      console.warn("Haptics not available", error);
+      console.warn('Haptics not available', error);
     }
   },
 
@@ -31,13 +31,11 @@ export const haptics = {
    * Trigger an impact feedback.
    * @param style The style of impact (Light, Medium, Heavy). Defaults to Medium.
    */
-  impact: async (
-    style: Haptics.ImpactFeedbackStyle = Haptics.ImpactFeedbackStyle.Medium
-  ) => {
+  impact: async (style: Haptics.ImpactFeedbackStyle = Haptics.ImpactFeedbackStyle.Medium) => {
     try {
       await Haptics.impactAsync(style);
     } catch (error) {
-      console.warn("Haptics not available", error);
+      console.warn('Haptics not available', error);
     }
   },
 
@@ -49,7 +47,7 @@ export const haptics = {
     try {
       await Haptics.notificationAsync(type);
     } catch (error) {
-      console.warn("Haptics not available", error);
+      console.warn('Haptics not available', error);
     }
   },
 };

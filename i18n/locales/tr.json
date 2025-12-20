@@ -1,13 +1,13 @@
 {
-    "welcome": "Expo Router'a Hoşgeldiniz!",
-    "description": "Bu ekranı değiştirmek için app/index.tsx dosyasını düzenlemeye başlayın.",
-    "links": {
-        "details": "Detay Ekranına Git",
-        "list": "Yapılacaklar Listesine Git (Zustand + FlashList)",
-        "form": "Form Demosuna Git (React Hook Form + Zod)"
-    },
-    "language": {
-        "current": "Mevcut Dil: {{lang}}",
-        "switch": "Dili Değiştir"
-    }
+  "welcome": "Expo Router'a Hoşgeldiniz!",
+  "description": "Bu ekranı değiştirmek için app/index.tsx dosyasını düzenlemeye başlayın.",
+  "links": {
+    "details": "Detay Ekranına Git",
+    "list": "Yapılacaklar Listesine Git (Zustand + FlashList)",
+    "form": "Form Demosuna Git (React Hook Form + Zod)"
+  },
+  "language": {
+    "current": "Mevcut Dil: {{lang}}",
+    "switch": "Dili Değiştir"
+  }
 }

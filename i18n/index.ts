@@ -1,10 +1,10 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import * as Localization from "expo-localization";
-import { storage } from "@/utils/storage";
-import { STORAGE_KEYS } from "@/constants/storage-keys";
-import en from "./locales/en.json";
-import tr from "./locales/tr.json";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import * as Localization from 'expo-localization';
+import { storage } from '@/utils/storage';
+import { STORAGE_KEYS } from '@/constants/storage-keys';
+import en from './locales/en.json';
+import tr from './locales/tr.json';
 
 const RESOURCES = {
   en: { translation: en },
@@ -12,7 +12,7 @@ const RESOURCES = {
 };
 
 const LANGUAGE_DETECTOR = {
-  type: "languageDetector" as const,
+  type: 'languageDetector' as const,
   async: true, // detector must be async
   detect: async (callback: (lang: string) => void) => {
     try {
@@ -32,10 +32,10 @@ const LANGUAGE_DETECTOR = {
       }
 
       // 3. Fallback to default 'en'
-      return callback("en");
+      return callback('en');
     } catch (error) {
-      console.log("Error reading language", error);
-      callback("en");
+      console.log('Error reading language', error);
+      callback('en');
     }
   },
   init: () => {},
@@ -49,7 +49,7 @@ i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources: RESOURCES,
-    fallbackLng: "en", // fallback language if detection fails or key is missing
+    fallbackLng: 'en', // fallback language if detection fails or key is missing
     interpolation: {
       escapeValue: false, // react already safes from xss
     },

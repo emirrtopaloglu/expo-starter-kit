@@ -1,57 +1,34 @@
-import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import { useTheme } from "@/context/ThemeContext";
-import { Moon, Sun, Monitor } from "lucide-react-native";
+import React from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { useTheme } from '@/context/ThemeContext';
+import { Moon, Sun, Monitor } from 'lucide-react-native';
 
 export default function ThemeToggle() {
   const { themePreference, setThemePreference, activeTheme } = useTheme();
 
   return (
     <View style={styles.container}>
-      <Text
-        style={[
-          styles.label,
-          { color: activeTheme === "dark" ? "#fff" : "#000" },
-        ]}
-      >
+      <Text style={[styles.label, { color: activeTheme === 'dark' ? '#fff' : '#000' }]}>
         Theme ({themePreference})
       </Text>
       <View style={styles.buttonGroup}>
         <Pressable
-          style={[
-            styles.button,
-            themePreference === "light" && styles.activeButton,
-          ]}
-          onPress={() => setThemePreference("light")}
+          style={[styles.button, themePreference === 'light' && styles.activeButton]}
+          onPress={() => setThemePreference('light')}
         >
-          <Sun
-            size={20}
-            color={themePreference === "light" ? "#fff" : "#666"}
-          />
+          <Sun size={20} color={themePreference === 'light' ? '#fff' : '#666'} />
         </Pressable>
         <Pressable
-          style={[
-            styles.button,
-            themePreference === "system" && styles.activeButton,
-          ]}
-          onPress={() => setThemePreference("system")}
+          style={[styles.button, themePreference === 'system' && styles.activeButton]}
+          onPress={() => setThemePreference('system')}
         >
-          <Monitor
-            size={20}
-            color={themePreference === "system" ? "#fff" : "#666"}
-          />
+          <Monitor size={20} color={themePreference === 'system' ? '#fff' : '#666'} />
         </Pressable>
         <Pressable
-          style={[
-            styles.button,
-            themePreference === "dark" && styles.activeButton,
-          ]}
-          onPress={() => setThemePreference("dark")}
+          style={[styles.button, themePreference === 'dark' && styles.activeButton]}
+          onPress={() => setThemePreference('dark')}
         >
-          <Moon
-            size={20}
-            color={themePreference === "dark" ? "#fff" : "#666"}
-          />
+          <Moon size={20} color={themePreference === 'dark' ? '#fff' : '#666'} />
         </Pressable>
       </View>
     </View>
@@ -60,17 +37,17 @@ export default function ThemeToggle() {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignItems: 'center',
     marginVertical: 20,
   },
   label: {
     fontSize: 14,
     marginBottom: 10,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   buttonGroup: {
-    flexDirection: "row",
-    backgroundColor: "#eee",
+    flexDirection: 'row',
+    backgroundColor: '#eee',
     borderRadius: 8,
     padding: 2,
   },
@@ -79,6 +56,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   activeButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: '#007AFF',
   },
 });

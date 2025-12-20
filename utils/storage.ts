@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * Storage utility for handling AsyncStorage operations.
@@ -52,7 +52,7 @@ export const storage = {
     try {
       await AsyncStorage.clear();
     } catch (error) {
-      console.error("Error clearing storage:", error);
+      console.error('Error clearing storage:', error);
     }
   },
 };

@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface Item {
   id: string;
@@ -13,9 +13,9 @@ interface StoreState {
 
 export const useStore = create<StoreState>((set) => ({
   items: [
-    { id: "1", title: "Buy Groceries" },
-    { id: "2", title: "Walk the Dog" },
-    { id: "3", title: "Read Documentation" },
+    { id: '1', title: 'Buy Groceries' },
+    { id: '2', title: 'Walk the Dog' },
+    { id: '3', title: 'Read Documentation' },
   ],
   addItem: (title) =>
     set((state) => ({

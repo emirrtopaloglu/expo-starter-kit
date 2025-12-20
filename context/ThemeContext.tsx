@@ -1,16 +1,10 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
-import { useColorScheme } from "react-native";
-import { storage } from "@/utils/storage";
-import { STORAGE_KEYS } from "@/constants/storage-keys";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useColorScheme } from 'react-native';
+import { storage } from '@/utils/storage';
+import { STORAGE_KEYS } from '@/constants/storage-keys';
 
-type ThemePreference = "light" | "dark" | "system";
-type ThemeType = "light" | "dark";
+type ThemePreference = 'light' | 'dark' | 'system';
+type ThemeType = 'light' | 'dark';
 
 interface ThemeContextType {
   themePreference: ThemePreference;
@@ -22,7 +16,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const systemColorScheme = useColorScheme();
-  const [themePreference, setThemeState] = useState<ThemePreference>("system");
+  const [themePreference, setThemeState] = useState<ThemePreference>('system');
 
   // Load saved preference on mount
   useEffect(() => {
@@ -42,16 +36,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Determine the effective theme
   const activeTheme: ThemeType =
-    themePreference === "system"
-      ? systemColorScheme === "dark"
-        ? "dark"
-        : "light"
+    themePreference === 'system'
+      ? systemColorScheme === 'dark'
+        ? 'dark'
+        : 'light'
       : themePreference;
 
   return (
-    <ThemeContext.Provider
-      value={{ themePreference, activeTheme, setThemePreference }}
-    >
+    <ThemeContext.Provider value={{ themePreference, activeTheme, setThemePreference }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -60,7 +52,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
 }

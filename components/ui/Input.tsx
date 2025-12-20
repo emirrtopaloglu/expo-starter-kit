@@ -1,13 +1,7 @@
-import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TextInputProps,
-} from "react-native";
-import { Controller, Control, FieldValues, Path } from "react-hook-form";
-import { useTheme } from "@/context/ThemeContext";
+import React from 'react';
+import { View, Text, TextInput, StyleSheet, TextInputProps } from 'react-native';
+import { Controller, Control, FieldValues, Path } from 'react-hook-form';
+import { useTheme } from '@/context/ThemeContext';
 
 interface InputProps<T extends FieldValues> extends TextInputProps {
   control: Control<T>;
@@ -34,7 +28,7 @@ export default function Input<T extends FieldValues>({
         name={name}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            placeholderTextColor={activeTheme === "dark" ? "#666" : "#999"}
+            placeholderTextColor={activeTheme === 'dark' ? '#666' : '#999'}
             style={[styles.input, error ? styles.inputError : null]}
             onBlur={onBlur}
             onChangeText={onChange}
@@ -48,31 +42,31 @@ export default function Input<T extends FieldValues>({
   );
 }
 
-const getStyles = (theme: "light" | "dark") =>
+const getStyles = (theme: 'light' | 'dark') =>
   StyleSheet.create({
     container: {
       marginBottom: 15,
     },
     label: {
       fontSize: 16,
-      fontWeight: "500",
+      fontWeight: '500',
       marginBottom: 5,
-      color: theme === "dark" ? "#ddd" : "#333",
+      color: theme === 'dark' ? '#ddd' : '#333',
     },
     input: {
       borderWidth: 1,
-      borderColor: theme === "dark" ? "#333" : "#ddd",
+      borderColor: theme === 'dark' ? '#333' : '#ddd',
       borderRadius: 8,
       padding: 12,
       fontSize: 16,
-      backgroundColor: theme === "dark" ? "#2a2a2a" : "white",
-      color: theme === "dark" ? "#fff" : "#000",
+      backgroundColor: theme === 'dark' ? '#2a2a2a' : 'white',
+      color: theme === 'dark' ? '#fff' : '#000',
     },
     inputError: {
-      borderColor: "red",
+      borderColor: 'red',
     },
     errorText: {
-      color: "red",
+      color: 'red',
       fontSize: 12,
       marginTop: 5,
     },

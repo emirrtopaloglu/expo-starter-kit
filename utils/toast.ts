@@ -1,4 +1,4 @@
-import Toast from "react-native-toast-message";
+import Toast from 'react-native-toast-message';
 
 /**
  * Toast notification utility.
@@ -12,7 +12,7 @@ export const toast = {
    */
   success: (title: string, message?: string) => {
     Toast.show({
-      type: "success",
+      type: 'success',
       text1: title,
       text2: message,
     });
@@ -25,7 +25,7 @@ export const toast = {
    */
   error: (title: string, message?: string) => {
     Toast.show({
-      type: "error",
+      type: 'error',
       text1: title,
       text2: message,
     });
@@ -38,7 +38,7 @@ export const toast = {
    */
   info: (title: string, message?: string) => {
     Toast.show({
-      type: "info",
+      type: 'info',
       text1: title,
       text2: message,
     });

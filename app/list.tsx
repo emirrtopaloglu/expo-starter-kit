@@ -1,10 +1,10 @@
-import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import { Stack } from "expo-router";
-import { FlashList } from "@shopify/flash-list";
-import { useStore } from "@/store/useStore";
-import { Trash2, Plus } from "lucide-react-native";
-import { useTheme } from "@/context/ThemeContext";
+import React from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Stack } from 'expo-router';
+import { FlashList } from '@shopify/flash-list';
+import { useStore } from '@/store/useStore';
+import { Trash2, Plus } from 'lucide-react-native';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function ListScreen() {
   const { items, addItem, removeItem } = useStore();
@@ -17,7 +17,7 @@ export default function ListScreen() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: "Todo List" }} />
+      <Stack.Screen options={{ title: 'Todo List' }} />
 
       <View style={styles.header}>
         <Text style={styles.title}>My Tasks</Text>
@@ -46,51 +46,51 @@ export default function ListScreen() {
   );
 }
 
-const getStyles = (theme: "light" | "dark") =>
+const getStyles = (theme: 'light' | 'dark') =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: theme === "dark" ? "#121212" : "#f5f5f5",
+      backgroundColor: theme === 'dark' ? '#121212' : '#f5f5f5',
       padding: 20,
     },
     header: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
       marginBottom: 20,
     },
     title: {
       fontSize: 24,
-      fontWeight: "bold",
-      color: theme === "dark" ? "#fff" : "#000",
+      fontWeight: 'bold',
+      color: theme === 'dark' ? '#fff' : '#000',
     },
     addButton: {
-      backgroundColor: "#007AFF",
-      flexDirection: "row",
-      alignItems: "center",
+      backgroundColor: '#007AFF',
+      flexDirection: 'row',
+      alignItems: 'center',
       paddingHorizontal: 12,
       paddingVertical: 8,
       borderRadius: 8,
       gap: 5,
     },
     addButtonText: {
-      color: "white",
-      fontWeight: "bold",
+      color: 'white',
+      fontWeight: 'bold',
     },
     listContainer: {
       flex: 1,
-      height: "100%",
-      width: "100%",
+      height: '100%',
+      width: '100%',
     },
     itemContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      backgroundColor: theme === "dark" ? "#1e1e1e" : "white",
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: theme === 'dark' ? '#1e1e1e' : 'white',
       padding: 15,
       borderRadius: 10,
       marginBottom: 10,
-      shadowColor: "#000",
+      shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.1,
       shadowRadius: 2,
@@ -98,6 +98,6 @@ const getStyles = (theme: "light" | "dark") =>
     },
     itemText: {
       fontSize: 16,
-      color: theme === "dark" ? "#fff" : "#000",
+      color: theme === 'dark' ? '#fff' : '#000',
     },
   });

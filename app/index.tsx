@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Button } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { Link } from "expo-router";
-import ThemeToggle from "@/components/ThemeToggle";
-import { useTheme } from "@/context/ThemeContext";
-import { useTranslation } from "react-i18next";
-import { haptics } from "@/utils/haptics";
-import { toast } from "@/utils/toast";
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Link } from 'expo-router';
+import ThemeToggle from '@/components/ThemeToggle';
+import { useTheme } from '@/context/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import { haptics } from '@/utils/haptics';
+import { toast } from '@/utils/toast';
 
 /**
  * HomeScreen component.
@@ -25,59 +25,57 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       {/* Main welcome text */}
-      <Text style={styles.text}>{t("welcome")}</Text>
+      <Text style={styles.text}>{t('welcome')}</Text>
 
       {/* Instruction text */}
-      <Text style={styles.subText}>{t("description")}</Text>
+      <Text style={styles.subText}>{t('description')}</Text>
 
       {/* 
         The Link component allows for client-side navigation between routes.
         href targets the file path in the app directory.
       */}
       <Link href="/details" style={styles.link}>
-        {t("links.details")}
+        {t('links.details')}
       </Link>
 
       <Link href="/list" style={styles.link}>
-        {t("links.list")}
+        {t('links.list')}
       </Link>
 
       <Link href="/form" style={styles.link}>
-        {t("links.form")}
+        {t('links.form')}
       </Link>
 
       <View style={styles.langContainer}>
         <Text style={[styles.subText, { marginBottom: 10 }]}>
-          {t("language.current", { lang: i18n.language })}
+          {t('language.current', { lang: i18n.language })}
         </Text>
         <View style={styles.buttonGroup}>
           <Button
             title="English"
             onPress={() => {
               haptics.selection();
-              changeLanguage("en");
+              changeLanguage('en');
             }}
           />
           <Button
             title="Türkçe"
             onPress={() => {
               haptics.selection();
-              changeLanguage("tr");
+              changeLanguage('tr');
             }}
           />
         </View>
       </View>
 
       <View style={styles.testContainer}>
-        <Text style={[styles.subText, { marginBottom: 10 }]}>
-          UI Feedback Tests
-        </Text>
+        <Text style={[styles.subText, { marginBottom: 10 }]}>UI Feedback Tests</Text>
         <View style={styles.buttonGroup}>
           <Button
             title="Success Toast"
             onPress={() => {
               haptics.notification(haptics.Notification.Success);
-              toast.success("Success!", "Action completed successfully.");
+              toast.success('Success!', 'Action completed successfully.');
             }}
           />
           <Button
@@ -85,7 +83,7 @@ export default function HomeScreen() {
             color="red"
             onPress={() => {
               haptics.notification(haptics.Notification.Error);
-              toast.error("Error!", "Something went wrong.");
+              toast.error('Error!', 'Something went wrong.');
             }}
           />
         </View>
@@ -97,49 +95,49 @@ export default function HomeScreen() {
         StatusBar controls the appearance of the status bar text and icons.
         style="auto" adjusts automatically based on the system theme.
       */}
-      <StatusBar style={activeTheme === "dark" ? "light" : "dark"} />
+      <StatusBar style={activeTheme === 'dark' ? 'light' : 'dark'} />
     </View>
   );
 }
 
-const getStyles = (theme: "light" | "dark") =>
+const getStyles = (theme: 'light' | 'dark') =>
   StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: theme === "dark" ? "#121212" : "#fff",
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme === 'dark' ? '#121212' : '#fff',
     },
     text: {
       fontSize: 24,
-      fontWeight: "bold",
+      fontWeight: 'bold',
       marginBottom: 10,
-      color: theme === "dark" ? "#fff" : "#000",
+      color: theme === 'dark' ? '#fff' : '#000',
     },
     subText: {
       fontSize: 16,
-      color: theme === "dark" ? "#aaa" : "#666",
-      textAlign: "center",
+      color: theme === 'dark' ? '#aaa' : '#666',
+      textAlign: 'center',
       paddingHorizontal: 20,
     },
     langContainer: {
       marginTop: 30,
-      alignItems: "center",
-      width: "100%",
+      alignItems: 'center',
+      width: '100%',
     },
     testContainer: {
       marginTop: 20,
-      alignItems: "center",
-      width: "100%",
+      alignItems: 'center',
+      width: '100%',
     },
     buttonGroup: {
-      flexDirection: "row",
+      flexDirection: 'row',
       gap: 20,
     },
     link: {
       marginTop: 20,
       fontSize: 18,
-      color: "#007AFF",
-      textDecorationLine: "underline",
+      color: '#007AFF',
+      textDecorationLine: 'underline',
     },
   });

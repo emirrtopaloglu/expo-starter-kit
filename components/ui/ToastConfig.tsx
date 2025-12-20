@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { BaseToastProps } from "react-native-toast-message";
-import { CheckCircle, XCircle, Info } from "lucide-react-native";
-import { useTheme } from "@/context/ThemeContext";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { BaseToastProps } from 'react-native-toast-message';
+import { CheckCircle, XCircle, Info } from 'lucide-react-native';
+import { useTheme } from '@/context/ThemeContext';
 
 /**
  * Custom Toast component that mimics the look of 'react-hot-toast'.
@@ -15,36 +15,32 @@ const CustomToast = ({
 }: {
   text1?: string;
   text2?: string;
-  type: "success" | "error" | "info";
+  type: 'success' | 'error' | 'info';
 }) => {
   const { activeTheme } = useTheme();
   const styles = getStyles(activeTheme);
 
   const getIcon = () => {
     switch (type) {
-      case "success":
+      case 'success':
         return (
           <CheckCircle
             size={24}
             color="#4ADE80"
-            fill={activeTheme === "dark" ? "#064e3b" : "#ecfdf5"}
+            fill={activeTheme === 'dark' ? '#064e3b' : '#ecfdf5'}
           />
         ); // Green 400
-      case "error":
+      case 'error':
         return (
           <XCircle
             size={24}
             color="#F87171"
-            fill={activeTheme === "dark" ? "#7f1d1d" : "#fef2f2"}
+            fill={activeTheme === 'dark' ? '#7f1d1d' : '#fef2f2'}
           />
         ); // Red 400
-      case "info":
+      case 'info':
         return (
-          <Info
-            size={24}
-            color="#60A5FA"
-            fill={activeTheme === "dark" ? "#1e3a8a" : "#eff6ff"}
-          />
+          <Info size={24} color="#60A5FA" fill={activeTheme === 'dark' ? '#1e3a8a' : '#eff6ff'} />
         ); // Blue 400
       default:
         return null;
@@ -68,19 +64,19 @@ export const toastConfig = {
   info: (props: BaseToastProps) => <CustomToast {...props} type="info" />,
 };
 
-const getStyles = (theme: "light" | "dark" | "system") => {
-  const isDark = theme === "dark"; // Simplified for now, system handling can be added if needed context provides resolved string
+const getStyles = (theme: 'light' | 'dark' | 'system') => {
+  const isDark = theme === 'dark'; // Simplified for now, system handling can be added if needed context provides resolved string
 
   return StyleSheet.create({
     container: {
-      flexDirection: "row",
-      alignItems: "center",
-      width: "90%",
-      backgroundColor: isDark ? "#333" : "#fff",
+      flexDirection: 'row',
+      alignItems: 'center',
+      width: '90%',
+      backgroundColor: isDark ? '#333' : '#fff',
       paddingVertical: 14,
       paddingHorizontal: 16,
       borderRadius: 50, // Pill shape
-      shadowColor: "#000",
+      shadowColor: '#000',
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.15,
       shadowRadius: 10,
@@ -95,12 +91,12 @@ const getStyles = (theme: "light" | "dark" | "system") => {
     },
     title: {
       fontSize: 15,
-      fontWeight: "600",
-      color: isDark ? "#fff" : "#000",
+      fontWeight: '600',
+      color: isDark ? '#fff' : '#000',
     },
     message: {
       fontSize: 13,
-      color: isDark ? "#aaa" : "#555",
+      color: isDark ? '#aaa' : '#555',
       marginTop: 2,
     },
   });
