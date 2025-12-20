@@ -10,6 +10,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **Lucide Icons**: Beautiful & consistent icons via `lucide-react-native`.
 - **State Management**: Simple and fast state management with **Zustand**.
 - **UI Feedback**: Built-in support for **Haptics** and custom **Toast Notifications** (styled like react-hot-toast).
+- **Code Quality**: Pre-configured with **ESLint**, **Prettier**, **Husky**, and **Lint-staged** for robust coding standards.
 - **Storage Utilities**: Abstracted `AsyncStorage` and `Expo SecureStore` wrappers for data persistence.
 - **Forms & Validation**: Built with **React Hook Form** and **Zod** schema validation.
 - **Dark Mode**: System-aware dark mode with persistence using **AsyncStorage**.
