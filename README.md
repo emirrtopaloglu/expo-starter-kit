@@ -9,6 +9,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **Absolute Paths**: Cleaner imports using the `@/` alias (e.g., `@/components/Test`).
 - **Lucide Icons**: Beautiful & consistent icons via `lucide-react-native`.
 - **State Management**: Simple and fast state management with **Zustand**.
+- **UI Feedback**: Built-in support for **Haptics** and custom **Toast Notifications** (styled like react-hot-toast).
 - **Storage Utilities**: Abstracted `AsyncStorage` and `Expo SecureStore` wrappers for data persistence.
 - **Forms & Validation**: Built with **React Hook Form** and **Zod** schema validation.
 - **Dark Mode**: System-aware dark mode with persistence using **AsyncStorage**.

@@ -6,6 +6,8 @@ import {
   DefaultTheme,
 } from "@react-navigation/native";
 import { ThemeProvider, useTheme } from "@/context/ThemeContext";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "@/components/ui/ToastConfig";
 import "@/i18n"; // Initialize i18n
 
 const queryClient = new QueryClient();
@@ -36,6 +38,7 @@ export default function RootLayout() {
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <RootLayoutNav />
+        <Toast config={toastConfig} />
       </QueryClientProvider>
     </ThemeProvider>
   );

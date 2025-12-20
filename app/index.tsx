@@ -4,6 +4,8 @@ import { Link } from "expo-router";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useTheme } from "@/context/ThemeContext";
 import { useTranslation } from "react-i18next";
+import { haptics } from "@/utils/haptics";
+import { toast } from "@/utils/toast";
 
 /**
  * HomeScreen component.
@@ -49,8 +51,43 @@ export default function HomeScreen() {
           {t("language.current", { lang: i18n.language })}
         </Text>
         <View style={styles.buttonGroup}>
-          <Button title="English" onPress={() => changeLanguage("en")} />
-          <Button title="Türkçe" onPress={() => changeLanguage("tr")} />
+          <Button
+            title="English"
+            onPress={() => {
+              haptics.selection();
+              changeLanguage("en");
+            }}
+          />
+          <Button
+            title="Türkçe"
+            onPress={() => {
+              haptics.selection();
+              changeLanguage("tr");
+            }}
+          />
+        </View>
+      </View>
+
+      <View style={styles.testContainer}>
+        <Text style={[styles.subText, { marginBottom: 10 }]}>
+          UI Feedback Tests
+        </Text>
+        <View style={styles.buttonGroup}>
+          <Button
+            title="Success Toast"
+            onPress={() => {
+              haptics.notification(haptics.Notification.Success);
+              toast.success("Success!", "Action completed successfully.");
+            }}
+          />
+          <Button
+            title="Error Toast"
+            color="red"
+            onPress={() => {
+              haptics.notification(haptics.Notification.Error);
+              toast.error("Error!", "Something went wrong.");
+            }}
+          />
         </View>
       </View>
 
@@ -87,6 +124,11 @@ const getStyles = (theme: "light" | "dark") =>
     },
     langContainer: {
       marginTop: 30,
+      alignItems: "center",
+      width: "100%",
+    },
+    testContainer: {
+      marginTop: 20,
       alignItems: "center",
       width: "100%",
     },
