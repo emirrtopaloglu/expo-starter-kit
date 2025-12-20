@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
+import { Camera, Home, Settings } from "lucide-react-native";
 
 /**
  * DetailsScreen component.
@@ -18,6 +19,13 @@ export default function DetailsScreen() {
 
       <Text style={styles.text}>This is the Details Screen!</Text>
       <Text style={styles.subText}>You successfully navigated here.</Text>
+
+      <View style={styles.iconContainer}>
+        <Home color="black" size={32} />
+        <Camera color="black" size={32} />
+        <Settings color="black" size={32} />
+      </View>
+      <Text style={styles.iconText}>Icons by Lucide React Native</Text>
     </View>
   );
 }
@@ -37,5 +45,15 @@ const styles = StyleSheet.create({
   subText: {
     fontSize: 16,
     color: "#666",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    gap: 20,
+    marginTop: 30,
+  },
+  iconText: {
+    marginTop: 10,
+    fontSize: 14,
+    color: "#888",
   },
 });
