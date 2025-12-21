@@ -24,7 +24,7 @@ export const Badge = ({
   const getColors = () => {
     // 1. Resolve the palette based on colorScheme
     const paletteMap = {
-      primary: theme.colors.primary, // This might need special handling if it's just a string in theme definition
+      primary: colors.primary, // Use full token scale for shade lookup
       success: theme.colors.success,
       error: theme.colors.error,
       warning: theme.colors.warning,

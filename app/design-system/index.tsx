@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Stack } from 'expo-router';
 import { Box } from '@/components/ui/Box';
@@ -23,14 +23,35 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { Accordion } from '@/components/ui/Accordion';
 import { Modal } from '@/components/ui/Modal';
 import { BottomSheet } from '@/components/ui/BottomSheet';
-import { User, Settings, Heart, ChevronRight } from 'lucide-react-native';
-import { useState } from 'react';
+import { FAB } from '@/components/ui/FAB';
+import { Stepper } from '@/components/ui/Stepper';
+import { OTPInput } from '@/components/ui/OTPInput';
+import { Slider } from '@/components/ui/Slider';
+import { Tabs } from '@/components/ui/Tabs';
+import { SegmentedControl } from '@/components/ui/SegmentedControl';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { ErrorState } from '@/components/ui/ErrorState';
+import {
+  AlertCircle,
+  Box as BoxIcon,
+  User,
+  Settings,
+  Heart,
+  ChevronRight,
+} from 'lucide-react-native';
 
 export default function DesignSystemScreen() {
   const { theme, setThemePreference, isDark } = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Batch 4 State
+  const [tabId, setTabId] = useState('tab1');
+  const [segIndex, setSegIndex] = useState(0);
+  const [stepValue, setStepValue] = useState(1);
+  const [sliderValue, setSliderValue] = useState(50);
+  const [otp, setOTP] = useState('');
 
   const toggleTheme = () => {
     setThemePreference(isDark ? 'light' : 'dark');
@@ -66,7 +87,6 @@ export default function DesignSystemScreen() {
               trackColor={{ false: theme.colors.neutral[300], true: theme.colors.primary }}
             />
           </Box>
-
           {/* Typography Section */}
           <Box bg="paper" p="md" rounded="lg" shadow="sm">
             <Typography variant="h2" style={{ marginBottom: 10 }}>
@@ -84,7 +104,6 @@ export default function DesignSystemScreen() {
               </Typography>
             </VStack>
           </Box>
-
           {/* Buttons Section */}
           <Box bg="paper" p="md" rounded="lg" shadow="sm">
             <Typography variant="h2" style={{ marginBottom: 10 }}>
@@ -111,7 +130,6 @@ export default function DesignSystemScreen() {
               <Button label="Disabled" disabled />
             </VStack>
           </Box>
-
           {/* Inputs Section */}
           <Box bg="paper" p="md" rounded="lg" shadow="sm">
             <Typography variant="h2" style={{ marginBottom: 10 }}>
@@ -133,7 +151,6 @@ export default function DesignSystemScreen() {
               />
             </VStack>
           </Box>
-
           {/* Colors/Box Section */}
           <Box bg="paper" p="md" rounded="lg" shadow="sm">
             <Typography variant="h2" style={{ marginBottom: 10 }}>
@@ -154,7 +171,6 @@ export default function DesignSystemScreen() {
               </Box>
             </HStack>
           </Box>
-
           {/* Cards Section */}
           <Box bg="paper" p="md" rounded="lg" shadow="sm">
             <Typography variant="h2" style={{ marginBottom: 10 }}>
@@ -198,7 +214,6 @@ export default function DesignSystemScreen() {
               </Card>
             </VStack>
           </Box>
-
           {/* Badges Section */}
           <Box bg="paper" p="md" rounded="lg" shadow="sm">
             <Typography variant="h2" style={{ marginBottom: 10 }}>
@@ -222,7 +237,6 @@ export default function DesignSystemScreen() {
               </HStack>
             </Box>
           </Box>
-
           {/* New Batch 2 Components */}
           <Box bg="paper" p="md" rounded="lg" shadow="sm">
             <Typography variant="h2" style={{ marginBottom: 10 }}>
@@ -277,7 +291,6 @@ export default function DesignSystemScreen() {
               </Box>
             </VStack>
           </Box>
-
           {/* Molecules & Organisms */}
           <Box bg="paper" p="md" rounded="lg" shadow="sm">
             <Typography variant="h2" style={{ marginBottom: 10 }}>
@@ -373,7 +386,6 @@ export default function DesignSystemScreen() {
               </Box>
             </VStack>
           </Box>
-
           {/* Modal & Sheet Implementations */}
           <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Example Modal">
             <VStack space="md">
@@ -387,7 +399,6 @@ export default function DesignSystemScreen() {
               </HStack>
             </VStack>
           </Modal>
-
           <BottomSheet isOpen={sheetOpen} onClose={() => setSheetOpen(false)} title="Bottom Sheet">
             <VStack space="md">
               <Typography variant="body">
@@ -416,8 +427,115 @@ export default function DesignSystemScreen() {
               />
             </VStack>
           </BottomSheet>
+          {/* Advanced Inputs & Navigation */}
+          <Box bg="paper" p="md" rounded="lg" shadow="sm">
+            <Typography variant="h2" style={{ marginBottom: 10 }}>
+              Advanced Inputs & Controls
+            </Typography>
+            <VStack space="lg">
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Selection & Steppers
+                </Typography>
+                <VStack space="md">
+                  <SegmentedControl
+                    options={['Daily', 'Weekly', 'Monthly']}
+                    selectedIndex={segIndex}
+                    onChange={setSegIndex}
+                  />
+                  <Stepper value={stepValue} onChange={setStepValue} min={0} max={10} />
+                </VStack>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Sliders & OTP
+                </Typography>
+                <VStack space="md">
+                  <Slider value={sliderValue} onValueChange={setSliderValue} />
+                  <Typography variant="caption">Value: {sliderValue}</Typography>
+
+                  <Typography variant="bodySmall" style={{ marginTop: 8 }}>
+                    Verify Code
+                  </Typography>
+                  <OTPInput length={4} onCodeChanged={setOTP} />
+                </VStack>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Tabs Navigation
+                </Typography>
+                <Box
+                  style={{
+                    height: 150,
+                    borderWidth: 1,
+                    borderColor: theme.colors.border.subtle,
+                    borderRadius: theme.radius.md,
+                  }}
+                >
+                  <Tabs
+                    activeTabId={tabId}
+                    onTabChange={setTabId}
+                    tabs={[
+                      {
+                        id: 'tab1',
+                        label: 'First',
+                        content: (
+                          <Box p="md">
+                            <Typography>Tab 1 Content</Typography>
+                          </Box>
+                        ),
+                      },
+                      {
+                        id: 'tab2',
+                        label: 'Second',
+                        content: (
+                          <Box p="md">
+                            <Typography>Tab 2 Content</Typography>
+                          </Box>
+                        ),
+                      },
+                      {
+                        id: 'tab3',
+                        label: 'Third',
+                        content: (
+                          <Box p="md">
+                            <Typography>Tab 3 Content</Typography>
+                          </Box>
+                        ),
+                      },
+                    ]}
+                  />
+                </Box>
+              </Box>
+            </VStack>
+          </Box>
+          {/* State Views */}
+          <Box bg="paper" p="md" rounded="lg" shadow="sm">
+            <Typography variant="h2" style={{ marginBottom: 10 }}>
+              State Views
+            </Typography>
+            <VStack space="md">
+              <EmptyState
+                title="No Messages"
+                description="You haven't received any messages yet."
+                action={<Button size="sm" label="Refresh" variant="outline" />}
+              />
+              <Divider />
+              <ErrorState onRetry={() => console.log('Retrying...')} />
+            </VStack>
+          </Box>
+          <Box style={{ height: 80 }} /> {/* Spacer for FAB */}
         </VStack>
       </ScrollView>
+
+      {/* FAB Floating */}
+      <FAB icon={<BoxIcon color="white" />} onPress={() => console.log('FAB')} label="New" />
     </>
   );
 }

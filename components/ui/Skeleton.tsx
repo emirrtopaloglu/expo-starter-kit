@@ -38,7 +38,7 @@ export const Skeleton = ({
     return () => animation.stop();
   }, [opacity]);
 
-  const baseColor = isDark ? theme.colors.neutral[800] : theme.colors.neutral[200];
+  const baseColor = isDark ? theme.colors.neutral[700] : theme.colors.neutral[200];
   const borderRadius = variant === 'circle' ? 9999 : theme.radius.md;
 
   return (

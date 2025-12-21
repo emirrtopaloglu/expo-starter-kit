@@ -10,7 +10,7 @@ interface ProgressBarProps {
 }
 
 export const ProgressBar = ({ progress, color, height = 8, width = '100%' }: ProgressBarProps) => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const animatedWidth = useRef(new Animated.Value(0)).current;
 
   // Clamp progress between 0 and 100
@@ -24,8 +24,8 @@ export const ProgressBar = ({ progress, color, height = 8, width = '100%' }: Pro
     }).start();
   }, [clampedProgress]);
 
-  const trackColor = theme.colors.neutral[200];
-  const progressColor = color || theme.colors.primary[500];
+  const trackColor = isDark ? theme.colors.neutral[800] : theme.colors.neutral[200];
+  const progressColor = color || theme.colors.primary;
 
   return (
     <View
