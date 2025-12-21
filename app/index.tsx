@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Link } from 'expo-router';
-import ThemeToggle from '@/components/ThemeToggle';
-import { useTheme } from '@/context/ThemeContext';
+// import ThemeToggle from '@/components/ThemeToggle'; // We'll replace/update this later or just use the one in Kitchen Sink
+import { useTheme } from '@/theme/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { haptics } from '@/utils/haptics';
 import { toast } from '@/utils/toast';
@@ -14,8 +14,9 @@ import { toast } from '@/utils/toast';
  * Documentation: https://docs.expo.dev/router/create-pages/
  */
 export default function HomeScreen() {
-  const { activeTheme } = useTheme();
-  const styles = getStyles(activeTheme);
+  const { theme, isDark } = useTheme();
+  // Quick fix for styles until we full refactor to useThemedStyles
+  const styles = getStyles(theme.mode);
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lang: string) => {
@@ -44,6 +45,10 @@ export default function HomeScreen() {
 
       <Link href="/form" style={styles.link}>
         {t('links.form')}
+      </Link>
+
+      <Link href="/design-system" style={styles.link}>
+        View Design System (Kitchen Sink)
       </Link>
 
       <View style={styles.langContainer}>
@@ -89,13 +94,13 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <ThemeToggle />
+      {/* <ThemeToggle /> */}
 
       {/*  
         StatusBar controls the appearance of the status bar text and icons.
         style="auto" adjusts automatically based on the system theme.
       */}
-      <StatusBar style={activeTheme === 'dark' ? 'light' : 'dark'} />
+      <StatusBar style={isDark ? 'light' : 'dark'} />
     </View>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { BaseToastProps } from 'react-native-toast-message';
 import { CheckCircle, XCircle, Info } from 'lucide-react-native';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '@/theme/ThemeContext';
 
 /**
  * Custom Toast component that mimics the look of 'react-hot-toast'.
@@ -17,31 +17,17 @@ const CustomToast = ({
   text2?: string;
   type: 'success' | 'error' | 'info';
 }) => {
-  const { activeTheme } = useTheme();
-  const styles = getStyles(activeTheme);
+  const { theme, isDark } = useTheme();
+  const styles = getStyles(theme.mode);
 
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return (
-          <CheckCircle
-            size={24}
-            color="#4ADE80"
-            fill={activeTheme === 'dark' ? '#064e3b' : '#ecfdf5'}
-          />
-        ); // Green 400
+        return <CheckCircle size={24} color="#4ADE80" fill={isDark ? '#064e3b' : '#ecfdf5'} />; // Green 400
       case 'error':
-        return (
-          <XCircle
-            size={24}
-            color="#F87171"
-            fill={activeTheme === 'dark' ? '#7f1d1d' : '#fef2f2'}
-          />
-        ); // Red 400
+        return <XCircle size={24} color="#F87171" fill={isDark ? '#7f1d1d' : '#fef2f2'} />; // Red 400
       case 'info':
-        return (
-          <Info size={24} color="#60A5FA" fill={activeTheme === 'dark' ? '#1e3a8a' : '#eff6ff'} />
-        ); // Blue 400
+        return <Info size={24} color="#60A5FA" fill={isDark ? '#1e3a8a' : '#eff6ff'} />; // Blue 400
       default:
         return null;
     }

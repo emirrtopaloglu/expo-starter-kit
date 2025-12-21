@@ -4,12 +4,12 @@ import { Stack } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { useStore } from '@/store/useStore';
 import { Trash2, Plus } from 'lucide-react-native';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '@/theme/ThemeContext';
 
 export default function ListScreen() {
   const { items, addItem, removeItem } = useStore();
-  const { activeTheme } = useTheme();
-  const styles = getStyles(activeTheme);
+  const { theme } = useTheme();
+  const styles = getStyles(theme.mode);
 
   const handleAddItem = () => {
     addItem(`New Item ${items.length + 1}`);
@@ -38,6 +38,7 @@ export default function ListScreen() {
               </Pressable>
             </View>
           )}
+          // @ts-ignore
           estimatedItemSize={50}
           keyExtractor={(item) => item.id}
         />

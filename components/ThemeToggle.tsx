@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '@/theme/ThemeContext';
 import { Moon, Sun, Monitor } from 'lucide-react-native';
 
 export default function ThemeToggle() {
-  const { themePreference, setThemePreference, activeTheme } = useTheme();
+  const { themePreference, setThemePreference, theme } = useTheme();
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.label, { color: activeTheme === 'dark' ? '#fff' : '#000' }]}>
+      <Text style={[styles.label, { color: theme.mode === 'dark' ? '#fff' : '#000' }]}>
         Theme ({themePreference})
       </Text>
       <View style={styles.buttonGroup}>

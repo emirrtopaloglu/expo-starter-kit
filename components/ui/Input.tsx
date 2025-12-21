@@ -1,73 +1,84 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet, TextInputProps } from 'react-native';
-import { Controller, Control, FieldValues, Path } from 'react-hook-form';
-import { useTheme } from '@/context/ThemeContext';
+import { TextInput, TextInputProps, StyleSheet } from 'react-native';
+import { useTheme } from '@/theme/ThemeContext';
+import { Box } from './Box';
+import { Typography } from './Typography';
 
-interface InputProps<T extends FieldValues> extends TextInputProps {
-  control: Control<T>;
-  name: Path<T>;
-  label: string;
+interface InputProps extends TextInputProps {
+  label?: string;
   error?: string;
+  helperText?: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 }
 
-export default function Input<T extends FieldValues>({
-  control,
-  name,
+export function Input({
   label,
   error,
+  helperText,
+  leftIcon,
+  rightIcon,
+  style,
   ...props
-}: InputProps<T>) {
-  const { activeTheme } = useTheme();
-  const styles = getStyles(activeTheme);
+}: InputProps) {
+  const { theme } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <Controller
-        control={control}
-        name={name}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            placeholderTextColor={activeTheme === 'dark' ? '#666' : '#999'}
-            style={[styles.input, error ? styles.inputError : null]}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            {...props}
-          />
-        )}
-      />
-      {error && <Text style={styles.errorText}>{error}</Text>}
-    </View>
+    <Box mb={theme.spacing.md}>
+      {label && (
+        <Typography
+          variant="bodySmall"
+          style={{ marginBottom: theme.spacing.xs, fontWeight: '500' }}
+        >
+          {label}
+        </Typography>
+      )}
+      <Box
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          borderWidth: 1,
+          borderColor: error ? theme.colors.error.main : theme.colors.border,
+          borderRadius: theme.radius.md,
+          backgroundColor: theme.colors.background.paper,
+          paddingHorizontal: theme.spacing.md,
+          height: 48,
+        }}
+      >
+        {leftIcon && <Box mr={theme.spacing.sm}>{leftIcon}</Box>}
+        <TextInput
+          style={[
+            {
+              flex: 1,
+              color: theme.colors.text.default,
+              fontSize: theme.typography.sizes.md,
+              height: '100%',
+            },
+            style,
+          ]}
+          placeholderTextColor={theme.colors.text.subtle}
+          {...props}
+        />
+        {rightIcon && <Box ml={theme.spacing.sm}>{rightIcon}</Box>}
+      </Box>
+      {error && (
+        <Typography
+          variant="caption"
+          color={theme.colors.error.main}
+          style={{ marginTop: theme.spacing.xs }}
+        >
+          {error}
+        </Typography>
+      )}
+      {helperText && !error && (
+        <Typography
+          variant="caption"
+          color={theme.colors.text.subtle}
+          style={{ marginTop: theme.spacing.xs }}
+        >
+          {helperText}
+        </Typography>
+      )}
+    </Box>
   );
 }
-
-const getStyles = (theme: 'light' | 'dark') =>
-  StyleSheet.create({
-    container: {
-      marginBottom: 15,
-    },
-    label: {
-      fontSize: 16,
-      fontWeight: '500',
-      marginBottom: 5,
-      color: theme === 'dark' ? '#ddd' : '#333',
-    },
-    input: {
-      borderWidth: 1,
-      borderColor: theme === 'dark' ? '#333' : '#ddd',
-      borderRadius: 8,
-      padding: 12,
-      fontSize: 16,
-      backgroundColor: theme === 'dark' ? '#2a2a2a' : 'white',
-      color: theme === 'dark' ? '#fff' : '#000',
-    },
-    inputError: {
-      borderColor: 'red',
-    },
-    errorText: {
-      color: 'red',
-      fontSize: 12,
-      marginTop: 5,
-    },
-  });

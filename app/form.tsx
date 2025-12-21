@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, ScrollView, Alert } from 'react-native';
 import { Stack } from 'expo-router'; // Correct import for Stack
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import Input from '@/components/ui/Input';
-import { useTheme } from '@/context/ThemeContext';
+import { Input } from '@/components/ui/Input';
+import { useTheme } from '@/theme/ThemeContext';
 
 const schema = z.object({
   fullName: z.string().min(3, { message: 'Required' }),
@@ -16,8 +16,9 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function FormScreen() {
-  const { activeTheme } = useTheme();
-  const styles = getStyles(activeTheme);
+  const { theme } = useTheme();
+  // Quick fix: styles still expect 'light' | 'dark'
+  const styles = getStyles(theme.mode);
 
   const {
     control,
@@ -44,31 +45,52 @@ export default function FormScreen() {
       <Text style={styles.subtitle}>Powered by React Hook Form & Zod</Text>
 
       <View style={styles.form}>
-        <Input
+        <Controller
           control={control}
           name="fullName"
-          label="Full Name"
-          placeholder="John Doe"
-          error={errors.fullName?.message}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Full Name"
+              placeholder="John Doe"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              error={errors.fullName?.message}
+            />
+          )}
         />
 
-        <Input
+        <Controller
           control={control}
           name="email"
-          label="Email"
-          placeholder="john@example.com"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          error={errors.email?.message}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Email"
+              placeholder="john@example.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              error={errors.email?.message}
+            />
+          )}
         />
 
-        <Input
+        <Controller
           control={control}
           name="password"
-          label="Password"
-          placeholder="******"
-          secureTextEntry
-          error={errors.password?.message}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Password"
+              placeholder="******"
+              secureTextEntry
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              error={errors.password?.message}
+            />
+          )}
         />
 
         <View style={styles.buttonContainer}>

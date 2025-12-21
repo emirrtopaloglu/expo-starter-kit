@@ -5,7 +5,7 @@ import {
   DarkTheme,
   DefaultTheme,
 } from '@react-navigation/native';
-import { ThemeProvider, useTheme } from '@/context/ThemeContext';
+import { ThemeProvider, useTheme } from '@/theme/ThemeContext';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
@@ -18,10 +18,10 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 function RootLayoutNav() {
-  const { activeTheme } = useTheme();
+  const { theme } = useTheme();
 
   return (
-    <NavigationThemeProvider value={activeTheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationThemeProvider value={theme.mode === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="index" options={{ title: 'Home' }} />
       </Stack>
