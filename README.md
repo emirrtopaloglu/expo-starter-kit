@@ -21,6 +21,56 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **Organized Structure**: Robust folder structure including `components/ui`, `hooks`, `constants`, and `utils`.
 - **Expo**: A framework for universal React applications.
 - **Scalable Structure**: Designed to support additional features and integrations.
+- **Design System**: A comprehensive suite of 30+ reusable UI components located in `@/components/ui`.
+
+## Components Available
+
+### Layout & primitives
+
+- **Box**: Low-level layout primitive with spacing and border props.
+- **Stack (HStack/VStack)**: Flexbox wrappers for easy row/column layouts.
+- **Screen**: Safe-area aware screen wrapper with scroll presets.
+- **Divider**: Visual separator with optional text label.
+- **Card**: Container with shadow and border variants.
+- **MasonryList**: Pinterest-style 2-column staggered grid.
+- **Skeleton**: Loading placeholder animations.
+
+### Typography
+
+- **Typography**: Text component with standardized presets (h1-h4, body, caption).
+
+### Forms & Input
+
+- **Button**: Customizable buttons with variants (solid, outline, ghost) and loading states.
+- **Input**: Stylized text inputs with icon support.
+- **Select**: BottomSheet-based select with search and multi-select support.
+- **DatePicker**: Robust Date picker with confirm-flow and consistent styling.
+- **Checkbox/Radio/Switch**: Native-feeling toggle controls.
+- **Slider**: Range slider with custom track and thumb.
+- **Switch**: Toggle switch component.
+- **OTPInput**: segmented input for One-Time Passwords.
+- **FormController**: Wrapper for easy `react-hook-form` integration.
+- **SegmentedControl**: iOS-style segmented toggle.
+- **SearchBar**: Dedicated search input with clear action.
+- **Stepper**: Number input with increment/decrement buttons.
+
+### Navigation & Feedback
+
+- **Tabs**: Custom tab bar or segment switcher.
+- **Avatar**: Image or text avatars with fallback support.
+- **Badge**: Status indicators and notification counts.
+- **ProgressBar**: Visual progress indicator.
+- **Spinner**: Loading spinner.
+- **FAB**: Floating Action Button.
+- **EmptyState**: Placeholder for empty lists or data.
+- **ErrorState**: Placeholder for error states with retry action.
+
+### Overlays
+
+- **Modal**: Center-aligned modal dialogs.
+- **BottomSheet**: Draggable bottom sheet/drawer.
+- **Accordion**: Collapsible content sections.
+- **Toast**: (Config via `ToastConfig.tsx` and `react-hot-toast-native`).
 
 ## Getting Started
 
