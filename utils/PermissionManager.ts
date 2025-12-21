@@ -4,7 +4,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import * as ImagePicker from 'expo-image-picker';
-import * as Audio from 'expo-av';
+import { requestRecordingPermissionsAsync, getRecordingPermissionsAsync } from 'expo-audio';
 
 /**
  * ==========================================================================================
@@ -15,7 +15,7 @@ import * as Audio from 'expo-av';
  *
  * 1. INSTALLATION:
  *    Ensure the following packages are installed:
- *    npx expo install expo-camera expo-media-library expo-location expo-notifications expo-image-picker expo-av
+ *    npx expo install expo-camera expo-media-library expo-location expo-notifications expo-image-picker expo-audio
  *
  * 2. APP.JSON CONFIGURATION (Required for Production):
  *    Add the following keys to your `app.json` inside `expo.plugins` or `ios/android` config.
@@ -25,41 +25,43 @@ import * as Audio from 'expo-av';
  *        "plugins": [
  *          [
  *            "expo-camera",
- *            {
- *              "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to take photos.",
- *              "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone to record videos."
- *            }
- *          ],
- *          [
- *            "expo-media-library",
- *            {
- *              "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
- *              "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos."
- *            }
- *          ],
- *          [
- *            "expo-location",
- *            {
- *              "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
- *            }
- *          ],
- *          [
- *             "expo-image-picker",
- *             {
- *                "photosPermission": "The app accesses your photos to let you share them with your friends."
- *             }
- *          ],
- *          [
- *             "expo-av",
- *             {
- *                "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
- *             }
- *          ]
- *        ]
- *      }
- *    }
+ * PermissionManager: A unified API for handling Expo permissions.
  *
- * ==========================================================================================
+ * USAGE:
+ *
+ * 1. Ensure you have installed the necessary packages:
+ *    npx expo install expo-camera expo-media-library expo-location expo-notifications expo-image-picker expo-audio
+ *
+ * 2. Configure app.json for Android/iOS permissions:
+ *
+ *    "plugins": [
+ *      [
+ *        "expo-camera",
+ *        {
+ *          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+ *        }
+ *      ],
+ *      [
+ *        "expo-media-library",
+ *        {
+ *          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
+ *          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
+ *          "isAccessMediaLocationEnabled": true
+ *        }
+ *      ],
+ *      [
+ *        "expo-location",
+ *        {
+ *          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+ *        }
+ *      ],
+ *      [
+ *        "expo-audio", // or expo-av configuration if applicable
+ *        {
+ *           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+ *        }
+ *      ]
+ *    ]
  */
 
 export type PermissionType =
@@ -67,16 +69,15 @@ export type PermissionType =
   | 'gallery'
   | 'locationForeground'
   | 'notifications'
-  | 'audio'
-  | 'microphone';
+  | 'audio';
 
 export type PermissionStatus = 'granted' | 'denied' | 'undetermined' | 'blocked';
 
 export interface PermissionResponse {
-  status: PermissionStatus;
+  status: 'granted' | 'denied' | 'undetermined';
   canAskAgain: boolean;
+  expires: 'never' | number;
   granted: boolean;
-  expires?: string;
 }
 
 class PermissionManagerImpl {
@@ -94,8 +95,7 @@ class PermissionManagerImpl {
       case 'notifications':
         return this.normalize(await Notifications.getPermissionsAsync());
       case 'audio':
-      case 'microphone':
-        return this.normalize(await Audio.Audio.getPermissionsAsync());
+        return this.normalize(await getRecordingPermissionsAsync());
       default:
         throw new Error(`Unsupported permission type: ${type}`);
     }
@@ -117,8 +117,7 @@ class PermissionManagerImpl {
       case 'notifications':
         return this.normalize(await Notifications.requestPermissionsAsync());
       case 'audio':
-      case 'microphone':
-        return this.normalize(await Audio.Audio.requestPermissionsAsync());
+        return this.normalize(await requestRecordingPermissionsAsync());
       default:
         throw new Error(`Unsupported permission type: ${type}`);
     }
