@@ -60,6 +60,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **Tabs**: Custom tab bar or segment switcher.
 - **Avatar**: Image or text avatars with fallback support.
 - **Badge**: Status indicators and notification counts.
+- **Image**: High-performance cached image with blurhash/transition support (uses `expo-image`).
 - **ProgressBar**: Visual progress indicator.
 - **Spinner**: Loading spinner.
 - **FAB**: Floating Action Button.

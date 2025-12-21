@@ -35,6 +35,7 @@ import { ErrorState } from '@/components/ui/ErrorState';
 import { DatePicker } from '@/components/ui/DatePicker';
 import { Screen } from '@/components/ui/Screen';
 import { MasonryList } from '@/components/ui/MasonryList';
+import { Image } from '@/components/ui/Image';
 import {
   AlertCircle,
   Box as BoxIcon,
@@ -276,7 +277,27 @@ export default function DesignSystemScreen() {
                 </HStack>
               </Box>
 
-              <Divider label="OR" />
+              {/* Image */}
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Image (Cached)
+                </Typography>
+                <HStack style={{ gap: 16 }}>
+                  <Image
+                    source="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    style={{ width: 80, height: 80 }}
+                    rounded="md"
+                    transition={500}
+                  />
+                  <Image
+                    source="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    style={{ width: 80, height: 80 }}
+                    rounded="full"
+                  />
+                </HStack>
+              </Box>
+
+              <Divider />
 
               <Box>
                 <Typography variant="h4" style={{ marginBottom: 8 }}>
