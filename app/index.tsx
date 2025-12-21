@@ -6,6 +6,7 @@ import { useTheme } from '@/theme/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { haptics } from '@/utils/haptics';
 import { toast } from '@/utils/toast';
+import { Typography } from '@/components/ui/Typography';
 
 /**
  * HomeScreen component.
@@ -26,10 +27,10 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       {/* Main welcome text */}
-      <Text style={styles.text}>{t('welcome')}</Text>
+      <Typography variant="h1">{t('Typography')}</Typography>
 
       {/* Instruction text */}
-      <Text style={styles.subText}>{t('description')}</Text>
+      <Typography variant="body">{t('description')}</Typography>
 
       {/* 
         The Link component allows for client-side navigation between routes.

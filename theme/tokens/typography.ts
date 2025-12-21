@@ -20,13 +20,21 @@ export const typography = {
   } as const,
 
   variants: {
-    h1: { fontSize: 36, fontWeight: '700', lineHeight: 40 } as TextStyle,
-    h2: { fontSize: 30, fontWeight: '700', lineHeight: 36 } as TextStyle,
-    h3: { fontSize: 24, fontWeight: '600', lineHeight: 32 } as TextStyle,
-    h4: { fontSize: 20, fontWeight: '600', lineHeight: 28 } as TextStyle,
-    body: { fontSize: 16, fontWeight: '400', lineHeight: 24 } as TextStyle,
-    bodySmall: { fontSize: 14, fontWeight: '400', lineHeight: 20 } as TextStyle,
-    caption: { fontSize: 12, fontWeight: '400', lineHeight: 16 } as TextStyle,
-    button: { fontSize: 16, fontWeight: '600' } as TextStyle,
+    h1: { fontSize: 36, fontFamily: 'PlusJakartaSans_700Bold', lineHeight: 40 } as TextStyle,
+    h2: { fontSize: 30, fontFamily: 'PlusJakartaSans_700Bold', lineHeight: 36 } as TextStyle,
+    h3: { fontSize: 24, fontFamily: 'PlusJakartaSans_600SemiBold', lineHeight: 32 } as TextStyle,
+    h4: { fontSize: 20, fontFamily: 'PlusJakartaSans_600SemiBold', lineHeight: 28 } as TextStyle,
+    body: { fontSize: 16, fontFamily: 'PlusJakartaSans_400Regular', lineHeight: 24 } as TextStyle,
+    bodySmall: {
+      fontSize: 14,
+      fontFamily: 'PlusJakartaSans_400Regular',
+      lineHeight: 20,
+    } as TextStyle,
+    caption: {
+      fontSize: 12,
+      fontFamily: 'PlusJakartaSans_400Regular',
+      lineHeight: 16,
+    } as TextStyle,
+    button: { fontSize: 16, fontFamily: 'PlusJakartaSans_600SemiBold' } as TextStyle,
   },
 };

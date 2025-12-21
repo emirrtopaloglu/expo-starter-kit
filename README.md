@@ -83,6 +83,24 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **CameraView**: Custom Camera screen implementation using `expo-camera` with flash and flip controls.
 - **GlobalErrorBoundary**: Class component that wraps the app to catch potential crashes and show a fallback UI (`CrashScreen`).
 
+## 🎨 Custom Fonts
+
+The project comes pre-configured with **Plus Jakarta Sans** from Google Fonts.
+
+**How to change the font:**
+
+1.  Install a new font package (search for `@expo-google-fonts/[font-name]`).
+    ```bash
+    npx expo install @expo-google-fonts/roboto expo-font
+    ```
+2.  Update `app/_layout.tsx`:
+    - Import the new font variants.
+    - Add them to the `useFonts` hook configuration.
+3.  Update `theme/tokens/typography.ts`:
+    - Change the `fontFamily` property in `variants` to match your new font (e.g., `'Roboto_400Regular'`).
+
+The `Typography` component will automatically pick up these changes via the theme.
+
 ## Getting Started
 
 ### Prerequisites

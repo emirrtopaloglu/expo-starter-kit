@@ -9,6 +9,7 @@ interface TypographyProps extends TextProps {
   variant?: TypographyVariant;
   color?: string;
   align?: 'auto' | 'left' | 'right' | 'center' | 'justify';
+  weight?: 'regular' | 'medium' | 'semibold' | 'bold';
   children: React.ReactNode;
 }
 
@@ -16,14 +17,33 @@ export function Typography({
   variant = 'body',
   color,
   align,
+  weight,
   style,
   children,
   ...props
 }: TypographyProps) {
   const { theme } = useTheme();
 
+  const getFontFamilyOverride = () => {
+    if (!weight) return {};
+
+    switch (weight) {
+      case 'regular':
+        return { fontFamily: 'PlusJakartaSans_400Regular' };
+      case 'medium':
+        return { fontFamily: 'PlusJakartaSans_500Medium' };
+      case 'semibold':
+        return { fontFamily: 'PlusJakartaSans_600SemiBold' };
+      case 'bold':
+        return { fontFamily: 'PlusJakartaSans_700Bold' };
+      default:
+        return {};
+    }
+  };
+
   const textStyle = {
     ...theme.typography.variants[variant],
+    ...getFontFamilyOverride(),
     color: color || theme.colors.text.default,
     textAlign: align,
   };

@@ -6,6 +6,13 @@ import {
   DefaultTheme,
 } from '@react-navigation/native';
 import { ThemeProvider, useTheme } from '@/theme/ThemeContext';
+import {
+  useFonts,
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_700Bold,
+} from '@expo-google-fonts/plus-jakarta-sans';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
@@ -41,14 +48,23 @@ function RootLayoutNav() {
  * Documentation: https://docs.expo.dev/router/layouts/
  */
 export default function RootLayout() {
-  useEffect(() => {
-    // Artificial delay for debugging splash screen (3 seconds)
-    const timer = setTimeout(() => {
-      SplashScreen.hideAsync();
-    }, 3000);
+  const [fontsLoaded] = useFonts({
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
+  });
 
-    return () => clearTimeout(timer);
-  }, []);
+  useEffect(() => {
+    if (fontsLoaded) {
+      // Hide the splash screen once fonts are loaded
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <ThemeProvider>
