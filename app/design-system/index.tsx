@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Switch } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Stack } from 'expo-router';
 import { Box } from '@/components/ui/Box';
 import { VStack, HStack } from '@/components/ui/Stack';
@@ -10,6 +10,12 @@ import { useTheme } from '@/theme/ThemeContext';
 import { Info, AlertTriangle, Moon, Sun } from 'lucide-react-native';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { Spinner } from '@/components/ui/Spinner';
+import { Avatar } from '@/components/ui/Avatar';
+import { Divider } from '@/components/ui/Divider';
+import { Switch } from '@/components/ui/Switch';
+import { Checkbox } from '@/components/ui/Checkbox';
+import { Radio } from '@/components/ui/Radio';
 
 export default function DesignSystemScreen() {
   const { theme, setThemePreference, isDark } = useTheme();
@@ -203,6 +209,61 @@ export default function DesignSystemScreen() {
                 <Badge label="Medium" size="md" />
               </HStack>
             </Box>
+          </Box>
+
+          {/* New Batch 2 Components */}
+          <Box bg="paper" p="md" rounded="lg" shadow="sm">
+            <Typography variant="h2" style={{ marginBottom: 10 }}>
+              Feedback & Data
+            </Typography>
+            <VStack space="lg">
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Spinners
+                </Typography>
+                <HStack space="md">
+                  <Spinner size="small" />
+                  <Spinner size="large" color={theme.colors.success.main} />
+                </HStack>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Avatars
+                </Typography>
+                <HStack space="md" align="center">
+                  <Avatar fallback="ET" size="sm" />
+                  <Avatar fallback="JD" size="md" />
+                  <Avatar fallback="AB" size="lg" />
+                  {/* <Avatar src="https://github.com/shadcn.png" size="md" /> */}
+                </HStack>
+              </Box>
+
+              <Divider label="OR" />
+
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Form Controls
+                </Typography>
+                <VStack space="md">
+                  <Switch value={true} onValueChange={() => {}} label="Notifications" />
+                  <Checkbox checked={true} onCheckedChange={() => {}} label="I agree to terms" />
+                  <Checkbox checked={false} onCheckedChange={() => {}} label="Unchecked option" />
+
+                  <Box>
+                    <Typography variant="bodySmall" style={{ marginBottom: 4 }}>
+                      Radio Group
+                    </Typography>
+                    <Radio.Group value="opt1" onChange={() => {}}>
+                      <Radio value="opt1" label="Option 1" />
+                      <Radio value="opt2" label="Option 2" />
+                    </Radio.Group>
+                  </Box>
+                </VStack>
+              </Box>
+            </VStack>
           </Box>
         </VStack>
       </ScrollView>
