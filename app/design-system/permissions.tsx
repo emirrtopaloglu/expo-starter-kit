@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Alert } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { Screen } from '@/components/ui/Screen';
 import { Typography } from '@/components/ui/Typography';
 import { Button } from '@/components/ui/Button';
@@ -11,9 +11,11 @@ import { useTheme } from '@/theme/ThemeContext';
 import { useRunPermission } from '@/hooks/useRunPermission';
 import { PermissionManager, PermissionType } from '@/utils/PermissionManager';
 import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function PermissionsScreen() {
   const { theme } = useTheme();
+  const router = useRouter();
   const { executeWithPermission } = useRunPermission();
   const [statuses, setStatuses] = useState<Record<string, string>>({});
 
@@ -104,46 +106,121 @@ export default function PermissionsScreen() {
             System Pickers
           </Typography>
           <Card>
-            <Box
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Box>
-                <Typography variant="h4">Document Picker</Typography>
-                <Typography
-                  variant="caption"
-                  style={{ color: theme.colors.text.subtle, marginTop: 4 }}
-                >
-                  No explicit permission required
-                </Typography>
-              </Box>
-              <Button
-                label="Pick File"
-                size="sm"
-                onPress={async () => {
-                  try {
-                    const result = await DocumentPicker.getDocumentAsync({
-                      type: '*/*',
-                      copyToCacheDirectory: true,
-                    });
-                    if (result.canceled) {
-                      Alert.alert('Canceled', 'User canceled document picker');
-                    } else {
-                      Alert.alert(
-                        'Picked',
-                        `File: ${result.assets[0].name}\nSize: ${result.assets[0].size} bytes`
-                      );
-                    }
-                  } catch (err) {
-                    Alert.alert('Error', 'Failed to pick document');
-                  }
+            <VStack style={{ gap: 16 }}>
+              {/* Document Picker */}
+              <Box
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                 }}
-                style={{ width: 100 }}
-              />
-            </Box>
+              >
+                <Box>
+                  <Typography variant="h4">Document Picker</Typography>
+                  <Typography
+                    variant="caption"
+                    style={{ color: theme.colors.text.subtle, marginTop: 4 }}
+                  >
+                    No explicit permission required
+                  </Typography>
+                </Box>
+                <Button
+                  label="Pick File"
+                  size="sm"
+                  onPress={async () => {
+                    try {
+                      const result = await DocumentPicker.getDocumentAsync({
+                        type: '*/*',
+                        copyToCacheDirectory: true,
+                      });
+                      if (result.canceled) {
+                        Alert.alert('Canceled', 'User canceled document picker');
+                      } else {
+                        Alert.alert(
+                          'Picked',
+                          `File: ${result.assets[0].name}\nSize: ${result.assets[0].size} bytes`
+                        );
+                      }
+                    } catch (err) {
+                      Alert.alert('Error', 'Failed to pick document');
+                    }
+                  }}
+                  style={{ width: 100 }}
+                />
+              </Box>
+
+              <Box style={{ height: 1, backgroundColor: theme.colors.border.subtle }} />
+
+              {/* Media Picker */}
+              <Box
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Box>
+                  <Typography variant="h4">Media Picker</Typography>
+                  <Typography
+                    variant="caption"
+                    style={{ color: theme.colors.text.subtle, marginTop: 4 }}
+                  >
+                    Launch Gallery
+                  </Typography>
+                </Box>
+                <Button
+                  label="Pick Media"
+                  size="sm"
+                  onPress={async () => {
+                    try {
+                      const result = await ImagePicker.launchImageLibraryAsync({
+                        mediaTypes: ImagePicker.MediaTypeOptions.All,
+                        allowsEditing: true,
+                        aspect: [4, 3],
+                        quality: 1,
+                      });
+                      if (!result.canceled) {
+                        Alert.alert('Picked', `Media: ${result.assets[0].uri}`);
+                      }
+                    } catch (e) {
+                      Alert.alert('Error', 'Failed to pick image');
+                    }
+                  }}
+                  style={{ width: 100 }}
+                />
+              </Box>
+
+              <Box style={{ height: 1, backgroundColor: theme.colors.border.subtle }} />
+
+              {/* Camera Capture */}
+              <Box
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Box>
+                  <Typography variant="h4">Camera Capture</Typography>
+                  <Typography
+                    variant="caption"
+                    style={{ color: theme.colors.text.subtle, marginTop: 4 }}
+                  >
+                    Custom Expo Camera View
+                  </Typography>
+                </Box>
+                <Button
+                  label="Open Camera"
+                  size="sm"
+                  onPress={() => {
+                    executeWithPermission('camera', () => {
+                      router.push('/design-system/camera');
+                    });
+                  }}
+                  style={{ width: 120 }}
+                />
+              </Box>
+            </VStack>
           </Card>
         </Box>
       </Box>

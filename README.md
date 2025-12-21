@@ -21,6 +21,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **Organized Structure**: Robust folder structure including `components/ui`, `hooks`, `constants`, and `utils`.
 - **Expo**: A framework for universal React applications.
 - **Scalable Structure**: Designed to support additional features and integrations.
+- **Modules & Permissions**: Centralized `PermissionManager` for consistent Camera, Gallery, Location, and Notification access.
 - **Design System**: A comprehensive suite of 30+ reusable UI components located in `@/components/ui`.
 
 ## Components Available
@@ -71,6 +72,13 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **BottomSheet**: Draggable bottom sheet/drawer.
 - **Accordion**: Collapsible content sections.
 - **Toast**: (Config via `ToastConfig.tsx` and `react-hot-toast-native`).
+
+### Utilities & Native Hooks
+
+- **PermissionManager**: Unified API for handling generic permissions (Camera, Location, Notifications).
+- **useRunPermission**: Hook to wrap functions with automatic permission requesting and settings-redirection flow.
+- **SystemPickers**: Helper examples for `expo-document-picker` and `expo-image-picker`.
+- **CameraView**: Custom Camera screen implementation using `expo-camera` with flash and flip controls.
 
 ## Getting Started
 
