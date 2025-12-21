@@ -11,11 +11,15 @@ import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '@/components/ui/ToastConfig';
 import '@/i18n'; // Initialize i18n
+import { GlobalErrorBoundary } from '@/components/GlobalErrorBoundary';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
+
+// Re-export ErrorBoundary for Expo Router to catch layout-level errors
+export { GlobalErrorBoundary as ErrorBoundary } from '@/components/GlobalErrorBoundary';
 
 function RootLayoutNav() {
   const { theme } = useTheme();
@@ -49,7 +53,9 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <RootLayoutNav />
+        <GlobalErrorBoundary>
+          <RootLayoutNav />
+        </GlobalErrorBoundary>
         <Toast config={toastConfig} />
       </QueryClientProvider>
     </ThemeProvider>

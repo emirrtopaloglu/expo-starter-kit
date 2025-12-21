@@ -22,6 +22,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **Expo**: A framework for universal React applications.
 - **Scalable Structure**: Designed to support additional features and integrations.
 - **Modules & Permissions**: Centralized `PermissionManager` for consistent Camera, Gallery, Location, and Notification access.
+- **Global Error Boundary**: Catches unhandled errors and displays a user-friendly crash screen with restart functionality.
 - **Design System**: A comprehensive suite of 30+ reusable UI components located in `@/components/ui`.
 
 ## Components Available
@@ -80,6 +81,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **useRunPermission**: Hook to wrap functions with automatic permission requesting and settings-redirection flow.
 - **SystemPickers**: Helper examples for `expo-document-picker` and `expo-image-picker`.
 - **CameraView**: Custom Camera screen implementation using `expo-camera` with flash and flip controls.
+- **GlobalErrorBoundary**: Class component that wraps the app to catch potential crashes and show a fallback UI (`CrashScreen`).
 
 ## Getting Started
 
