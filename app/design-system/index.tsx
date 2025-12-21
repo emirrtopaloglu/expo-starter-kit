@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Stack } from 'expo-router';
 import { Box } from '@/components/ui/Box';
 import { VStack, HStack } from '@/components/ui/Stack';
@@ -25,12 +25,16 @@ import { Modal } from '@/components/ui/Modal';
 import { BottomSheet } from '@/components/ui/BottomSheet';
 import { FAB } from '@/components/ui/FAB';
 import { Stepper } from '@/components/ui/Stepper';
+import { Select } from '@/components/ui/Select';
 import { OTPInput } from '@/components/ui/OTPInput';
 import { Slider } from '@/components/ui/Slider';
 import { Tabs } from '@/components/ui/Tabs';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { ErrorState } from '@/components/ui/ErrorState';
+import { DatePicker } from '@/components/ui/DatePicker';
+import { Screen } from '@/components/ui/Screen';
+import { MasonryList } from '@/components/ui/MasonryList';
 import {
   AlertCircle,
   Box as BoxIcon,
@@ -53,17 +57,21 @@ export default function DesignSystemScreen() {
   const [sliderValue, setSliderValue] = useState(50);
   const [otp, setOTP] = useState('');
 
+  // Batch 5 State
+  // Batch 5 State
+  const [selectVal, setSelectVal] = useState<string | number>('');
+  const [multiSelectVal, setMultiSelectVal] = useState<string[]>([]);
+  const [dateVal, setDateVal] = useState(new Date());
+  const [timeVal, setTimeVal] = useState(new Date());
+
   const toggleTheme = () => {
     setThemePreference(isDark ? 'light' : 'dark');
   };
 
   return (
-    <>
+    <Screen preset="scroll" backgroundColor={theme.colors.background.default}>
       <Stack.Screen options={{ title: 'Design System' }} />
-      <ScrollView
-        contentContainerStyle={{ padding: 20 }}
-        style={{ backgroundColor: theme.colors.background.default }}
-      >
+      <Box p="md">
         <VStack space="xl">
           {/* Theme Toggle */}
           <Box
@@ -444,6 +452,37 @@ export default function DesignSystemScreen() {
                     onChange={setSegIndex}
                   />
                   <Stepper value={stepValue} onChange={setStepValue} min={0} max={10} />
+
+                  <Select
+                    label="Category (Single)"
+                    placeholder="Select a category"
+                    value={selectVal}
+                    onChange={setSelectVal}
+                    searchable
+                    options={[
+                      { label: 'Technology', value: 'tech' },
+                      { label: 'Design', value: 'design' },
+                      { label: 'Business', value: 'business' },
+                      { label: 'Marketing', value: 'marketing' },
+                    ]}
+                  />
+
+                  <Select
+                    label="Tags (Multiple)"
+                    placeholder="Select tags"
+                    value={multiSelectVal}
+                    onChange={setMultiSelectVal}
+                    multiple
+                    options={[
+                      { label: 'React Native', value: 'rn' },
+                      { label: 'Expo', value: 'expo' },
+                      { label: 'TypeScript', value: 'ts' },
+                      { label: 'JavaScript', value: 'js' },
+                    ]}
+                  />
+                  <View style={{ gap: 16 }}>
+                    <DatePicker label="Date Picker" value={dateVal} onChange={setDateVal} />
+                  </View>
                 </VStack>
               </Box>
 
@@ -513,29 +552,62 @@ export default function DesignSystemScreen() {
                   />
                 </Box>
               </Box>
-            </VStack>
-          </Box>
-          {/* State Views */}
-          <Box bg="paper" p="md" rounded="lg" shadow="sm">
-            <Typography variant="h2" style={{ marginBottom: 10 }}>
-              State Views
-            </Typography>
-            <VStack space="md">
-              <EmptyState
-                title="No Messages"
-                description="You haven't received any messages yet."
-                action={<Button size="sm" label="Refresh" variant="outline" />}
-              />
-              <Divider />
-              <ErrorState onRetry={() => console.log('Retrying...')} />
-            </VStack>
-          </Box>
-          <Box style={{ height: 80 }} /> {/* Spacer for FAB */}
-        </VStack>
-      </ScrollView>
 
+              <Divider />
+
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Complex Layouts (MasonryList)
+                </Typography>
+                <Box
+                  style={{
+                    height: 300,
+                    backgroundColor: isDark ? theme.colors.neutral[900] : theme.colors.neutral[100],
+                    borderRadius: 8,
+                    padding: 8,
+                  }}
+                >
+                  <MasonryList
+                    data={[
+                      'Item 1 (Short)',
+                      'Item 2 (Taller)\n\nExtra content here.',
+                      'Item 3',
+                      'Item 4 (Medium)\nMore text.',
+                      'Item 5',
+                      'Item 6',
+                    ]}
+                    renderItem={(item, index) => (
+                      <Box
+                        bg="paper"
+                        p="md"
+                        rounded="md"
+                        shadow="sm"
+                        style={{ borderWidth: 1, borderColor: theme.colors.border.subtle }}
+                      >
+                        <Typography variant="h4">Card {index + 1}</Typography>
+                        <Typography variant="caption" style={{ marginTop: 4 }}>
+                          {item}
+                        </Typography>
+                      </Box>
+                    )}
+                  />
+                </Box>
+              </Box>
+
+              {/* Box spacer for FAB to not overlap content */}
+              <Box style={{ height: 80 }} />
+            </VStack>
+          </Box>
+        </VStack>
+      </Box>
+      {/* Closing Kitchen Sink Padding Box */}
       {/* FAB Floating */}
-      <FAB icon={<BoxIcon color="white" />} onPress={() => console.log('FAB')} label="New" />
-    </>
+      <FAB
+        icon={<BoxIcon color="white" size={24} />}
+        onPress={() => console.log('FAB')}
+        label="New"
+        style={{ position: 'absolute', right: 16, bottom: 16 }}
+      />
+    </Screen>
   );
 }
