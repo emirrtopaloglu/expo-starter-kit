@@ -9,6 +9,7 @@ This is a comprehensive starter kit for Universal React Native applications buil
 - **Absolute Paths**: Cleaner imports using the `@/` alias (e.g., `@/components/Test`).
 - **Lucide Icons**: Beautiful & consistent icons via `lucide-react-native`.
 - **State Management**: Simple and fast state management with **Zustand**.
+- **Splash Screen**: Configured with `expo-splash-screen` for smooth startup and manual control.
 - **UI Feedback**: Built-in support for **Haptics** and custom **Toast Notifications** (styled like react-hot-toast).
 - **Code Quality**: Pre-configured with **ESLint**, **Prettier**, **Husky**, and **Lint-staged** for robust coding standards.
 - **Storage Utilities**: Abstracted `AsyncStorage` and `Expo SecureStore` wrappers for data persistence.

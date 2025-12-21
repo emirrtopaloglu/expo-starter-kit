@@ -6,9 +6,14 @@ import {
   DefaultTheme,
 } from '@react-navigation/native';
 import { ThemeProvider, useTheme } from '@/context/ThemeContext';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '@/components/ui/ToastConfig';
 import '@/i18n'; // Initialize i18n
+
+// Prevent the splash screen from auto-hiding before asset loading is complete.
+SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 
@@ -32,6 +37,15 @@ function RootLayoutNav() {
  * Documentation: https://docs.expo.dev/router/layouts/
  */
 export default function RootLayout() {
+  useEffect(() => {
+    // Artificial delay for debugging splash screen (3 seconds)
+    const timer = setTimeout(() => {
+      SplashScreen.hideAsync();
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
