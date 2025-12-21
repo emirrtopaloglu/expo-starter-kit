@@ -16,9 +16,21 @@ import { Divider } from '@/components/ui/Divider';
 import { Switch } from '@/components/ui/Switch';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Radio } from '@/components/ui/Radio';
+import { ListItem } from '@/components/ui/ListItem';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { ProgressBar } from '@/components/ui/ProgressBar';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { Accordion } from '@/components/ui/Accordion';
+import { Modal } from '@/components/ui/Modal';
+import { BottomSheet } from '@/components/ui/BottomSheet';
+import { User, Settings, Heart, ChevronRight } from 'lucide-react-native';
+import { useState } from 'react';
 
 export default function DesignSystemScreen() {
   const { theme, setThemePreference, isDark } = useTheme();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleTheme = () => {
     setThemePreference(isDark ? 'light' : 'dark');
@@ -265,6 +277,145 @@ export default function DesignSystemScreen() {
               </Box>
             </VStack>
           </Box>
+
+          {/* Molecules & Organisms */}
+          <Box bg="paper" p="md" rounded="lg" shadow="sm">
+            <Typography variant="h2" style={{ marginBottom: 10 }}>
+              Molecules & Organisms
+            </Typography>
+            <VStack space="lg">
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Search & Lists
+                </Typography>
+                <VStack space="md">
+                  <SearchBar
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                    onClear={() => setSearchQuery('')}
+                  />
+                  <Box
+                    style={{
+                      borderWidth: 1,
+                      borderColor: theme.colors.border.subtle,
+                      borderRadius: theme.radius.md,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <ListItem
+                      title="Profile Settings"
+                      subtitle="Manage your account"
+                      leftIcon={<User size={20} color={theme.colors.primary} />}
+                      showChevron
+                    />
+                    <Divider />
+                    <ListItem
+                      title="General Settings"
+                      leftIcon={<Settings size={20} color={theme.colors.primary} />}
+                      showChevron
+                    />
+                  </Box>
+                </VStack>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Progress & Loading
+                </Typography>
+                <VStack space="md">
+                  <ProgressBar progress={45} />
+                  <ProgressBar progress={80} color={theme.colors.success.main} height={12} />
+                  <HStack space="md">
+                    <Skeleton width={50} height={50} variant="circle" />
+                    <VStack space="sm" style={{ flex: 1 }}>
+                      <Skeleton height={20} width="80%" />
+                      <Skeleton height={14} width="40%" />
+                    </VStack>
+                  </HStack>
+                </VStack>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Overlays & Collapsibles
+                </Typography>
+                <VStack space="md">
+                  <Accordion title="What is this?">
+                    <Typography variant="body">
+                      This is an accordion component. It uses LayoutAnimation for smooth expanding
+                      and collapsing.
+                    </Typography>
+                  </Accordion>
+                  <Accordion title="Can I customize it?">
+                    <Typography variant="body">
+                      Yes! You can put any content inside, including other components like buttons
+                      or lists.
+                    </Typography>
+                  </Accordion>
+
+                  <HStack space="md">
+                    <Button
+                      label="Open Modal"
+                      onPress={() => setModalOpen(true)}
+                      variant="outline"
+                    />
+                    <Button
+                      label="Open Sheet"
+                      onPress={() => setSheetOpen(true)}
+                      variant="outline"
+                    />
+                  </HStack>
+                </VStack>
+              </Box>
+            </VStack>
+          </Box>
+
+          {/* Modal & Sheet Implementations */}
+          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Example Modal">
+            <VStack space="md">
+              <Typography variant="body">
+                This is a fully accessible modal dialog. It has a backdrop, centered content, and
+                animation.
+              </Typography>
+              <HStack space="md" justify="flex-end">
+                <Button label="Cancel" variant="ghost" onPress={() => setModalOpen(false)} />
+                <Button label="Confirm" onPress={() => setModalOpen(false)} />
+              </HStack>
+            </VStack>
+          </Modal>
+
+          <BottomSheet isOpen={sheetOpen} onClose={() => setSheetOpen(false)} title="Bottom Sheet">
+            <VStack space="md">
+              <Typography variant="body">
+                Bottom sheets are great for mobile actions, menus, or secondary content.
+              </Typography>
+              <ListItem
+                title="Share"
+                leftIcon={
+                  <Box p="xs" bg={theme.colors.neutral[100]} rounded="full">
+                    <User size={16} color="black" />
+                  </Box>
+                }
+              />
+              <ListItem
+                title="Add to Favorites"
+                leftIcon={
+                  <Box p="xs" bg={theme.colors.neutral[100]} rounded="full">
+                    <Heart size={16} color="black" />
+                  </Box>
+                }
+              />
+              <Button
+                label="Close Sheet"
+                onPress={() => setSheetOpen(false)}
+                style={{ marginTop: 10 }}
+              />
+            </VStack>
+          </BottomSheet>
         </VStack>
       </ScrollView>
     </>
