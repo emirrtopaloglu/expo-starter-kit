@@ -1,14 +1,6 @@
 import React from 'react';
-import {
-  Pressable,
-  PressableProps,
-  StyleSheet,
-  ActivityIndicator,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
+import { Pressable, PressableProps, ActivityIndicator, ViewStyle } from 'react-native';
 import { useTheme } from '@/theme/ThemeContext';
-import { Theme } from '@/theme';
 import { Typography } from './Typography';
 import { Box } from './Box';
 
@@ -72,7 +64,7 @@ export function Button({
           ...base,
           backgroundColor: 'transparent',
           borderWidth: 1,
-          borderColor: theme.colors.border,
+          borderColor: theme.colors.border.default,
         };
       case 'ghost':
         return {

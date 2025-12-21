@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, TextInputProps, StyleSheet } from 'react-native';
+import { TextInput, TextInputProps } from 'react-native';
 import { useTheme } from '@/theme/ThemeContext';
 import { Box } from './Box';
 import { Typography } from './Typography';
@@ -38,7 +38,7 @@ export function Input({
           flexDirection: 'row',
           alignItems: 'center',
           borderWidth: 1,
-          borderColor: error ? theme.colors.error.main : theme.colors.border,
+          borderColor: error ? theme.colors.error.main : theme.colors.border.default,
           borderRadius: theme.radius.md,
           backgroundColor: theme.colors.background.paper,
           paddingHorizontal: theme.spacing.md,

@@ -52,7 +52,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       background: theme.colors.background.default,
       text: theme.colors.text.default,
       card: theme.colors.background.paper,
-      border: theme.colors.border,
+      border: theme.colors.border.default,
       primary: theme.colors.primary,
     },
   };
