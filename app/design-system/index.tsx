@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { Box } from '@/components/ui/Box';
 import { VStack, HStack } from '@/components/ui/Stack';
 import { Typography } from '@/components/ui/Typography';
@@ -46,6 +46,7 @@ import {
 
 export default function DesignSystemScreen() {
   const { theme, setThemePreference, isDark } = useTheme();
+  const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -596,6 +597,13 @@ export default function DesignSystemScreen() {
 
               {/* Box spacer for FAB to not overlap content */}
               <Box style={{ height: 80 }} />
+              <Box style={{ marginBottom: 40 }}>
+                <Button
+                  label="Test Permissions Manager"
+                  onPress={() => router.push('/design-system/permissions')}
+                  variant="outline"
+                />
+              </Box>
             </VStack>
           </Box>
         </VStack>
