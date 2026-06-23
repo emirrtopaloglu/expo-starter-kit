@@ -1,4 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
+import { biometrics } from './biometrics';
 
 /**
  * SecureStorage utility for handling sensitive data operations.
@@ -43,4 +44,40 @@ export const secureStorage = {
       console.error(`Error removing secure item for key "${key}":`, error);
     }
   },
+
+  /**
+   * Save a sensitive string value to secure storage.
+   * This is conceptually grouped for biometric lock gates.
+   */
+  setItemSecured: async (key: string, value: string): Promise<void> => {
+    await secureStorage.setItem(key, value);
+  },
+
+  /**
+   * Retrieve a sensitive string value from secure storage ONLY after successful biometric authentication.
+   * @param key The key to retrieve.
+   * @param promptMessage Prompt message presented during biometric scan.
+   */
+  getItemSecured: async (
+    key: string,
+    promptMessage: string = 'Please authenticate to access secure credentials'
+  ): Promise<string | null> => {
+    const isSupported = await biometrics.isSupported();
+    if (!isSupported) {
+      // Fallback: If biometrics is not enrolled/supported, return null to protect data,
+      // or optionally fallback to default read depending on project requirements.
+      // Here we log and return null as we want strict biometric gate check.
+      console.warn('Biometrics: Not supported or enrolled. Denying secured storage read.');
+      return null;
+    }
+
+    const authenticated = await biometrics.authenticate(promptMessage);
+    if (!authenticated) {
+      console.warn('Biometrics: Authentication failed. Denying secured storage read.');
+      return null;
+    }
+
+    return await secureStorage.getItem(key);
+  },
 };
+

@@ -24,5 +24,9 @@
       "camera": "Kamerayı Aç / Fotoğraf Çek",
       "gallery": "Galeriden Seç",
       "cancel": "İptal"
+    },
+    "update": {
+      "available": "Yeni bir güncelleme mevcut. Yeniden başlatmak için tıklayın.",
+      "downloading": "Güncelleme indiriliyor..."
     }
 }

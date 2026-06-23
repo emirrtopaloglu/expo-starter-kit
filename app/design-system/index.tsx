@@ -45,6 +45,10 @@ import { secureStorage } from '@/utils/secureStorage';
 import client from '@/api/client';
 import { useTranslation } from 'react-i18next';
 import { actionSheet } from '@/utils/actionSheet';
+import { biometrics } from '@/utils/biometrics';
+import { storeReview } from '@/utils/storeReview';
+import { share } from '@/utils/share';
+import { useAppUpdate } from '@/hooks/useAppUpdate';
 import {
   AlertCircle,
   Box as BoxIcon,
@@ -74,6 +78,21 @@ export default function DesignSystemScreen() {
 
   React.useEffect(() => {
     loadSecureTokens();
+  }, []);
+
+  // Native integration states
+  const { triggerSimulatedUpdate } = useAppUpdate();
+  const [biometricSupported, setBiometricSupported] = useState<boolean | null>(null);
+  const [secretInput, setSecretInput] = useState('Vault Access Granted: Gold Vault Key #4492');
+  const [retrievedSecured, setRetrievedSecured] = useState<string | null>(null);
+
+  // Check biometric support status on mount
+  React.useEffect(() => {
+    async function checkSupport() {
+      const isAvailable = await biometrics.isSupported();
+      setBiometricSupported(isAvailable);
+    }
+    checkSupport();
   }, []);
 
   if (shouldCrash) {
@@ -1051,6 +1070,167 @@ export default function DesignSystemScreen() {
                         }}
                       />
                     </Box>
+                  </Card>
+
+                  {/* Advanced Native Features Showcase Card */}
+                  <Card>
+                    <VStack space="sm">
+                      <Typography variant="body" style={{ fontWeight: '700' }}>
+                        Advanced Native Integrations
+                      </Typography>
+                      <Typography variant="bodySmall" color={theme.colors.text.subtle}>
+                        Explore boilerplate helpers for In-App Updates, In-App Reviews, Biometric Secure Storage, Share API, and Pull-to-Refresh.
+                      </Typography>
+                      <Divider />
+
+                      {/* 1. App Updates (EAS Updates) */}
+                      <VStack space="xs">
+                        <Typography variant="bodySmall" style={{ fontWeight: '600' }}>
+                          1. EAS In-App Updates
+                        </Typography>
+                        <Typography variant="caption" color={theme.colors.text.subtle}>
+                          Simulate receiving a background update notification. Clicking the floating banner triggers `Updates.reloadAsync()`.
+                        </Typography>
+                        <Button
+                          label="Simulate Update Available"
+                          size="sm"
+                          variant="outline"
+                          onPress={() => {
+                            triggerSimulatedUpdate();
+                            toast.info('Updates Simulator', 'Floating update banner has been triggered at the top of the screen!');
+                          }}
+                          style={{ marginTop: 4 }}
+                        />
+                      </VStack>
+                      <Divider />
+
+                      {/* 2. In-App Review */}
+                      <VStack space="xs">
+                        <Typography variant="bodySmall" style={{ fontWeight: '600' }}>
+                          2. In-App Review (expo-store-review)
+                        </Typography>
+                        <Typography variant="caption" color={theme.colors.text.subtle}>
+                          Request in-app rating dialogue. If supported and enrolled by Apple/Google policies, the native rating prompt opens directly.
+                        </Typography>
+                        <Button
+                          label="Trigger Store Review Prompt"
+                          size="sm"
+                          variant="outline"
+                          onPress={async () => {
+                            toast.info('Store Review', 'Requesting native store review prompt...');
+                            const success = await storeReview.requestReview();
+                            if (success) {
+                              toast.success('Store Review', 'Review request completed successfully.');
+                            } else {
+                              toast.info('Store Review', 'Review prompt is not available or has been rate-limited.');
+                            }
+                          }}
+                          style={{ marginTop: 4 }}
+                        />
+                      </VStack>
+                      <Divider />
+
+                      {/* 3. Pull-To-Refresh */}
+                      <VStack space="xs">
+                        <Typography variant="bodySmall" style={{ fontWeight: '600' }}>
+                          3. Pull-To-Refresh (Themed FlashList)
+                        </Typography>
+                        <Typography variant="caption" color={theme.colors.text.subtle}>
+                          High-performance list scrolling with integrated theme-aware `RefreshControl` spinner and haptics logic.
+                        </Typography>
+                        <Button
+                          label="Go to Todo List Demo"
+                          size="sm"
+                          variant="outline"
+                          onPress={() => router.push('/list')}
+                          style={{ marginTop: 4 }}
+                        />
+                      </VStack>
+                      <Divider />
+
+                      {/* 4. Secure Biometric Storage */}
+                      <VStack space="xs">
+                        <Typography variant="bodySmall" style={{ fontWeight: '600' }}>
+                          4. Biometric Storage (expo-local-authentication)
+                        </Typography>
+                        <Typography variant="caption" color={theme.colors.text.subtle}>
+                          Store sensitive data encrypted and retrieve it behind device fingerprint/face verification checks.
+                        </Typography>
+                        <Typography variant="caption" style={{ fontWeight: '500', color: biometricSupported ? theme.colors.success.main : theme.colors.error.main }}>
+                          Biometrics Support: {biometricSupported === null ? 'Checking...' : biometricSupported ? 'AVAILABLE' : 'NOT SUPPORTED / ENROLLED'}
+                        </Typography>
+
+                        <Input
+                          label="Secret Key Content"
+                          value={secretInput}
+                          onChangeText={setSecretInput}
+                          placeholder="Type secret value here"
+                        />
+
+                        <HStack space="sm" style={{ marginTop: 6 }}>
+                          <Button
+                            label="Save Biometrically"
+                            size="sm"
+                            style={{ flex: 1 }}
+                            onPress={async () => {
+                              await secureStorage.setItemSecured('vault_secret', secretInput);
+                              toast.success('SecureStore', 'Secret value saved securely.');
+                            }}
+                          />
+                          <Button
+                            label="Retrieve"
+                            size="sm"
+                            variant="outline"
+                            style={{ flex: 1 }}
+                            onPress={async () => {
+                              toast.info('SecureStore', 'Authenticating via TouchID/FaceID...');
+                              const val = await secureStorage.getItemSecured('vault_secret', 'Verify identity to view vault data');
+                              if (val !== null) {
+                                setRetrievedSecured(val);
+                                toast.success('Vault Read', 'Credentials decrypted successfully.');
+                              } else {
+                                toast.error('Vault Read', 'Failed to retrieve secret (Auth failed/not enrolled).');
+                              }
+                            }}
+                          />
+                        </HStack>
+                        {retrievedSecured && (
+                          <Box bg={theme.colors.background.subtle} p="sm" rounded="sm" style={{ marginTop: 8 }}>
+                            <Typography variant="caption" style={{ fontWeight: '600' }}>
+                              Retrieved Value:
+                            </Typography>
+                            <Typography variant="bodySmall">{retrievedSecured}</Typography>
+                          </Box>
+                        )}
+                      </VStack>
+                      <Divider />
+
+                      {/* 5. Share API */}
+                      <VStack space="xs">
+                        <Typography variant="bodySmall" style={{ fontWeight: '600' }}>
+                          5. Share API (utils/share.ts)
+                        </Typography>
+                        <Typography variant="caption" color={theme.colors.text.subtle}>
+                          Trigger native system sharing drawer. Works for links, images, and text.
+                        </Typography>
+                        <Button
+                          label="Share Expo Starter Kit Link"
+                          size="sm"
+                          variant="outline"
+                          onPress={async () => {
+                            const success = await share.shareUrl(
+                              'https://github.com/emirrtopaloglu/expo-starter-kit',
+                              'Check out this premium Expo SDK 54 Starter Kit!',
+                              'Expo Starter Kit'
+                            );
+                            if (success) {
+                              toast.success('Share API', 'Native sharing drawer dismissed.');
+                            }
+                          }}
+                          style={{ marginTop: 4 }}
+                        />
+                      </VStack>
+                    </VStack>
                   </Card>
 
                   {/* Crash Screen Trigger Card */}

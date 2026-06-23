@@ -24,5 +24,9 @@
       "camera": "Take Photo / Open Camera",
       "gallery": "Choose from Gallery",
       "cancel": "Cancel"
+    },
+    "update": {
+      "available": "A new update is available. Click to relaunch.",
+      "downloading": "Downloading update..."
     }
 }

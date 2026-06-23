@@ -3879,6 +3879,13 @@ expo-linking@~8.0.11:
     expo-constants "~18.0.13"
     invariant "^2.2.4"
 
+expo-local-authentication@~17.0.8:
+  version "17.0.8"
+  resolved "https://registry.yarnpkg.com/expo-local-authentication/-/expo-local-authentication-17.0.8.tgz#ca1ffee71566a02995f4a10d2181803724619db7"
+  integrity sha512-Q5fXHhu6w3pVPlFCibU72SYIAN+9wX7QpFn9h49IUqs0Equ44QgswtGrxeh7fdnDqJrrYGPet5iBzjnE70uolA==
+  dependencies:
+    invariant "^2.2.4"
+
 expo-localization@^17.0.8:
   version "17.0.9"
   resolved "https://registry.yarnpkg.com/expo-localization/-/expo-localization-17.0.9.tgz#92b2827a4b68e42c0cd0ad1d3f1abf0ebe50a4a0"
@@ -3987,6 +3994,11 @@ expo-status-bar@~3.0.9:
   integrity sha512-xyYyVg6V1/SSOZWh4Ni3U129XHCnFHBTcUo0dhWtFDrZbNp/duw5AGsQfb2sVeU0gxWHXSY1+5F0jnKYC7WuOw==
   dependencies:
     react-native-is-edge-to-edge "^1.2.1"
+
+expo-store-review@~9.0.9:
+  version "9.0.9"
+  resolved "https://registry.yarnpkg.com/expo-store-review/-/expo-store-review-9.0.9.tgz#7ad05f63175ddbecef78edc32b45fd745e36caa7"
+  integrity sha512-99vS7edXlKzPcdjrzVlMQWc4zOyq4khQfFjhNqJgpGP+AgRn4U0LaZkHIrVjmzolryD3rcHJSiUQH9Vi0sD0MQ==
 
 expo-structured-headers@~5.0.0:
   version "5.0.0"

@@ -1,104 +1,101 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { RefreshControl, Pressable } from 'react-native';
 import { Stack } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { useStore } from '@/store/useStore';
 import { Trash2, Plus } from 'lucide-react-native';
 import { useTheme } from '@/theme/ThemeContext';
+import { Screen } from '@/components/ui/Screen';
+import { Box } from '@/components/ui/Box';
+import { HStack, VStack } from '@/components/ui/Stack';
+import { Typography } from '@/components/ui/Typography';
+import { Button } from '@/components/ui/Button';
+import { toast } from '@/utils/toast';
+import { haptics } from '@/utils/haptics';
 
 export default function ListScreen() {
   const { items, addItem, removeItem } = useStore();
   const { theme } = useTheme();
-  const styles = getStyles(theme.mode);
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleAddItem = () => {
+    haptics.impact();
     addItem(`New Item ${items.length + 1}`);
+    toast.success('Task Added', `Successfully created "New Item ${items.length + 1}"`);
   };
 
+  const handleRemoveItem = (id: string, title: string) => {
+    haptics.notification(haptics.Notification.Warning);
+    removeItem(id);
+    toast.success('Task Removed', `Successfully deleted "${title}"`);
+  };
+
+  const handleRefresh = useCallback(() => {
+    haptics.impact();
+    setRefreshing(true);
+    // Simulate refetching from server (e.g. standard React Query behavior)
+    setTimeout(() => {
+      setRefreshing(false);
+      haptics.notification(haptics.Notification.Success);
+      toast.success('Refreshed', 'Todo list has been synced successfully.');
+    }, 1500);
+  }, []);
+
   return (
-    <View style={styles.container}>
+    <Screen backgroundColor={theme.colors.background.default}>
       <Stack.Screen options={{ title: 'Todo List' }} />
 
-      <View style={styles.header}>
-        <Text style={styles.title}>My Tasks</Text>
-        <Pressable onPress={handleAddItem} style={styles.addButton}>
-          <Plus color="white" size={20} />
-          <Text style={styles.addButtonText}>Add</Text>
-        </Pressable>
-      </View>
+      <Box p="md" style={{ flex: 1 }}>
+        <HStack justify="space-between" align="center" style={{ marginBottom: theme.spacing.md }}>
+          <Typography variant="h2">My Tasks</Typography>
+          <Button
+            label="Add"
+            size="sm"
+            leftIcon={<Plus color="white" size={16} />}
+            onPress={handleAddItem}
+          />
+        </HStack>
 
-      <View style={styles.listContainer}>
-        <FlashList
-          data={items}
-          renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
-              <Text style={styles.itemText}>{item.title}</Text>
-              <Pressable onPress={() => removeItem(item.id)}>
-                <Trash2 color="red" size={20} />
-              </Pressable>
-            </View>
-          )}
-          // @ts-ignore
-          estimatedItemSize={50}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-    </View>
+        <Box style={{ flex: 1, height: '100%', width: '100%' }}>
+          <FlashList
+            data={items}
+            renderItem={({ item }) => (
+              <Box
+                bg="paper"
+                p="md"
+                rounded="md"
+                shadow="sm"
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: theme.spacing.sm,
+                }}
+              >
+                <Typography variant="body" style={{ flex: 1, marginRight: theme.spacing.md }}>
+                  {item.title}
+                </Typography>
+                <Pressable onPress={() => handleRemoveItem(item.id, item.title)}>
+                  <Trash2 color={theme.colors.error.main} size={20} />
+                </Pressable>
+              </Box>
+            )}
+            // @ts-ignore
+            estimatedItemSize={60}
+            keyExtractor={(item) => item.id}
+            refreshControl={
+              <RefreshControl
+                key={theme.mode}
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+                colors={[theme.mode === 'dark' ? '#FFFFFF' : theme.colors.primary]}
+                tintColor={theme.mode === 'dark' ? '#FFFFFF' : theme.colors.primary}
+                progressBackgroundColor={theme.mode === 'dark' ? theme.colors.primary : '#FFFFFF'}
+              />
+            }
+          />
+        </Box>
+      </Box>
+    </Screen>
   );
 }
-
-const getStyles = (theme: 'light' | 'dark') =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme === 'dark' ? '#121212' : '#f5f5f5',
-      padding: 20,
-    },
-    header: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 20,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: theme === 'dark' ? '#fff' : '#000',
-    },
-    addButton: {
-      backgroundColor: '#007AFF',
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingHorizontal: 12,
-      paddingVertical: 8,
-      borderRadius: 8,
-      gap: 5,
-    },
-    addButtonText: {
-      color: 'white',
-      fontWeight: 'bold',
-    },
-    listContainer: {
-      flex: 1,
-      height: '100%',
-      width: '100%',
-    },
-    itemContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      backgroundColor: theme === 'dark' ? '#1e1e1e' : 'white',
-      padding: 15,
-      borderRadius: 10,
-      marginBottom: 10,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-      elevation: 2,
-    },
-    itemText: {
-      fontSize: 16,
-      color: theme === 'dark' ? '#fff' : '#000',
-    },
-  });
