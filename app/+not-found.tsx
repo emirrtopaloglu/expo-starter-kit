@@ -67,7 +67,7 @@ export default function NotFoundScreen() {
                 variant="body"
                 color={theme.colors.text.subtle}
                 align="center"
-                style={{ px: theme.spacing.md }}
+                style={{ paddingHorizontal: theme.spacing.md }}
               >
                 {t('notFound.description')}
               </Typography>

@@ -319,7 +319,10 @@ export default function DesignSystemScreen() {
               {/* Image */}
               <Box>
                 <Typography variant="h4" style={{ marginBottom: 8 }}>
-                  Image (Cached)
+                  Image (Cached, Loading & Error States)
+                </Typography>
+                <Typography variant="bodySmall" color={theme.colors.text.subtle} style={{ marginBottom: 8 }}>
+                  Features automatic disk-caching, blurhash, loading skeletons, and error placeholders.
                 </Typography>
                 <HStack style={{ gap: 16 }}>
                   <Image
@@ -332,6 +335,11 @@ export default function DesignSystemScreen() {
                     source="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                     style={{ width: 80, height: 80 }}
                     rounded="full"
+                  />
+                  <Image
+                    source="https://invalid-image-url-test.com/broken.png"
+                    style={{ width: 80, height: 80 }}
+                    rounded="md"
                   />
                 </HStack>
               </Box>
@@ -665,7 +673,7 @@ export default function DesignSystemScreen() {
                 
                 <VStack space="md">
                   {/* Network Indicator Simulation Card */}
-                  <Card p="md">
+                  <Card>
                     <VStack space="sm">
                       <Typography variant="body" style={{ fontWeight: '700' }}>
                         Network Status & Simulation
@@ -712,7 +720,7 @@ export default function DesignSystemScreen() {
                   </Card>
 
                   {/* Empty State Preview */}
-                  <Card p="md">
+                  <Card>
                     <Typography variant="body" style={{ fontWeight: '700', marginBottom: 8 }}>
                       EmptyState Component Preview
                     </Typography>
@@ -733,7 +741,7 @@ export default function DesignSystemScreen() {
                   </Card>
 
                   {/* Error State Preview */}
-                  <Card p="md">
+                  <Card>
                     <Typography variant="body" style={{ fontWeight: '700', marginBottom: 8 }}>
                       ErrorState Component Preview
                     </Typography>
@@ -747,7 +755,7 @@ export default function DesignSystemScreen() {
                       }}
                     >
                       <ErrorState
-                        error="Failed to load transaction history."
+                        description="Failed to load transaction history."
                         onRetry={() => {
                           toast.success('Retry Triggered', 'Refreshing network data...');
                         }}
@@ -756,7 +764,7 @@ export default function DesignSystemScreen() {
                   </Card>
 
                   {/* Crash Screen Trigger Card */}
-                  <Card p="md" style={{ borderColor: theme.colors.error.main, borderWidth: 1 }}>
+                  <Card style={{ borderColor: theme.colors.error.main, borderWidth: 1 }}>
                     <VStack space="sm">
                       <Typography variant="body" style={{ fontWeight: '700' }} color={theme.colors.error.main}>
                         Global Error Boundary & Crash Test
@@ -773,7 +781,7 @@ export default function DesignSystemScreen() {
                   </Card>
 
                   {/* 404 Not Found Page Test Card */}
-                  <Card p="md">
+                  <Card>
                     <VStack space="sm">
                       <Typography variant="body" style={{ fontWeight: '700' }}>
                         404 Screen Test
