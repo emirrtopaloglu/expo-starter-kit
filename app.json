@@ -14,15 +14,36 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "//": "iOS Associated Domains are used for Universal Links. Replace with your bundle ID and domains.",
+      "bundleIdentifier": "com.yourcompany.expostarterkit",
+      "associatedDomains": ["applinks:yourdomain.com"]
     },
     "android": {
+      "package": "com.yourcompany.expostarterkit",
+      "//": "Android Intent Filters are used for App Links. Replace with your package name and domains.",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.yourdomain.com"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
