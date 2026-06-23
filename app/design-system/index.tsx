@@ -80,7 +80,17 @@ export default function DesignSystemScreen() {
   };
 
   return (
-    <Screen preset="scroll" backgroundColor={theme.colors.background.default}>
+    <Screen
+      preset="scroll"
+      backgroundColor={theme.colors.background.default}
+      floatingContent={
+        <FAB
+          icon={<BoxIcon color="white" size={24} />}
+          onPress={() => console.log('FAB')}
+          label="New"
+        />
+      }
+    >
       <Stack.Screen options={{ title: 'Design System' }} />
       <Box p="md">
         <VStack space="xl">
@@ -775,14 +785,6 @@ export default function DesignSystemScreen() {
           </Box>
         </VStack>
       </Box>
-      {/* Closing Kitchen Sink Padding Box */}
-      {/* FAB Floating */}
-      <FAB
-        icon={<BoxIcon color="white" size={24} />}
-        onPress={() => console.log('FAB')}
-        label="New"
-        style={{ position: 'absolute', right: 16, bottom: 16 }}
-      />
     </Screen>
   );
 }

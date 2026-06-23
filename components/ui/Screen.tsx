@@ -15,6 +15,7 @@ import { HeaderHeightContext } from '@react-navigation/elements';
 
 interface ScreenProps {
   children?: React.ReactNode;
+  floatingContent?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
   safeAreaEdges?: SafeAreaViewProps['edges'];
@@ -26,6 +27,7 @@ interface ScreenProps {
 
 export const Screen = ({
   children,
+  floatingContent,
   style,
   contentContainerStyle,
   safeAreaEdges,
@@ -72,6 +74,7 @@ export const Screen = ({
         ) : (
           <View style={[{ flex: 1 }, contentContainerStyle]}>{children}</View>
         )}
+        {floatingContent}
       </KeyboardAvoidingView>
     </Wrapper>
   );
