@@ -6,8 +6,16 @@
     "list": "Yapılacaklar Listesine Git (Zustand + FlashList)",
     "form": "Form Demosuna Git (React Hook Form + Zod)"
   },
-  "language": {
-    "current": "Mevcut Dil: {{lang}}",
-    "switch": "Dili Değiştir"
-  }
+    "language": {
+      "current": "Mevcut Dil: {{lang}}",
+      "switch": "Dili Değiştir"
+    },
+    "network": {
+      "offline": "İnternet Bağlantısı Yok"
+    },
+    "notFound": {
+      "title": "Sayfa Bulunamadı",
+      "description": "Aradığınız sayfa mevcut değil veya başka bir yere taşınmış olabilir.",
+      "backHome": "Ana Sayfaya Dön"
+    }
 }

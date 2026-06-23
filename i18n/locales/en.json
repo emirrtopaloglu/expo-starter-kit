@@ -6,8 +6,16 @@
     "list": "Go to Todo List (Zustand + FlashList)",
     "form": "Go to Form Demo (React Hook Form + Zod)"
   },
-  "language": {
-    "current": "Current Language: {{lang}}",
-    "switch": "Switch Language"
-  }
+    "language": {
+      "current": "Current Language: {{lang}}",
+      "switch": "Switch Language"
+    },
+    "network": {
+      "offline": "No Internet Connection"
+    },
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you are looking for does not exist or has been moved.",
+      "backHome": "Go Back Home"
+    }
 }

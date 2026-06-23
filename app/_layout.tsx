@@ -19,6 +19,7 @@ import Toast from 'react-native-toast-message';
 import { toastConfig } from '@/components/ui/ToastConfig';
 import '@/i18n'; // Initialize i18n
 import { GlobalErrorBoundary } from '@/components/GlobalErrorBoundary';
+import { NetworkBanner } from '@/components/NetworkBanner';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -72,6 +73,7 @@ export default function RootLayout() {
         <GlobalErrorBoundary>
           <RootLayoutNav />
         </GlobalErrorBoundary>
+        <NetworkBanner />
         <Toast config={toastConfig} />
       </QueryClientProvider>
     </ThemeProvider>

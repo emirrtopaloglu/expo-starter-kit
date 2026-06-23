@@ -36,6 +36,8 @@ import { DatePicker } from '@/components/ui/DatePicker';
 import { Screen } from '@/components/ui/Screen';
 import { MasonryList } from '@/components/ui/MasonryList';
 import { Image } from '@/components/ui/Image';
+import { useNetworkStore } from '@/store/useNetworkStore';
+import { toast } from '@/utils/toast';
 import {
   AlertCircle,
   Box as BoxIcon,
@@ -48,6 +50,13 @@ import {
 export default function DesignSystemScreen() {
   const { theme, setThemePreference, isDark } = useTheme();
   const router = useRouter();
+  const { isConnected, isSimulatedOffline, setSimulatedOffline } = useNetworkStore();
+  const [shouldCrash, setShouldCrash] = useState(false);
+
+  if (shouldCrash) {
+    throw new Error('Simulated developer crash to test GlobalErrorBoundary.');
+  }
+
   const [modalOpen, setModalOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -614,6 +623,143 @@ export default function DesignSystemScreen() {
                     )}
                   />
                 </Box>
+              </Box>
+
+              <Divider />
+
+              {/* State & Connection Demos */}
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 12 }}>
+                  State & Connection Demos (NetInfo & State Fallbacks)
+                </Typography>
+                
+                <VStack space="md">
+                  {/* Network Indicator Simulation Card */}
+                  <Card p="md">
+                    <VStack space="sm">
+                      <Typography variant="body" style={{ fontWeight: '700' }}>
+                        Network Status & Simulation
+                      </Typography>
+                      <Typography variant="bodySmall" color={theme.colors.text.subtle}>
+                        Toggle simulated offline mode to see the dropdown connection warning banner at the top of the screen in real-time.
+                      </Typography>
+                      <HStack align="center" justify="space-between" style={{ marginTop: 8 }}>
+                        <HStack space="xs" align="center">
+                          <Typography variant="bodySmall" style={{ fontWeight: '500' }}>
+                            Status:
+                          </Typography>
+                          <Box
+                            style={{
+                              backgroundColor: isConnected ? theme.colors.success.light : theme.colors.error.light,
+                              paddingHorizontal: 8,
+                              paddingVertical: 2,
+                              borderRadius: theme.radius.sm,
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              style={{
+                                color: isConnected ? theme.colors.success.dark : theme.colors.error.dark,
+                                fontWeight: '700',
+                              }}
+                            >
+                              {isConnected ? 'ONLINE' : 'OFFLINE'}
+                            </Typography>
+                          </Box>
+                        </HStack>
+                        <HStack space="sm" align="center">
+                          <Typography variant="bodySmall" color={theme.colors.text.subtle}>
+                            Simulate Offline
+                          </Typography>
+                          <Switch
+                            value={isSimulatedOffline}
+                            onValueChange={(val) => setSimulatedOffline(val)}
+                            trackColor={{ false: theme.colors.neutral[300], true: theme.colors.primary }}
+                          />
+                        </HStack>
+                      </HStack>
+                    </VStack>
+                  </Card>
+
+                  {/* Empty State Preview */}
+                  <Card p="md">
+                    <Typography variant="body" style={{ fontWeight: '700', marginBottom: 8 }}>
+                      EmptyState Component Preview
+                    </Typography>
+                    <Box
+                      style={{
+                        borderWidth: 1,
+                        borderColor: theme.colors.border.subtle,
+                        borderRadius: theme.radius.md,
+                        padding: theme.spacing.md,
+                        backgroundColor: theme.colors.background.default,
+                      }}
+                    >
+                      <EmptyState
+                        title="No Notifications Yet"
+                        description="We will let you know when something exciting happens."
+                      />
+                    </Box>
+                  </Card>
+
+                  {/* Error State Preview */}
+                  <Card p="md">
+                    <Typography variant="body" style={{ fontWeight: '700', marginBottom: 8 }}>
+                      ErrorState Component Preview
+                    </Typography>
+                    <Box
+                      style={{
+                        borderWidth: 1,
+                        borderColor: theme.colors.border.subtle,
+                        borderRadius: theme.radius.md,
+                        padding: theme.spacing.md,
+                        backgroundColor: theme.colors.background.default,
+                      }}
+                    >
+                      <ErrorState
+                        error="Failed to load transaction history."
+                        onRetry={() => {
+                          toast.success('Retry Triggered', 'Refreshing network data...');
+                        }}
+                      />
+                    </Box>
+                  </Card>
+
+                  {/* Crash Screen Trigger Card */}
+                  <Card p="md" style={{ borderColor: theme.colors.error.main, borderWidth: 1 }}>
+                    <VStack space="sm">
+                      <Typography variant="body" style={{ fontWeight: '700' }} color={theme.colors.error.main}>
+                        Global Error Boundary & Crash Test
+                      </Typography>
+                      <Typography variant="bodySmall" color={theme.colors.text.subtle}>
+                        Simulate a render-time JS crash. The app will catch it and show the CrashScreen fallback UI with a Restart button.
+                      </Typography>
+                      <Button
+                        label="Trigger Javascript Crash"
+                        onPress={() => setShouldCrash(true)}
+                        style={{ backgroundColor: theme.colors.error.main, marginTop: 8 }}
+                      />
+                    </VStack>
+                  </Card>
+
+                  {/* 404 Not Found Page Test Card */}
+                  <Card p="md">
+                    <VStack space="sm">
+                      <Typography variant="body" style={{ fontWeight: '700' }}>
+                        404 Screen Test
+                      </Typography>
+                      <Typography variant="bodySmall" color={theme.colors.text.subtle}>
+                        Navigate to a non-existent route to test the custom fully localized 404 (Not Found) screen.
+                      </Typography>
+                      <Button
+                        label="Go to Non-Existent Route"
+                        onPress={() => router.push('/non-existent-route-test')}
+                        variant="outline"
+                        style={{ marginTop: 8 }}
+                      />
+                    </VStack>
+                  </Card>
+                </VStack>
               </Box>
 
               {/* Box spacer for FAB to not overlap content */}
