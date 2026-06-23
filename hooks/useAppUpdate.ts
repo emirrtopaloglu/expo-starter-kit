@@ -44,8 +44,13 @@ export function useAppUpdate() {
   } = useUpdateStore();
 
   const checkForUpdate = useCallback(async () => {
+    // In development mode (Expo Go, local simulator runs), bypass native updates check completely to prevent Expo Go warning errors
+    if (__DEV__) {
+      return;
+    }
+
     // If update simulation is active, skip real checks
-    if (isSimulated || __DEV__) {
+    if (isSimulated) {
       if (isUpdateAvailable) return;
     }
 

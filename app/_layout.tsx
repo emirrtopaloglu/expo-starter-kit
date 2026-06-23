@@ -22,6 +22,8 @@ import { GlobalErrorBoundary } from '@/components/GlobalErrorBoundary';
 import { NetworkBanner } from '@/components/NetworkBanner';
 import { AppUpdateBanner } from '@/components/AppUpdateBanner';
 
+import { useAuthStore } from '@/store/useAuthStore';
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -35,8 +37,9 @@ function RootLayoutNav() {
 
   return (
     <NavigationThemeProvider value={theme.mode === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ title: 'Home' }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(protected)" />
+        <Stack.Screen name="(auth)" />
       </Stack>
     </NavigationThemeProvider>
   );
@@ -50,12 +53,19 @@ function RootLayoutNav() {
  * Documentation: https://docs.expo.dev/router/layouts/
  */
 export default function RootLayout() {
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+  
   const [fontsLoaded] = useFonts({
     PlusJakartaSans_400Regular,
     PlusJakartaSans_500Medium,
     PlusJakartaSans_600SemiBold,
     PlusJakartaSans_700Bold,
   });
+
+  useEffect(() => {
+    // pre-emptively load credentials from secure storage
+    initializeAuth();
+  }, [initializeAuth]);
 
   useEffect(() => {
     if (fontsLoaded) {

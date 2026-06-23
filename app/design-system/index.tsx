@@ -41,7 +41,9 @@ import { useNetworkStore } from '@/store/useNetworkStore';
 import { toast } from '@/utils/toast';
 import { Header } from '@/components/ui/Header';
 import { useStore } from '@/store/useStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { secureStorage } from '@/utils/secureStorage';
+import { tokenManager } from '@/utils/tokenManager';
 import client from '@/api/client';
 import { useTranslation } from 'react-i18next';
 import { actionSheet } from '@/utils/actionSheet';
@@ -63,22 +65,30 @@ export default function DesignSystemScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { isConnected, isSimulatedOffline, setSimulatedOffline } = useNetworkStore();
-  const { isLoggedIn, language: storeLanguage, setLoggedIn, setLanguage } = useStore();
+  const { language: storeLanguage, setLanguage } = useStore();
+  const { isAuthenticated, user, logout: logoutGlobal } = useAuthStore();
   const [shouldCrash, setShouldCrash] = useState(false);
 
   const [storedAccessToken, setStoredAccessToken] = useState<string | null>(null);
   const [storedRefreshToken, setStoredRefreshToken] = useState<string | null>(null);
+  const [tokenExpiry, setTokenExpiry] = useState<number | null>(null);
+  const [isExpired, setIsExpired] = useState<boolean>(true);
 
   const loadSecureTokens = async () => {
-    const access = await secureStorage.getItem('access_token');
-    const refresh = await secureStorage.getItem('refresh_token');
+    const access = await tokenManager.getAccessToken();
+    const refresh = await tokenManager.getRefreshToken();
+    const expiry = await tokenManager.getExpiryTime();
+    const expired = await tokenManager.isTokenExpired();
+    
     setStoredAccessToken(access);
     setStoredRefreshToken(refresh);
+    setTokenExpiry(expiry);
+    setIsExpired(expired);
   };
 
   React.useEffect(() => {
     loadSecureTokens();
-  }, []);
+  }, [isAuthenticated]);
 
   // Native integration states
   const { triggerSimulatedUpdate } = useAppUpdate();
@@ -159,6 +169,7 @@ export default function DesignSystemScreen() {
     >
       <Stack.Screen
         options={{
+          headerShown: true,
           header: () => (
             <Header
               title="Design System"
@@ -854,37 +865,51 @@ export default function DesignSystemScreen() {
                   <Card>
                     <VStack space="sm">
                       <Typography variant="body" style={{ fontWeight: '700' }}>
-                        Zustand Persisted State (AsyncStorage)
+                        Zustand Persisted Auth State (AsyncStorage)
                       </Typography>
                       <Typography variant="bodySmall" color={theme.colors.text.subtle}>
-                        Login status and language selection are stored persistently in AsyncStorage. Close and reopen the app to verify state persistence.
+                        Login status and user profile data are persistently stored in AsyncStorage, surviving app reboots.
                       </Typography>
 
                       <HStack align="center" justify="space-between" style={{ marginTop: 8 }}>
                         <HStack space="xs" align="center">
                           <Typography variant="bodySmall" style={{ fontWeight: '500' }}>
-                            Login Status:
+                            Auth Status:
                           </Typography>
                           <Typography
                             variant="bodySmall"
                             style={{ fontWeight: '700' }}
-                            color={isLoggedIn ? theme.colors.success.main : theme.colors.error.main}
+                            color={isAuthenticated ? theme.colors.success.main : theme.colors.error.main}
                           >
-                            {isLoggedIn ? 'LOGGED IN' : 'LOGGED OUT'}
+                            {isAuthenticated ? 'AUTHENTICATED' : 'GUEST'}
                           </Typography>
                         </HStack>
                         <Button
-                          label={isLoggedIn ? 'Log Out' : 'Log In'}
+                          label={isAuthenticated ? 'Log Out' : 'Go to Login'}
                           size="sm"
                           variant="outline"
-                          onPress={() => {
-                            setLoggedIn(!isLoggedIn);
-                            toast.success('Zustand Persist', isLoggedIn ? 'Logged out successfully!' : 'Logged in successfully!');
+                          onPress={async () => {
+                            if (isAuthenticated) {
+                              await logoutGlobal();
+                              toast.success('Auth System', 'Logged out successfully!');
+                            } else {
+                              router.push('/login');
+                            }
                           }}
                         />
                       </HStack>
 
-                      <HStack align="center" justify="space-between" style={{ marginTop: 8 }}>
+                      {isAuthenticated && user && (
+                        <VStack space="xs" style={{ marginTop: 4 }}>
+                          <Typography variant="caption" color={theme.colors.text.subtle}>
+                            User Profile: {user.name} ({user.email})
+                          </Typography>
+                        </VStack>
+                      )}
+
+                      <Divider style={{ marginVertical: 8 }} />
+
+                      <HStack align="center" justify="space-between">
                         <HStack space="xs" align="center">
                           <Typography variant="bodySmall" style={{ fontWeight: '500' }}>
                             Preferred Language:
@@ -911,10 +936,10 @@ export default function DesignSystemScreen() {
                   <Card>
                     <VStack space="sm">
                       <Typography variant="body" style={{ fontWeight: '700' }}>
-                        SecureStore & Axios Interceptors
+                        Token Manager & Axios Interceptors
                       </Typography>
                       <Typography variant="bodySmall" color={theme.colors.text.subtle}>
-                        Automatically injects the Bearer Access Token into outbound requests, and triggers the refresh token flow on 401 Unauthorized responses.
+                        Checks token expiration pre-emptively on request interceptors and queues failed 401s during refresh token operations.
                       </Typography>
 
                       <VStack space="xs" style={{ marginTop: 8 }}>
@@ -944,45 +969,65 @@ export default function DesignSystemScreen() {
                             {storedRefreshToken ? `${storedRefreshToken.substring(0, 15)}...` : 'NOT SET'}
                           </Typography>
                         </HStack>
+                        <HStack justify="space-between" align="center">
+                          <Typography variant="caption" style={{ fontWeight: '500' }}>
+                            Expiration Time:
+                          </Typography>
+                          <Typography variant="caption" style={{ fontWeight: '700' }}>
+                            {tokenExpiry ? new Date(tokenExpiry).toLocaleTimeString() : 'N/A'}
+                          </Typography>
+                        </HStack>
+                        <HStack justify="space-between" align="center">
+                          <Typography variant="caption" style={{ fontWeight: '500' }}>
+                            Is Token Expired:
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            color={isExpired ? theme.colors.error.main : theme.colors.success.main}
+                            style={{ fontWeight: '700' }}
+                          >
+                            {isExpired ? 'EXPIRED' : 'ACTIVE'}
+                          </Typography>
+                        </HStack>
                       </VStack>
 
                       <HStack space="xs" style={{ marginTop: 10, flexWrap: 'wrap', gap: 6 }}>
                         <Button
-                          label="Set Mock Tokens"
+                          label="Set Short Expiry Tokens (60s)"
                           size="sm"
                           onPress={async () => {
-                            await secureStorage.setItem('access_token', 'mock_jwt_access_token_value_xyz123');
-                            await secureStorage.setItem('refresh_token', 'mock_jwt_refresh_token_value_abc789');
+                            await tokenManager.setTokens(
+                              'mock_short_access_token_' + Date.now(),
+                              'mock_refresh_jwt_short_' + Date.now(),
+                              60 // expires in 60 seconds
+                            );
                             await loadSecureTokens();
-                            toast.success('SecureStore', 'Mock Access and Refresh tokens saved securely.');
+                            toast.success('TokenManager', 'Mock short-lived tokens saved securely.');
                           }}
                         />
                         <Button
-                          label="Clear Tokens"
+                          label="Clear Storage Tokens"
                           size="sm"
                           variant="outline"
                           onPress={async () => {
-                            await secureStorage.removeItem('access_token');
-                            await secureStorage.removeItem('refresh_token');
+                            await tokenManager.clearTokens();
                             await loadSecureTokens();
-                            toast.success('SecureStore', 'Tokens cleared from secure storage.');
+                            toast.success('TokenManager', 'Storage keys cleared.');
                           }}
                         />
                         <Button
                           label="Test API Call"
                           size="sm"
-                          variant="ghost"
+                          variant="outline"
                           onPress={async () => {
                             toast.info('API Call', 'Firing HTTP request via Axios client...');
                             try {
                               await client.get('/users/profile');
+                              toast.success('API Success', 'Mock endpoint query completed.');
                             } catch (err: any) {
-                              if (err.response) {
-                                toast.info('API Error Catch', `Server returned status ${err.response.status}. Interceptor evaluated auth.`);
-                              } else {
-                                toast.error('API Error', err.message);
-                              }
+                              toast.info('API Catch', `Network details: ${err.message}. Checked pre-emptive refresh.`);
                             }
+                            await loadSecureTokens();
                           }}
                         />
                       </HStack>

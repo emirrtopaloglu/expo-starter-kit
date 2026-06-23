@@ -9,17 +9,15 @@ interface Item {
 
 interface StoreState {
   items: Item[];
-  isLoggedIn: boolean;
   language: string;
   addItem: (title: string) => void;
   removeItem: (id: string) => void;
-  setLoggedIn: (loggedIn: boolean) => void;
   setLanguage: (lang: string) => void;
 }
 
 /**
  * Persisted Zustand store using AsyncStorage.
- * Keeps user session (isLoggedIn), preferences (language), and data items across app closing and opening.
+ * Keeps preferences (language) and data items across app closing and opening.
  */
 export const useStore = create<StoreState>()(
   persist(
@@ -29,7 +27,6 @@ export const useStore = create<StoreState>()(
         { id: '2', title: 'Walk the Dog' },
         { id: '3', title: 'Read Documentation' },
       ],
-      isLoggedIn: false,
       language: 'en',
       addItem: (title) =>
         set((state) => ({
@@ -39,7 +36,6 @@ export const useStore = create<StoreState>()(
         set((state) => ({
           items: state.items.filter((item) => item.id !== id),
         })),
-      setLoggedIn: (loggedIn) => set({ isLoggedIn: loggedIn }),
       setLanguage: (lang) => set({ language: lang }),
     }),
     {
