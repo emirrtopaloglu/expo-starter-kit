@@ -970,6 +970,45 @@ export default function DesignSystemScreen() {
                     </VStack>
                   </Card>
 
+                  {/* Environment Variables Card */}
+                  <Card>
+                    <VStack space="sm">
+                      <Typography variant="body" style={{ fontWeight: '700' }}>
+                        Environment Variables (.env)
+                      </Typography>
+                      <Typography variant="bodySmall" color={theme.colors.text.subtle}>
+                        Type-safe configurations loaded from .env development / production files via process.env.
+                      </Typography>
+
+                      <VStack space="xs" style={{ marginTop: 8 }}>
+                        <HStack justify="space-between" align="center">
+                          <Typography variant="caption" style={{ fontWeight: '500' }}>
+                            APP_ENV:
+                          </Typography>
+                          <Typography variant="caption" style={{ fontWeight: '700' }} color={theme.colors.primary}>
+                            {process.env.EXPO_PUBLIC_APP_ENV || 'NOT LOADED'}
+                          </Typography>
+                        </HStack>
+                        <HStack justify="space-between" align="center">
+                          <Typography variant="caption" style={{ fontWeight: '500' }}>
+                            API_URL:
+                          </Typography>
+                          <Typography variant="caption" style={{ fontWeight: '700' }}>
+                            {process.env.EXPO_PUBLIC_API_URL || 'NOT LOADED'}
+                          </Typography>
+                        </HStack>
+                        <HStack justify="space-between" align="center">
+                          <Typography variant="caption" style={{ fontWeight: '500' }}>
+                            API_KEY:
+                          </Typography>
+                          <Typography variant="caption" style={{ fontWeight: '700' }} numberOfLines={1}>
+                            {process.env.EXPO_PUBLIC_API_KEY || 'NOT LOADED'}
+                          </Typography>
+                        </HStack>
+                      </VStack>
+                    </VStack>
+                  </Card>
+
                   {/* Empty State Preview */}
                   <Card>
                     <Typography variant="body" style={{ fontWeight: '700', marginBottom: 8 }}>
