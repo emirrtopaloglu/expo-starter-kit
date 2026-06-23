@@ -10,6 +10,7 @@ import { useTheme } from '@/theme/ThemeContext';
 import { Info, AlertTriangle, Moon, Sun } from 'lucide-react-native';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { IconBadge } from '@/components/ui/IconBadge';
 import { Spinner } from '@/components/ui/Spinner';
 import { Avatar } from '@/components/ui/Avatar';
 import { Divider } from '@/components/ui/Divider';
@@ -263,6 +264,25 @@ export default function DesignSystemScreen() {
               <HStack space="md">
                 <Badge label="Small" size="sm" />
                 <Badge label="Medium" size="md" />
+              </HStack>
+            </Box>
+            <Box mt="md">
+              <Typography variant="h4" style={{ marginBottom: 8 }}>
+                IconBadges (Notification Badges)
+              </Typography>
+              <HStack space="lg" align="center">
+                <IconBadge count={5}>
+                  <BoxIcon size={24} color={theme.colors.text.default} />
+                </IconBadge>
+                <IconBadge count={120} maxCount={99}>
+                  <User size={24} color={theme.colors.text.default} />
+                </IconBadge>
+                <IconBadge showDot size="md">
+                  <Settings size={24} color={theme.colors.text.default} />
+                </IconBadge>
+                <IconBadge showDot size="sm" badgeColor={theme.colors.success.main}>
+                  <Heart size={24} color={theme.colors.text.default} />
+                </IconBadge>
               </HStack>
             </Box>
           </Box>
