@@ -39,6 +39,8 @@ import { MasonryList } from '@/components/ui/MasonryList';
 import { Image } from '@/components/ui/Image';
 import { useNetworkStore } from '@/store/useNetworkStore';
 import { toast } from '@/utils/toast';
+import { Header } from '@/components/ui/Header';
+import { useStore } from '@/store/useStore';
 import { useTranslation } from 'react-i18next';
 import { actionSheet } from '@/utils/actionSheet';
 import {
@@ -55,6 +57,7 @@ export default function DesignSystemScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { isConnected, isSimulatedOffline, setSimulatedOffline } = useNetworkStore();
+  const { isLoggedIn, language: storeLanguage, setLoggedIn, setLanguage } = useStore();
   const [shouldCrash, setShouldCrash] = useState(false);
 
   if (shouldCrash) {
@@ -119,7 +122,22 @@ export default function DesignSystemScreen() {
         />
       }
     >
-      <Stack.Screen options={{ title: 'Design System' }} />
+      <Stack.Screen
+        options={{
+          header: () => (
+            <Header
+              title="Design System"
+              subtitle="Boilerplate UI Kit"
+              rightActions={[
+                {
+                  icon: <Settings size={22} color={theme.colors.text.default} />,
+                  onPress: () => toast.success('Header Action', 'Settings action clicked from Custom Header!'),
+                },
+              ]}
+            />
+          ),
+        }}
+      />
       <Box p="md">
         <VStack space="xl">
           {/* Theme Toggle */}
@@ -439,6 +457,52 @@ export default function DesignSystemScreen() {
 
               <Box>
                 <Typography variant="h4" style={{ marginBottom: 8 }}>
+                  Custom Headers
+                </Typography>
+                <Typography variant="bodySmall" color={theme.colors.text.subtle} style={{ marginBottom: 12 }}>
+                  Fully theme-compliant navbar with support for left back actions, centered/left titles, subtitles, and right-aligned buttons.
+                </Typography>
+                <VStack space="md">
+                  {/* Center-aligned header */}
+                  <Box style={{ borderWidth: 1, borderColor: theme.colors.border.subtle, borderRadius: theme.radius.md, overflow: 'hidden' }}>
+                    <Header
+                      title="Detail Screen"
+                      titleAlign="center"
+                      showBackButton={true}
+                      onLeftPress={() => toast.info('Back Press', 'Back action triggered')}
+                      safeArea={false}
+                      rightActions={[
+                        {
+                          icon: <Settings size={20} color={theme.colors.text.default} />,
+                          onPress: () => toast.success('Settings Pressed', 'Settings action triggered'),
+                        },
+                      ]}
+                    />
+                  </Box>
+
+                  {/* Left-aligned header with subtitle */}
+                  <Box style={{ borderWidth: 1, borderColor: theme.colors.border.subtle, borderRadius: theme.radius.md, overflow: 'hidden' }}>
+                    <Header
+                      title="Messages"
+                      subtitle="3 unread conversations"
+                      titleAlign="left"
+                      showBackButton={false}
+                      safeArea={false}
+                      rightActions={[
+                        {
+                          icon: <User size={20} color={theme.colors.text.default} />,
+                          onPress: () => toast.success('Profile Pressed', 'Profile action triggered'),
+                        },
+                      ]}
+                    />
+                  </Box>
+                </VStack>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Typography variant="h4" style={{ marginBottom: 8 }}>
                   Progress & Loading
                 </Typography>
                 <VStack space="md">
@@ -747,6 +811,63 @@ export default function DesignSystemScreen() {
                             trackColor={{ false: theme.colors.neutral[300], true: theme.colors.primary }}
                           />
                         </HStack>
+                      </HStack>
+                    </VStack>
+                  </Card>
+
+                  {/* Zustand Persist Card */}
+                  <Card>
+                    <VStack space="sm">
+                      <Typography variant="body" style={{ fontWeight: '700' }}>
+                        Zustand Persisted State (AsyncStorage)
+                      </Typography>
+                      <Typography variant="bodySmall" color={theme.colors.text.subtle}>
+                        Login status and language selection are stored persistently in AsyncStorage. Close and reopen the app to verify state persistence.
+                      </Typography>
+
+                      <HStack align="center" justify="space-between" style={{ marginTop: 8 }}>
+                        <HStack space="xs" align="center">
+                          <Typography variant="bodySmall" style={{ fontWeight: '500' }}>
+                            Login Status:
+                          </Typography>
+                          <Typography
+                            variant="bodySmall"
+                            style={{ fontWeight: '700' }}
+                            color={isLoggedIn ? theme.colors.success.main : theme.colors.error.main}
+                          >
+                            {isLoggedIn ? 'LOGGED IN' : 'LOGGED OUT'}
+                          </Typography>
+                        </HStack>
+                        <Button
+                          label={isLoggedIn ? 'Log Out' : 'Log In'}
+                          size="sm"
+                          variant="outline"
+                          onPress={() => {
+                            setLoggedIn(!isLoggedIn);
+                            toast.success('Zustand Persist', isLoggedIn ? 'Logged out successfully!' : 'Logged in successfully!');
+                          }}
+                        />
+                      </HStack>
+
+                      <HStack align="center" justify="space-between" style={{ marginTop: 8 }}>
+                        <HStack space="xs" align="center">
+                          <Typography variant="bodySmall" style={{ fontWeight: '500' }}>
+                            Preferred Language:
+                          </Typography>
+                          <Typography variant="bodySmall" style={{ fontWeight: '700', textTransform: 'uppercase' }}>
+                            {storeLanguage}
+                          </Typography>
+                        </HStack>
+                        <Button
+                          label={storeLanguage === 'en' ? 'Switch to TR' : 'Switch to EN'}
+                          size="sm"
+                          variant="outline"
+                          onPress={() => {
+                            const newLang = storeLanguage === 'en' ? 'tr' : 'en';
+                            setLanguage(newLang);
+                            toast.success('Zustand Persist', `Language changed to ${newLang.toUpperCase()}`);
+                          }}
+                        />
                       </HStack>
                     </VStack>
                   </Card>
