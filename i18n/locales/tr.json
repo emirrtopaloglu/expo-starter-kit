@@ -17,5 +17,12 @@
       "title": "Sayfa Bulunamadı",
       "description": "Aradığınız sayfa mevcut değil veya başka bir yere taşınmış olabilir.",
       "backHome": "Ana Sayfaya Dön"
+    },
+    "actionSheet": {
+      "title": "Fotoğraf Kaynağı Seçin",
+      "message": "Fotoğrafı yüklemek istediğiniz kaynağı seçin",
+      "camera": "Kamerayı Aç / Fotoğraf Çek",
+      "gallery": "Galeriden Seç",
+      "cancel": "İptal"
     }
 }

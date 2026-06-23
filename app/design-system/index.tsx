@@ -39,6 +39,8 @@ import { MasonryList } from '@/components/ui/MasonryList';
 import { Image } from '@/components/ui/Image';
 import { useNetworkStore } from '@/store/useNetworkStore';
 import { toast } from '@/utils/toast';
+import { useTranslation } from 'react-i18next';
+import { actionSheet } from '@/utils/actionSheet';
 import {
   AlertCircle,
   Box as BoxIcon,
@@ -50,6 +52,7 @@ import {
 
 export default function DesignSystemScreen() {
   const { theme, setThemePreference, isDark } = useTheme();
+  const { t } = useTranslation();
   const router = useRouter();
   const { isConnected, isSimulatedOffline, setSimulatedOffline } = useNetworkStore();
   const [shouldCrash, setShouldCrash] = useState(false);
@@ -78,6 +81,30 @@ export default function DesignSystemScreen() {
 
   const toggleTheme = () => {
     setThemePreference(isDark ? 'light' : 'dark');
+  };
+
+  const handleOpenActionSheet = () => {
+    actionSheet.show(
+      {
+        title: t('actionSheet.title'),
+        message: t('actionSheet.message'),
+        options: [
+          t('actionSheet.camera'),
+          t('actionSheet.gallery'),
+          t('actionSheet.cancel'),
+        ],
+        cancelButtonIndex: 2,
+      },
+      (index) => {
+        if (index === 0) {
+          toast.success(t('actionSheet.camera'), 'Camera selected.');
+        } else if (index === 1) {
+          toast.success(t('actionSheet.gallery'), 'Gallery selected.');
+        } else {
+          toast.info(t('actionSheet.cancel'), 'Action sheet dismissed.');
+        }
+      }
+    );
   };
 
   return (
@@ -447,7 +474,7 @@ export default function DesignSystemScreen() {
                     </Typography>
                   </Accordion>
 
-                  <HStack space="md">
+                  <HStack space="sm" style={{ flexWrap: 'wrap', gap: 8 }}>
                     <Button
                       label="Open Modal"
                       onPress={() => setModalOpen(true)}
@@ -456,6 +483,11 @@ export default function DesignSystemScreen() {
                     <Button
                       label="Open Sheet"
                       onPress={() => setSheetOpen(true)}
+                      variant="outline"
+                    />
+                    <Button
+                      label="Open Native Menu"
+                      onPress={handleOpenActionSheet}
                       variant="outline"
                     />
                   </HStack>

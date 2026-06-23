@@ -17,5 +17,12 @@
       "title": "Page Not Found",
       "description": "The page you are looking for does not exist or has been moved.",
       "backHome": "Go Back Home"
+    },
+    "actionSheet": {
+      "title": "Choose Photo Source",
+      "message": "Select where you would like to upload a photo from",
+      "camera": "Take Photo / Open Camera",
+      "gallery": "Choose from Gallery",
+      "cancel": "Cancel"
     }
 }
