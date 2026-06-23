@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import { Stack } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +15,7 @@ import { Switch } from '@/components/ui/Switch';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Radio } from '@/components/ui/Radio';
 import { Divider } from '@/components/ui/Divider';
+import { Screen } from '@/components/ui/Screen';
 import { useTheme } from '@/theme/ThemeContext';
 
 // Schema Definition
@@ -58,9 +59,10 @@ export default function FormScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Form Demo' }} />
-      <ScrollView
+      <Screen
+        preset="scroll"
         contentContainerStyle={{ padding: theme.spacing.md, flexGrow: 1 }}
-        style={{ backgroundColor: theme.colors.background.default }}
+        backgroundColor={theme.colors.background.default}
       >
         <VStack space="xl">
           <Box>
@@ -194,7 +196,7 @@ export default function FormScreen() {
             </VStack>
           </Box>
         </VStack>
-      </ScrollView>
+      </Screen>
     </>
   );
 }

@@ -21,6 +21,7 @@
     },
     "android": {
       "package": "com.yourcompany.expostarterkit",
+      "softwareKeyboardLayoutMode": "adjustResize",
       "//": "Android Intent Filters are used for App Links. Replace with your package name and domains.",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

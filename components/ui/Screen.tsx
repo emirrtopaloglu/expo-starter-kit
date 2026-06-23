@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,6 +11,7 @@ import {
 import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import { StatusBar, StatusBarProps } from 'expo-status-bar';
 import { useTheme } from '@/theme/ThemeContext';
+import { HeaderHeightContext } from '@react-navigation/elements';
 
 interface ScreenProps {
   children?: React.ReactNode;
@@ -45,6 +46,9 @@ export const Screen = ({
     ? { edges: safeAreaEdges, style: [{ flex: 1, backgroundColor: bg }, style] }
     : { style: [{ flex: 1, backgroundColor: bg }, style] };
 
+  const headerHeight = useContext(HeaderHeightContext) || 0;
+  const totalOffset = keyboardOffset + headerHeight;
+
   // Keyboard behavior
   const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
 
@@ -54,7 +58,7 @@ export const Screen = ({
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={behavior}
-        keyboardVerticalOffset={keyboardOffset}
+        keyboardVerticalOffset={totalOffset}
       >
         {preset === 'scroll' ? (
           <ScrollView
