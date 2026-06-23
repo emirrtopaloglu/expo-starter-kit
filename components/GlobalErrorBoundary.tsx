@@ -1,5 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import { CrashScreen } from '@/components/ui/CrashScreen';
+import { logError } from '@/utils/sentry';
 
 interface Props {
   children: ReactNode;
@@ -25,8 +26,8 @@ export class GlobalErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Log the error to an error reporting service here (e.g. Sentry)
-    console.error('GlobalErrorBoundary caught an error:', error, errorInfo);
+    // Log the error to our logging utility (which supports Sentry)
+    logError(error, 'GlobalErrorBoundary');
   }
 
   resetError = () => {

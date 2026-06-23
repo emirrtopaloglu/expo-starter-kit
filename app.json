@@ -49,6 +49,13 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "//sentryPlugin": [
+      "@sentry/react-native/expo",
+      {
+        "organization": "your-sentry-org",
+        "project": "your-sentry-project"
+      }
+    ],
     "plugins": ["expo-router", "expo-font"]
   }
 }
