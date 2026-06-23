@@ -94,7 +94,7 @@ export const Badge = ({
       style={{
         backgroundColor: bg,
         borderColor: border,
-        borderWidth: variant === 'outline' ? 1.5 : 0, // Increased border width for better visibility
+        borderWidth: variant === 'outline' ? 1 : 0, // Hairline border width for cleaner look
         borderRadius: 100, // Explicit large number for pill shape
         paddingHorizontal: size === 'sm' ? 8 : 12, // Increased padding
         paddingVertical: size === 'sm' ? 2 : 4,

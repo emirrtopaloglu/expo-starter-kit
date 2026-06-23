@@ -27,18 +27,15 @@ export function Typography({
   const getFontFamilyOverride = () => {
     if (!weight) return {};
 
-    // Use dynamic theme fonts mapping if available, falling back to defaults
-    const themeFonts = (theme.typography as any).fonts || {};
-
     switch (weight) {
       case 'regular':
-        return { fontFamily: themeFonts.regular || 'PlusJakartaSans_400Regular' };
+        return { fontFamily: 'PlusJakartaSans_400Regular' };
       case 'medium':
-        return { fontFamily: themeFonts.medium || 'PlusJakartaSans_500Medium' };
+        return { fontFamily: 'PlusJakartaSans_500Medium' };
       case 'semibold':
-        return { fontFamily: themeFonts.semibold || 'PlusJakartaSans_600SemiBold' };
+        return { fontFamily: 'PlusJakartaSans_600SemiBold' };
       case 'bold':
-        return { fontFamily: themeFonts.bold || 'PlusJakartaSans_700Bold' };
+        return { fontFamily: 'PlusJakartaSans_700Bold' };
       default:
         return {};
     }
