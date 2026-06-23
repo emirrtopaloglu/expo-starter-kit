@@ -41,6 +41,8 @@ import { useNetworkStore } from '@/store/useNetworkStore';
 import { toast } from '@/utils/toast';
 import { Header } from '@/components/ui/Header';
 import { useStore } from '@/store/useStore';
+import { secureStorage } from '@/utils/secureStorage';
+import client from '@/api/client';
 import { useTranslation } from 'react-i18next';
 import { actionSheet } from '@/utils/actionSheet';
 import {
@@ -59,6 +61,20 @@ export default function DesignSystemScreen() {
   const { isConnected, isSimulatedOffline, setSimulatedOffline } = useNetworkStore();
   const { isLoggedIn, language: storeLanguage, setLoggedIn, setLanguage } = useStore();
   const [shouldCrash, setShouldCrash] = useState(false);
+
+  const [storedAccessToken, setStoredAccessToken] = useState<string | null>(null);
+  const [storedRefreshToken, setStoredRefreshToken] = useState<string | null>(null);
+
+  const loadSecureTokens = async () => {
+    const access = await secureStorage.getItem('access_token');
+    const refresh = await secureStorage.getItem('refresh_token');
+    setStoredAccessToken(access);
+    setStoredRefreshToken(refresh);
+  };
+
+  React.useEffect(() => {
+    loadSecureTokens();
+  }, []);
 
   if (shouldCrash) {
     throw new Error('Simulated developer crash to test GlobalErrorBoundary.');
@@ -866,6 +882,88 @@ export default function DesignSystemScreen() {
                             const newLang = storeLanguage === 'en' ? 'tr' : 'en';
                             setLanguage(newLang);
                             toast.success('Zustand Persist', `Language changed to ${newLang.toUpperCase()}`);
+                          }}
+                        />
+                      </HStack>
+                    </VStack>
+                  </Card>
+
+                  {/* SecureStore & Axios Interceptors Card */}
+                  <Card>
+                    <VStack space="sm">
+                      <Typography variant="body" style={{ fontWeight: '700' }}>
+                        SecureStore & Axios Interceptors
+                      </Typography>
+                      <Typography variant="bodySmall" color={theme.colors.text.subtle}>
+                        Automatically injects the Bearer Access Token into outbound requests, and triggers the refresh token flow on 401 Unauthorized responses.
+                      </Typography>
+
+                      <VStack space="xs" style={{ marginTop: 8 }}>
+                        <HStack justify="space-between" align="center">
+                          <Typography variant="caption" style={{ fontWeight: '500' }}>
+                            Access Token:
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            color={storedAccessToken ? theme.colors.success.main : theme.colors.text.subtle}
+                            numberOfLines={1}
+                            style={{ maxWidth: 180, fontWeight: '700' }}
+                          >
+                            {storedAccessToken ? `${storedAccessToken.substring(0, 15)}...` : 'NOT SET'}
+                          </Typography>
+                        </HStack>
+                        <HStack justify="space-between" align="center">
+                          <Typography variant="caption" style={{ fontWeight: '500' }}>
+                            Refresh Token:
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            color={storedRefreshToken ? theme.colors.success.main : theme.colors.text.subtle}
+                            numberOfLines={1}
+                            style={{ maxWidth: 180, fontWeight: '700' }}
+                          >
+                            {storedRefreshToken ? `${storedRefreshToken.substring(0, 15)}...` : 'NOT SET'}
+                          </Typography>
+                        </HStack>
+                      </VStack>
+
+                      <HStack space="xs" style={{ marginTop: 10, flexWrap: 'wrap', gap: 6 }}>
+                        <Button
+                          label="Set Mock Tokens"
+                          size="sm"
+                          onPress={async () => {
+                            await secureStorage.setItem('access_token', 'mock_jwt_access_token_value_xyz123');
+                            await secureStorage.setItem('refresh_token', 'mock_jwt_refresh_token_value_abc789');
+                            await loadSecureTokens();
+                            toast.success('SecureStore', 'Mock Access and Refresh tokens saved securely.');
+                          }}
+                        />
+                        <Button
+                          label="Clear Tokens"
+                          size="sm"
+                          variant="outline"
+                          onPress={async () => {
+                            await secureStorage.removeItem('access_token');
+                            await secureStorage.removeItem('refresh_token');
+                            await loadSecureTokens();
+                            toast.success('SecureStore', 'Tokens cleared from secure storage.');
+                          }}
+                        />
+                        <Button
+                          label="Test API Call"
+                          size="sm"
+                          variant="ghost"
+                          onPress={async () => {
+                            toast.info('API Call', 'Firing HTTP request via Axios client...');
+                            try {
+                              await client.get('/users/profile');
+                            } catch (err: any) {
+                              if (err.response) {
+                                toast.info('API Error Catch', `Server returned status ${err.response.status}. Interceptor evaluated auth.`);
+                              } else {
+                                toast.error('API Error', err.message);
+                              }
+                            }
                           }}
                         />
                       </HStack>
