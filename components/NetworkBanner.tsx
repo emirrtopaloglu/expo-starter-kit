@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Platform, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNetworkStore } from '@/store/useNetworkStore';
+import { useStore } from '@/store';
 import { useTheme } from '@/theme/ThemeContext';
 import { WifiOff } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,7 @@ import { Typography } from './ui/Typography';
 import { HStack } from './ui/Stack';
 
 export const NetworkBanner = () => {
-  const { isConnected } = useNetworkStore();
+  const { isConnected } = useStore();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();

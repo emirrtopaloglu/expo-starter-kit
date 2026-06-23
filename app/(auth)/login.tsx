@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore, User } from '@/store/useAuthStore';
+import { useStore, User } from '@/store';
 import { authService } from '@/services/authService';
 import { secureStorage } from '@/utils/secureStorage';
 import { biometrics } from '@/utils/biometrics';
@@ -24,7 +24,7 @@ export default function LoginScreen() {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const router = useRouter();
-  const loginGlobal = useAuthStore((state) => state.login);
+  const loginGlobal = useStore((state) => state.login);
 
   // Form states
   const [email, setEmail] = useState('admin@starter.kit');

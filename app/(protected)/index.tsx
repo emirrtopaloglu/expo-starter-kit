@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Link, Stack } from 'expo-router';
 import { useTheme } from '@/theme/ThemeContext';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useStore } from '@/store';
 import { haptics } from '@/utils/haptics';
 import { toast } from '@/utils/toast';
 import { Screen } from '@/components/ui/Screen';
@@ -17,7 +17,7 @@ import { LogOut } from 'lucide-react-native';
 export default function HomeScreen() {
   const { theme, isDark } = useTheme();
   const { t, i18n } = useTranslation();
-  const { user, logout } = useAuthStore();
+  const { user, logout } = useStore();
 
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);

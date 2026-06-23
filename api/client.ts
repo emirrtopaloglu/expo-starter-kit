@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { tokenManager } from '@/utils/tokenManager';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useStore } from '@/store';
 
 const baseURL = process.env.EXPO_PUBLIC_API_URL || 'https://api.example.com';
 
@@ -101,7 +101,7 @@ client.interceptors.response.use(
         
         // Refresh token flow failed -> Clear storage and logout user globally
         await tokenManager.clearTokens();
-        useAuthStore.getState().logout();
+        useStore.getState().logout();
 
         return Promise.reject(refreshError);
       } finally {

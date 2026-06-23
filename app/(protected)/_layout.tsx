@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Stack } from 'expo-router';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useStore } from '@/store';
 import { Spinner } from '@/components/ui/Spinner';
 import { Box } from '@/components/ui/Box';
 import { useTheme } from '@/theme/ThemeContext';
@@ -11,10 +11,10 @@ import { useTheme } from '@/theme/ThemeContext';
  * automatically redirects them to the /login screen.
  */
 export default function ProtectedLayout() {
-  const { isAuthenticated, isLoading } = useAuthStore();
+  const { isAuthenticated, isAuthLoading } = useStore();
   const { theme } = useTheme();
 
-  if (isLoading) {
+  if (isAuthLoading) {
     return (
       <Box
         style={{

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { RefreshControl, Pressable } from 'react-native';
 import { Stack } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
-import { useStore } from '@/store/useStore';
+import { useStore } from '@/store';
 import { Trash2, Plus } from 'lucide-react-native';
 import { useTheme } from '@/theme/ThemeContext';
 import { Screen } from '@/components/ui/Screen';

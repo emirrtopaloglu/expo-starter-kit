@@ -22,7 +22,7 @@ import { GlobalErrorBoundary } from '@/components/GlobalErrorBoundary';
 import { NetworkBanner } from '@/components/NetworkBanner';
 import { AppUpdateBanner } from '@/components/AppUpdateBanner';
 
-import { useAuthStore } from '@/store/useAuthStore';
+import { useStore } from '@/store';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -53,7 +53,7 @@ function RootLayoutNav() {
  * Documentation: https://docs.expo.dev/router/layouts/
  */
 export default function RootLayout() {
-  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+  const initializeAuth = useStore((state) => state.initializeAuth);
   
   const [fontsLoaded] = useFonts({
     PlusJakartaSans_400Regular,

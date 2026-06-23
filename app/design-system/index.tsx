@@ -37,11 +37,9 @@ import { DatePicker } from '@/components/ui/DatePicker';
 import { Screen } from '@/components/ui/Screen';
 import { MasonryList } from '@/components/ui/MasonryList';
 import { Image } from '@/components/ui/Image';
-import { useNetworkStore } from '@/store/useNetworkStore';
+import { useStore } from '@/store';
 import { toast } from '@/utils/toast';
 import { Header } from '@/components/ui/Header';
-import { useStore } from '@/store/useStore';
-import { useAuthStore } from '@/store/useAuthStore';
 import { secureStorage } from '@/utils/secureStorage';
 import { tokenManager } from '@/utils/tokenManager';
 import client from '@/api/client';
@@ -64,9 +62,16 @@ export default function DesignSystemScreen() {
   const { theme, setThemePreference, isDark } = useTheme();
   const { t } = useTranslation();
   const router = useRouter();
-  const { isConnected, isSimulatedOffline, setSimulatedOffline } = useNetworkStore();
-  const { language: storeLanguage, setLanguage } = useStore();
-  const { isAuthenticated, user, logout: logoutGlobal } = useAuthStore();
+  const {
+    isConnected,
+    isSimulatedOffline,
+    setSimulatedOffline,
+    language: storeLanguage,
+    setLanguage,
+    isAuthenticated,
+    user,
+    logout: logoutGlobal,
+  } = useStore();
   const [shouldCrash, setShouldCrash] = useState(false);
 
   const [storedAccessToken, setStoredAccessToken] = useState<string | null>(null);
