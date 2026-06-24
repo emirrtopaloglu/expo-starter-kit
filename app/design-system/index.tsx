@@ -1323,11 +1323,18 @@ export default function DesignSystemScreen() {
               {/* Box spacer for FAB to not overlap content */}
               <Box style={{ height: 80 }} />
               <Box style={{ marginBottom: 40 }}>
-                <Button
-                  label="Test Permissions Manager"
-                  onPress={() => router.push('/design-system/permissions')}
-                  variant="outline"
-                />
+                <VStack space="sm">
+                  <Button
+                    label="Test Permissions Manager"
+                    onPress={() => router.push('/design-system/permissions')}
+                    variant="outline"
+                  />
+                  <Button
+                    label="Test Hooks Playground"
+                    onPress={() => router.push('/design-system/hooks')}
+                    variant="outline"
+                  />
+                </VStack>
               </Box>
             </VStack>
           </Box>
