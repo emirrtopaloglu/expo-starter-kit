@@ -33,9 +33,17 @@ import {
   useShare,
 } from '@/hooks';
 import { toast } from '@/utils/toast';
+import * as format from '@/utils/format';
 
 export default function HooksTestScreen() {
   const { theme } = useTheme();
+
+  // Format Helpers State
+  const [formatNumInput, setFormatNumInput] = useState('1250000');
+  const [formatPhoneInput, setFormatPhoneInput] = useState('5551234567');
+  const [formatCardInput, setFormatCardInput] = useState('1234567812345678');
+  const [formatBytesInput, setFormatBytesInput] = useState('10485760');
+  const [formatTextInput, setFormatTextInput] = useState('react native expo starter kit');
 
   // 1. Debounce & Throttle
   const [inputText, setInputText] = useState('');
@@ -356,6 +364,80 @@ export default function HooksTestScreen() {
                 onPress={() => shareUrl('https://expo.dev', 'Check out Expo Starter Kit!', 'Expo Share')}
               />
             </HStack>
+          </Card>
+
+          {/* 22. Format Helpers */}
+          <Card padding="md">
+            <Typography variant="h3" style={{ marginBottom: theme.spacing.sm }}>22. Format Helpers (utils/format.ts)</Typography>
+            <VStack space="md">
+              <Box>
+                <Typography variant="bodySmall" style={{ fontWeight: 'bold', marginBottom: 4 }}>Date & Relative Time</Typography>
+                <Typography variant="caption">Date: {format.formatDate(new Date())}</Typography>
+                <Typography variant="caption">Relative (5 mins ago): {format.formatRelativeTime(Date.now() - 1000 * 60 * 5)}</Typography>
+                <Typography variant="caption">Relative (in 2 hours): {format.formatRelativeTime(Date.now() + 1000 * 60 * 60 * 2)}</Typography>
+              </Box>
+
+              <Box>
+                <Input
+                  label="Number Input (Currency & Compact)"
+                  keyboardType="numeric"
+                  value={formatNumInput}
+                  onChangeText={setFormatNumInput}
+                />
+                <HStack space="md" style={{ marginTop: 4 }}>
+                  <Typography variant="caption">Currency: {format.formatCurrency(Number(formatNumInput) || 0)}</Typography>
+                  <Typography variant="caption">Compact: {format.formatCompactNumber(Number(formatNumInput) || 0)}</Typography>
+                </HStack>
+              </Box>
+
+              <Box>
+                <Input
+                  label="Bytes Input (File Size)"
+                  keyboardType="numeric"
+                  value={formatBytesInput}
+                  onChangeText={setFormatBytesInput}
+                />
+                <Typography variant="caption" style={{ marginTop: 4 }}>
+                  Formatted Size: {format.formatBytes(Number(formatBytesInput) || 0)}
+                </Typography>
+              </Box>
+
+              <Box>
+                <Input
+                  label="Phone Number Input"
+                  keyboardType="numeric"
+                  value={formatPhoneInput}
+                  onChangeText={setFormatPhoneInput}
+                />
+                <Typography variant="caption" style={{ marginTop: 4 }}>
+                  Formatted Phone: {format.formatPhoneNumber(formatPhoneInput)}
+                </Typography>
+              </Box>
+
+              <Box>
+                <Input
+                  label="Card Number Input"
+                  keyboardType="numeric"
+                  value={formatCardInput}
+                  onChangeText={setFormatCardInput}
+                />
+                <Typography variant="caption" style={{ marginTop: 4 }}>
+                  Masked Card: {format.maskCard(formatCardInput)}
+                </Typography>
+              </Box>
+
+              <Box>
+                <Input
+                  label="Text Input (Capitalize & Truncate)"
+                  value={formatTextInput}
+                  onChangeText={setFormatTextInput}
+                />
+                <HStack space="md" style={{ marginTop: 4 }}>
+                  <Typography variant="caption">Capitalized: {format.capitalize(formatTextInput)}</Typography>
+                  <Typography variant="caption">Truncated (10 chars): {format.truncate(formatTextInput, 10)}</Typography>
+                </HStack>
+              </Box>
+            </VStack>
           </Card>
         </VStack>
       </Box>
