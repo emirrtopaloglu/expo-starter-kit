@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useStore, User } from '@/store';
-import { authService } from '@/services/authService';
+import { authService } from '@/api/services/authService';
 import { secureStorage } from '@/utils/secureStorage';
 import { biometrics } from '@/utils/biometrics';
 import { toast } from '@/utils/toast';
