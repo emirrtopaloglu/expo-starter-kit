@@ -28,5 +28,53 @@
     "update": {
       "available": "Yeni bir güncelleme mevcut. Yeniden başlatmak için tıklayın.",
       "downloading": "Güncelleme indiriliyor..."
+    },
+    "auth": {
+      "login": {
+        "title": "Expo Starter Kit",
+        "subtitle": "Devam etmek için giriş bilgilerini girin veya biyometriyi kullanın",
+        "emailLabel": "E-posta Adresi",
+        "emailPlaceholder": "e-posta@ornek.com",
+        "passwordLabel": "Şifre",
+        "passwordPlaceholder": "••••••••",
+        "enableBiometrics": "Biyometrik Girişi Aktif Et",
+        "signIn": "Giriş Yap",
+        "signInBiometrics": "Biyometrik ile Giriş Yap",
+        "demoTitle": "DEMO GİRİŞ BİLGİLERİ",
+        "demoEmail": "E-posta: admin@starter.kit",
+        "demoPassword": "Şifre: password123",
+        "autofillDemo": "Demo Bilgilerini Otomatik Doldur",
+        "validationErrorTitle": "Doğrulama Hatası",
+        "validationErrorMessage": "Lütfen e-posta adresinizi ve şifrenizi girin.",
+        "welcomeBackTitle": "Tekrar Hoşgeldiniz!",
+        "loginSuccess": "{{name}} olarak başarıyla giriş yapıldı",
+        "loginFailedTitle": "Giriş Başarısız",
+        "incorrectCredentials": "Geçersiz giriş bilgileri.",
+        "biometricsPromptTitle": "Biyometrik",
+        "biometricsScanMessage": "Giriş bilgilerini almak için yüz veya parmak izinizi taratın...",
+        "biometricsReason": "Giriş bilgilerini almak için yetki verin",
+        "biometricsFailedTitle": "Biyometrik Başarısız",
+        "biometricsDenied": "Erişim reddedildi veya biyometrik kayıt iptal edildi.",
+        "authSuccess": "Biyometrik doğrulandı! Tekrar hoşgeldin, {{name}}",
+        "authErrorTitle": "Kimlik Doğrulama Hatası",
+        "decryptionFailed": "Şifre çözme başarısız oldu."
+      }
+    },
+    "protected": {
+      "home": {
+        "welcome": "Tekrar hoşgeldiniz,",
+        "loggedInAs": "Giriş yapılan hesap: {{email}}",
+        "exploreDemos": "Boilerplate Demolarını İnceleyin",
+        "viewDesignSystem": "Tasarım Sistemini Görüntüle (Kitchen Sink)",
+        "logout": "Çıkış Yap",
+        "logoutSuccessTitle": "Çıkış Yapıldı",
+        "logoutSuccessMessage": "Başarıyla çıkış yaptınız.",
+        "toastSuccessTitle": "Başarılı!",
+        "toastSuccessMessage": "Geri bildirim sistemi çalışıyor.",
+        "toastErrorTitle": "Hata!",
+        "toastErrorMessage": "Sistem hatası tetiklendi.",
+        "successToastLabel": "Başarı Bildirimi",
+        "errorToastLabel": "Hata Bildirimi"
+      }
     }
 }

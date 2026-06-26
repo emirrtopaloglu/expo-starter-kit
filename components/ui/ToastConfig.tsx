@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { BaseToastProps } from 'react-native-toast-message';
 import { CheckCircle, XCircle, Info } from 'lucide-react-native';
 import { useTheme } from '@/theme/ThemeContext';
+import { Theme } from '@/theme';
 
 /**
  * Custom Toast component that mimics the look of 'react-hot-toast'.
@@ -18,16 +19,34 @@ const CustomToast = ({
   type: 'success' | 'error' | 'info';
 }) => {
   const { theme, isDark } = useTheme();
-  const styles = getStyles(theme.mode);
+  const styles = getStyles(theme);
 
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <CheckCircle size={24} color="#4ADE80" fill={isDark ? '#064e3b' : '#ecfdf5'} />; // Green 400
+        return (
+          <CheckCircle
+            size={24}
+            color={theme.colors.success.main}
+            fill={isDark ? theme.colors.success.dark : theme.colors.success.light}
+          />
+        );
       case 'error':
-        return <XCircle size={24} color="#F87171" fill={isDark ? '#7f1d1d' : '#fef2f2'} />; // Red 400
+        return (
+          <XCircle
+            size={24}
+            color={theme.colors.error.main}
+            fill={isDark ? theme.colors.error.dark : theme.colors.error.light}
+          />
+        );
       case 'info':
-        return <Info size={24} color="#60A5FA" fill={isDark ? '#1e3a8a' : '#eff6ff'} />; // Blue 400
+        return (
+          <Info
+            size={24}
+            color={theme.colors.info.main}
+            fill={isDark ? theme.colors.info.dark : theme.colors.info.light}
+          />
+        );
       default:
         return null;
     }
@@ -50,39 +69,41 @@ export const toastConfig = {
   info: (props: BaseToastProps) => <CustomToast {...props} type="info" />,
 };
 
-const getStyles = (theme: 'light' | 'dark' | 'system') => {
-  const isDark = theme === 'dark'; // Simplified for now, system handling can be added if needed context provides resolved string
-
+const getStyles = (theme: Theme) => {
   return StyleSheet.create({
     container: {
       flexDirection: 'row',
       alignItems: 'center',
       width: '90%',
-      backgroundColor: isDark ? '#333' : '#fff',
-      paddingVertical: 14,
-      paddingHorizontal: 16,
-      borderRadius: 50, // Pill shape
+      backgroundColor: theme.colors.background.paper,
+      paddingVertical: theme.spacing.md,
+      paddingHorizontal: theme.spacing.lg,
+      borderRadius: theme.radius.full,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.15,
+      shadowOpacity: 0.1,
       shadowRadius: 10,
       elevation: 6,
       marginTop: 10,
+      borderWidth: 1,
+      borderColor: theme.colors.border.default,
     },
     iconContainer: {
-      marginRight: 12,
+      marginRight: theme.spacing.sm,
     },
     textContainer: {
       flex: 1,
     },
     title: {
-      fontSize: 15,
+      fontSize: theme.typography.sizes.sm,
       fontWeight: '600',
-      color: isDark ? '#fff' : '#000',
+      fontFamily: theme.typography.families.semibold,
+      color: theme.colors.text.default,
     },
     message: {
-      fontSize: 13,
-      color: isDark ? '#aaa' : '#555',
+      fontSize: theme.typography.sizes.xs,
+      fontFamily: theme.typography.families.regular,
+      color: theme.colors.text.subtle,
       marginTop: 2,
     },
   });

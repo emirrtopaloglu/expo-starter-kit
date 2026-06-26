@@ -54,6 +54,7 @@ const CardTitle = ({ children }: { children: React.ReactNode }) => {
       style={{
         fontSize: theme.typography.sizes.lg,
         fontWeight: 'bold',
+        fontFamily: theme.typography.families.bold,
         color: theme.colors.text.default,
       }}
     >

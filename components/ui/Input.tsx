@@ -46,7 +46,7 @@ export const Input = forwardRef<TextInput, InputProps>(
                 flex: 1,
                 color: theme.colors.text.default,
                 fontSize: theme.typography.sizes.md,
-                fontFamily: 'PlusJakartaSans_400Regular',
+                fontFamily: theme.typography.families.regular,
                 height: '100%',
               },
               style,

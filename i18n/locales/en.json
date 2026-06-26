@@ -28,5 +28,53 @@
     "update": {
       "available": "A new update is available. Click to relaunch.",
       "downloading": "Downloading update..."
+    },
+    "auth": {
+      "login": {
+        "title": "Expo Starter Kit",
+        "subtitle": "Enter credentials or use biometrics to continue",
+        "emailLabel": "Email Address",
+        "emailPlaceholder": "email@example.com",
+        "passwordLabel": "Password",
+        "passwordPlaceholder": "••••••••",
+        "enableBiometrics": "Enable Biometric Login",
+        "signIn": "Sign In",
+        "signInBiometrics": "Sign In with Biometrics",
+        "demoTitle": "DEMO LOGIN DETAILS",
+        "demoEmail": "Email: admin@starter.kit",
+        "demoPassword": "Password: password123",
+        "autofillDemo": "Autofill Demo Credentials",
+        "validationErrorTitle": "Validation Error",
+        "validationErrorMessage": "Please enter your email and password.",
+        "welcomeBackTitle": "Welcome Back!",
+        "loginSuccess": "Logged in successfully as {{name}}",
+        "loginFailedTitle": "Login Failed",
+        "incorrectCredentials": "Incorrect credentials.",
+        "biometricsPromptTitle": "Biometrics",
+        "biometricsScanMessage": "Scan face or fingerprint to retrieve credentials...",
+        "biometricsReason": "Authorize to retrieve login credentials",
+        "biometricsFailedTitle": "Biometric Failed",
+        "biometricsDenied": "Access denied or biometric enrollment canceled.",
+        "authSuccess": "Biometrics matched! Welcome back, {{name}}",
+        "authErrorTitle": "Authentication Error",
+        "decryptionFailed": "Decryption failed."
+      }
+    },
+    "protected": {
+      "home": {
+        "welcome": "Welcome back,",
+        "loggedInAs": "Logged in as: {{email}}",
+        "exploreDemos": "Explore Boilerplate Demos",
+        "viewDesignSystem": "View Design System (Kitchen Sink)",
+        "logout": "Logout",
+        "logoutSuccessTitle": "Logged Out",
+        "logoutSuccessMessage": "You have been logged out successfully.",
+        "toastSuccessTitle": "Success!",
+        "toastSuccessMessage": "Feedback system working.",
+        "toastErrorTitle": "Error!",
+        "toastErrorMessage": "System error triggered.",
+        "successToastLabel": "Success Toast",
+        "errorToastLabel": "Error Toast"
+      }
     }
 }

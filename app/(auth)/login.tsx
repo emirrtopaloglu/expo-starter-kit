@@ -51,7 +51,7 @@ export default function LoginScreen() {
 
   const handleStandardLogin = async () => {
     if (!email || !password) {
-      toast.error('Validation Error', 'Please enter your email and password.');
+      toast.error(t('auth.login.validationErrorTitle'), t('auth.login.validationErrorMessage'));
       return;
     }
 
@@ -80,13 +80,13 @@ export default function LoginScreen() {
       );
 
       haptics.notification(haptics.Notification.Success);
-      toast.success('Welcome Back!', `Logged in successfully as ${response.user.name}`);
+      toast.success(t('auth.login.welcomeBackTitle'), t('auth.login.loginSuccess', { name: response.user.name }));
       
       // Navigate to protected root dashboard
       router.replace('/');
     } catch (error: any) {
       haptics.notification(haptics.Notification.Error);
-      toast.error('Login Failed', error.message || 'Incorrect credentials.');
+      toast.error(t('auth.login.loginFailedTitle'), error.message || t('auth.login.incorrectCredentials'));
     } finally {
       setIsSubmitting(false);
     }
@@ -94,17 +94,17 @@ export default function LoginScreen() {
 
   const handleBiometricLogin = async () => {
     haptics.impact();
-    toast.info('Biometrics', 'Scan face or fingerprint to retrieve credentials...');
+    toast.info(t('auth.login.biometricsPromptTitle'), t('auth.login.biometricsScanMessage'));
 
     try {
       // Retrieve stored login payload biometrically
       const credentialsStr = await secureStorage.getItemSecured(
         VAULT_CREDENTIALS_KEY,
-        'Authorize to retrieve login credentials'
+        t('auth.login.biometricsReason')
       );
 
       if (!credentialsStr) {
-        toast.error('Biometric Failed', 'Access denied or biometric enrollment canceled.');
+        toast.error(t('auth.login.biometricsFailedTitle'), t('auth.login.biometricsDenied'));
         return;
       }
 
@@ -123,11 +123,11 @@ export default function LoginScreen() {
       );
 
       haptics.notification(haptics.Notification.Success);
-      toast.success('Authenticated', `Biometrics matched! Welcome back, ${response.user.name}`);
+      toast.success(t('auth.login.welcomeBackTitle'), t('auth.login.authSuccess', { name: response.user.name }));
       router.replace('/');
     } catch (err: any) {
       haptics.notification(haptics.Notification.Error);
-      toast.error('Authentication Error', err.message || 'Decryption failed.');
+      toast.error(t('auth.login.authErrorTitle'), err.message || t('auth.login.decryptionFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -154,10 +154,10 @@ export default function LoginScreen() {
               <Lock color="white" size={32} />
             </Box>
             <Typography variant="h1" align="center" style={{ fontWeight: '800' }}>
-              Expo Starter Kit
+              {t('auth.login.title')}
             </Typography>
             <Typography variant="body" color={theme.colors.text.subtle} align="center">
-              Enter credentials or use biometrics to continue
+              {t('auth.login.subtitle')}
             </Typography>
           </Box>
 
@@ -165,20 +165,20 @@ export default function LoginScreen() {
           <Card>
             <VStack space="md">
               <Input
-                label="Email Address"
+                label={t('auth.login.emailLabel')}
                 value={email}
                 onChangeText={setEmail}
-                placeholder="email@example.com"
+                placeholder={t('auth.login.emailPlaceholder')}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 leftIcon={<Mail size={20} color={theme.colors.text.subtle} />}
               />
 
               <Input
-                label="Password"
+                label={t('auth.login.passwordLabel')}
                 value={password}
                 onChangeText={setPassword}
-                placeholder="••••••••"
+                placeholder={t('auth.login.passwordPlaceholder')}
                 secureTextEntry
                 autoCapitalize="none"
                 leftIcon={<Lock size={20} color={theme.colors.text.subtle} />}
@@ -187,14 +187,14 @@ export default function LoginScreen() {
               {biometricsAvailable && (
                 <HStack align="center" justify="space-between" style={{ paddingVertical: 4 }}>
                   <Typography variant="bodySmall" color={theme.colors.text.subtle}>
-                    Enable Biometric Login
+                    {t('auth.login.enableBiometrics')}
                   </Typography>
                   <Switch value={enableBiometrics} onValueChange={setEnableBiometrics} />
                 </HStack>
               )}
 
               <Button
-                label="Sign In"
+                label={t('auth.login.signIn')}
                 onPress={handleStandardLogin}
                 isLoading={isSubmitting}
                 leftIcon={<LogIn size={20} color="white" />}
@@ -203,7 +203,7 @@ export default function LoginScreen() {
 
               {biometricsAvailable && hasSavedCredentials && (
                 <Button
-                  label="Sign In with Biometrics"
+                  label={t('auth.login.signInBiometrics')}
                   variant="outline"
                   onPress={handleBiometricLogin}
                   disabled={isSubmitting}
@@ -217,12 +217,12 @@ export default function LoginScreen() {
           <Card variant="filled" style={{ borderStyle: 'dashed', borderWidth: 1, borderColor: theme.colors.border.default }}>
             <VStack space="xs" style={{ alignItems: 'center' }}>
               <Typography variant="caption" style={{ fontWeight: '700' }} color={theme.colors.primary}>
-                DEMO LOGIN DETAILS
+                {t('auth.login.demoTitle')}
               </Typography>
-              <Typography variant="caption">Email: admin@starter.kit</Typography>
-              <Typography variant="caption">Password: password123</Typography>
+              <Typography variant="caption">{t('auth.login.demoEmail')}</Typography>
+              <Typography variant="caption">{t('auth.login.demoPassword')}</Typography>
               <Button
-                label="Autofill Demo Credentials"
+                label={t('auth.login.autofillDemo')}
                 size="sm"
                 variant="ghost"
                 onPress={handleQuickFill}

@@ -1,16 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { useTheme } from '@/theme/ThemeContext';
 import { Moon, Sun, Monitor } from 'lucide-react-native';
+import { Typography } from '@/components/ui/Typography';
 
 export default function ThemeToggle() {
   const { themePreference, setThemePreference, theme } = useTheme();
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.label, { color: theme.mode === 'dark' ? '#fff' : '#000' }]}>
+      <Typography
+        variant="bodySmall"
+        style={{
+          color: theme.colors.text.default,
+          marginBottom: theme.spacing.xs,
+          fontWeight: '600',
+        }}
+      >
         Theme ({themePreference})
-      </Text>
+      </Typography>
       <View style={styles.buttonGroup}>
         <Pressable
           style={[styles.button, themePreference === 'light' && styles.activeButton]}
@@ -39,11 +47,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginVertical: 20,
-  },
-  label: {
-    fontSize: 14,
-    marginBottom: 10,
-    fontWeight: '600',
   },
   buttonGroup: {
     flexDirection: 'row',

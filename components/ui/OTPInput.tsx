@@ -57,6 +57,7 @@ export const OTPInput = ({ length = 4, onCodeChanged, error }: OTPInputProps) =>
             color: theme.colors.text.default,
             fontSize: 20,
             fontWeight: '600',
+            fontFamily: theme.typography.families.semibold,
             textAlign: 'center',
           }}
           keyboardType="number-pad"

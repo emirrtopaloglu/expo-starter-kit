@@ -109,6 +109,7 @@ export const Badge = ({
           color: text,
           fontSize: size === 'sm' ? 11 : 13, // Slightly larger font
           fontWeight: '700', // Bolder text
+          fontFamily: theme.typography.families.bold,
           includeFontPadding: false, // Android fix for vertical alignment
           textAlign: 'center',
         }}

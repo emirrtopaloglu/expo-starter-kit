@@ -26,7 +26,7 @@ export default function HomeScreen() {
   const handleLogout = async () => {
     haptics.notification(haptics.Notification.Warning);
     await logout();
-    toast.success('Logged Out', 'You have been logged out successfully.');
+    toast.success(t('protected.home.logoutSuccessTitle'), t('protected.home.logoutSuccessMessage'));
   };
 
   return (
@@ -38,20 +38,20 @@ export default function HomeScreen() {
           {/* Header section with User Info */}
           <Box style={{ alignItems: 'center' }}>
             <Typography variant="h1" align="center" style={{ fontWeight: '800' }}>
-              Welcome back,
+              {t('protected.home.welcome')}
             </Typography>
             <Typography variant="h2" align="center" color={theme.colors.primary} style={{ fontWeight: '700' }}>
               {user?.name || 'User'}
             </Typography>
             <Typography variant="bodySmall" color={theme.colors.text.subtle} align="center" style={{ marginTop: 4 }}>
-              Logged in as: {user?.email}
+              {t('protected.home.loggedInAs', { email: user?.email })}
             </Typography>
           </Box>
 
           {/* Navigation Links Card */}
           <Card>
             <Typography variant="h4" style={{ marginBottom: 12, fontWeight: '700' }}>
-              Explore Boilerplate Demos
+              {t('protected.home.exploreDemos')}
             </Typography>
             <VStack space="sm">
               <Link href="/list" asChild>
@@ -61,7 +61,7 @@ export default function HomeScreen() {
                 <Button label={t('links.form', 'Go to Form Demo (React Hook Form + Zod)')} variant="outline" />
               </Link>
               <Link href="/design-system" asChild>
-                <Button label="View Design System (Kitchen Sink)" variant="outline" />
+                <Button label={t('protected.home.viewDesignSystem')} variant="outline" />
               </Link>
             </VStack>
           </Card>
@@ -98,28 +98,28 @@ export default function HomeScreen() {
           {/* Toast test panel */}
           <HStack space="md" justify="center">
             <Button
-              label="Success Toast"
+              label={t('protected.home.successToastLabel')}
               size="sm"
               variant="ghost"
               onPress={() => {
                 haptics.notification(haptics.Notification.Success);
-                toast.success('Success!', 'Feedback system working.');
+                toast.success(t('protected.home.toastSuccessTitle'), t('protected.home.toastSuccessMessage'));
               }}
             />
             <Button
-              label="Error Toast"
+              label={t('protected.home.errorToastLabel')}
               size="sm"
               variant="ghost"
               onPress={() => {
                 haptics.notification(haptics.Notification.Error);
-                toast.error('Error!', 'System error triggered.');
+                toast.error(t('protected.home.toastErrorTitle'), t('protected.home.toastErrorMessage'));
               }}
             />
           </HStack>
 
           {/* Logout Button */}
           <Button
-            label="Logout"
+            label={t('protected.home.logout')}
             leftIcon={<LogOut size={20} color="white" />}
             onPress={handleLogout}
             style={{ backgroundColor: theme.colors.error.main }}

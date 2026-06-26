@@ -48,7 +48,7 @@ export const SearchBar = ({
           flex: 1,
           color: theme.colors.text.default,
           fontSize: theme.typography.sizes.md,
-          fontFamily: 'PlusJakartaSans_400Regular',
+          fontFamily: theme.typography.families.regular,
           height: '100%',
         }}
         placeholder={placeholder}

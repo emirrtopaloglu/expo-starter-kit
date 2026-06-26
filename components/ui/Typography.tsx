@@ -29,13 +29,13 @@ export function Typography({
 
     switch (weight) {
       case 'regular':
-        return { fontFamily: 'PlusJakartaSans_400Regular' };
+        return { fontFamily: theme.typography.families.regular };
       case 'medium':
-        return { fontFamily: 'PlusJakartaSans_500Medium' };
+        return { fontFamily: theme.typography.families.medium };
       case 'semibold':
-        return { fontFamily: 'PlusJakartaSans_600SemiBold' };
+        return { fontFamily: theme.typography.families.semibold };
       case 'bold':
-        return { fontFamily: 'PlusJakartaSans_700Bold' };
+        return { fontFamily: theme.typography.families.bold };
       default:
         return {};
     }

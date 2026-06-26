@@ -75,7 +75,7 @@ export const IconBadge = ({
               color: textColor,
               fontSize: size === 'sm' ? 8.5 : 10, // Slightly smaller font size to fit double digits beautifully
               fontWeight: '700',
-              fontFamily: 'PlusJakartaSans_700Bold', // Use strict bold font family
+              fontFamily: theme.typography.families.bold, // Use strict bold font family
               textAlign: 'center',
               includeFontPadding: false, // Android alignment fix
               textAlignVertical: 'center', // Android alignment fix
