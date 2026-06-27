@@ -17,7 +17,7 @@ import { Sparkles, Users, Activity, HelpCircle, ChevronRight } from 'lucide-reac
 export default function DashboardScreen() {
   const { t } = useTranslation();
   const { theme } = useTheme();
-  const { user } = useStore();
+  const { user, isPremium } = useStore();
   const router = useRouter();
 
   // Mock activity feed items
@@ -60,29 +60,34 @@ export default function DashboardScreen() {
           </HStack>
 
           {/* Premium Upsell Card */}
-          <Card variant="filled" style={{ backgroundColor: theme.colors.primary, borderWidth: 0 }}>
-            <HStack justify="space-between" align="center">
-              <VStack space="xs" style={{ flex: 1, marginRight: 12 }}>
-                <HStack space="xs" align="center">
-                  <Sparkles size={18} color="white" />
-                  <Typography variant="bodySmall" style={{ fontWeight: '700', color: 'white' }}>
-                    {t('protected.paywall.header')}
+          {!isPremium && (
+            <Card
+              variant="filled"
+              style={{ backgroundColor: theme.colors.primary, borderWidth: 0 }}
+            >
+              <HStack justify="space-between" align="center">
+                <VStack space="xs" style={{ flex: 1, marginRight: 12 }}>
+                  <HStack space="xs" align="center">
+                    <Sparkles size={18} color="white" />
+                    <Typography variant="bodySmall" style={{ fontWeight: '700', color: 'white' }}>
+                      {t('protected.paywall.header')}
+                    </Typography>
+                  </HStack>
+                  <Typography variant="caption" style={{ color: 'rgba(255, 255, 255, 0.85)' }}>
+                    {t('protected.paywall.subtitle')}
                   </Typography>
-                </HStack>
-                <Typography variant="caption" style={{ color: 'rgba(255, 255, 255, 0.85)' }}>
-                  {t('protected.paywall.subtitle')}
-                </Typography>
-              </VStack>
-              <Button
-                label={t('protected.home.viewAll')}
-                size="sm"
-                variant="solid"
-                onPress={() => router.push('/paywall')}
-                style={{ backgroundColor: 'white', alignSelf: 'center' }}
-                textColor={theme.colors.primary}
-              />
-            </HStack>
-          </Card>
+                </VStack>
+                <Button
+                  label={t('protected.home.viewAll')}
+                  size="sm"
+                  variant="solid"
+                  onPress={() => router.push('/paywall')}
+                  style={{ backgroundColor: 'white', alignSelf: 'center' }}
+                  textColor={theme.colors.primary}
+                />
+              </HStack>
+            </Card>
+          )}
 
           {/* Stats Grid */}
           <Typography variant="h4" style={{ fontWeight: '700', marginTop: 4 }}>

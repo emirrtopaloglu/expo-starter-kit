@@ -12,9 +12,11 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Switch } from '@/components/ui/Switch';
 import { ListItem } from '@/components/ui/ListItem';
+import { Badge } from '@/components/ui/Badge';
 import { haptics } from '@/utils/haptics';
 import { toast } from '@/utils/toast';
 import { secureStorage } from '@/utils/secureStorage';
+import { revenueCat } from '@/utils/revenueCat';
 import {
   User,
   Sparkles,
@@ -30,7 +32,7 @@ import {
 export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
   const { theme, themePreference, setThemePreference } = useTheme();
-  const { user, logout } = useStore();
+  const { user, logout, isPremium } = useStore();
   const router = useRouter();
 
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -46,14 +48,20 @@ export default function ProfileScreen() {
     haptics.impact();
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      haptics.notification(haptics.Notification.Success);
-      toast.success(
-        t('protected.paywall.restoreSuccessTitle'),
-        t('protected.paywall.restoreSuccessMessage')
-      );
+      const success = await revenueCat.restorePurchases();
+      if (success) {
+        haptics.notification(haptics.Notification.Success);
+        toast.success(
+          t('protected.paywall.restoreSuccessTitle'),
+          t('protected.paywall.restoreSuccessMessage')
+        );
+      } else {
+        haptics.notification(haptics.Notification.Warning);
+        toast.error('Restore Failed', 'No active subscription entitlements found.');
+      }
     } catch {
       haptics.notification(haptics.Notification.Error);
+      toast.error('Restore Failed', 'Error communicating with App Store / Google Play.');
     } finally {
       setIsSyncing(false);
     }
@@ -112,9 +120,14 @@ export default function ProfileScreen() {
                 <User color="white" size={24} />
               </Box>
               <VStack space="xs" style={{ flex: 1 }}>
-                <Typography variant="body" style={{ fontWeight: '700' }}>
-                  {user?.name || 'User'}
-                </Typography>
+                <HStack space="xs" align="center">
+                  <Typography variant="body" style={{ fontWeight: '700' }}>
+                    {user?.name || 'User'}
+                  </Typography>
+                  {isPremium && (
+                    <Badge label="PRO" variant="solid" colorScheme="primary" size="sm" />
+                  )}
+                </HStack>
                 <Typography variant="caption" color={theme.colors.text.subtle}>
                   {user?.email}
                 </Typography>

@@ -16,5 +16,11 @@ declare namespace NodeJS {
      * API key for the backend service.
      */
     EXPO_PUBLIC_API_KEY?: string;
+    /**
+     * RevenueCat API Keys
+     */
+    EXPO_PUBLIC_REVENUECAT_APPLE_KEY?: string;
+    EXPO_PUBLIC_REVENUECAT_GOOGLE_KEY?: string;
+    EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID?: string;
   }
 }

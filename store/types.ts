@@ -36,8 +36,10 @@ export interface NetworkSlice {
 export interface AppSlice {
   hasCompletedOnboarding: boolean;
   language: string;
+  isPremium: boolean;
   setCompletedOnboarding: (completed: boolean) => void;
   setLanguage: (lang: string) => void;
+  setPremium: (premium: boolean) => void;
 }
 
 // Combined state for unified useStore hook

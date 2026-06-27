@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
-import { AuthSlice, RootState, User } from '../types';
+import { AuthSlice, RootState } from '../types';
 import { tokenManager } from '@/utils/tokenManager';
+import { revenueCat } from '@/utils/revenueCat';
 
 export const createAuthSlice: StateCreator<RootState, [], [], AuthSlice> = (set) => ({
   isAuthenticated: false,
@@ -12,6 +13,8 @@ export const createAuthSlice: StateCreator<RootState, [], [], AuthSlice> = (set)
     try {
       await tokenManager.setTokens(accessToken, refreshToken, expiresIn);
       set({ isAuthenticated: true, user, isAuthLoading: false });
+      // Identify user in RevenueCat
+      revenueCat.logIn(user.id);
     } catch (error) {
       console.error('AuthSlice: Login error:', error);
       set({ isAuthLoading: false });
@@ -23,6 +26,8 @@ export const createAuthSlice: StateCreator<RootState, [], [], AuthSlice> = (set)
     try {
       await tokenManager.clearTokens();
       set({ isAuthenticated: false, user: null, isAuthLoading: false });
+      // Reset user identification in RevenueCat
+      revenueCat.logOut();
     } catch (error) {
       console.error('AuthSlice: Logout error:', error);
       set({ isAuthLoading: false });

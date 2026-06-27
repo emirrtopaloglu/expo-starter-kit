@@ -25,6 +25,7 @@ import { AppUpdateBanner } from '@/components/AppUpdateBanner';
 
 import { useStore } from '@/store';
 import { queryClient } from '@/api/queryClient';
+import { revenueCat } from '@/utils/revenueCat';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -93,8 +94,16 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    // Set premium listener callback to update Zustand store state
+    // and break circular dependencies
+    revenueCat.setPremiumListener((isPremium) => {
+      useStore.getState().setPremium(isPremium);
+    });
+
     // pre-emptively load credentials from secure storage
     initializeAuth();
+    // Initialize RevenueCat SDK
+    revenueCat.initialize();
   }, [initializeAuth]);
 
   useEffect(() => {

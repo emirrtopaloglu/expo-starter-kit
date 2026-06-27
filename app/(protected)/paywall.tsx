@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/theme/ThemeContext';
@@ -12,14 +12,71 @@ import { Badge } from '@/components/ui/Badge';
 import { Check, X, ShieldAlert, Sparkles } from 'lucide-react-native';
 import { toast } from '@/utils/toast';
 import { haptics } from '@/utils/haptics';
+import { revenueCat, PurchasesPackage } from '@/utils/revenueCat';
+import { ActivityIndicator } from 'react-native';
 
 export default function PaywallScreen() {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const router = useRouter();
 
-  const [selectedPlan, setSelectedPlan] = useState<'annual' | 'monthly'>('annual');
+  const [packages, setPackages] = useState<any[]>([]);
+  const [selectedPackage, setSelectedPackage] = useState<any | null>(null);
   const [isBuying, setIsBuying] = useState(false);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [isRestoring, setIsRestoring] = useState(false);
+
+  // Fallback mock packages for simulator or unconfigured environments
+  const getMockPackages = useCallback(
+    () => [
+      {
+        identifier: 'mock_annual',
+        packageType: 'ANNUAL',
+        product: {
+          title: t('protected.paywall.planAnnual'),
+          priceString: t('protected.paywall.planAnnualPrice'),
+          description: t('protected.paywall.planAnnualDetail'),
+        },
+      },
+      {
+        identifier: 'mock_monthly',
+        packageType: 'MONTHLY',
+        product: {
+          title: t('protected.paywall.planMonthly'),
+          priceString: t('protected.paywall.planMonthlyPrice'),
+          description: t('protected.paywall.planMonthlyDetail'),
+        },
+      },
+    ],
+    [t]
+  );
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const offering = await revenueCat.fetchActiveOfferings();
+        if (offering && offering.availablePackages.length > 0) {
+          setPackages(offering.availablePackages);
+          // Set default selected package to Annual, else first available
+          const annualPack = offering.availablePackages.find((p) => p.packageType === 'ANNUAL');
+          setSelectedPackage(annualPack || offering.availablePackages[0]);
+        } else {
+          // Fallback to mocks if no live products configured
+          const mocks = getMockPackages();
+          setPackages(mocks);
+          setSelectedPackage(mocks[0]);
+        }
+      } catch (error) {
+        console.error('Failed to load offerings, loading fallback mock products:', error);
+        const mocks = getMockPackages();
+        setPackages(mocks);
+        setSelectedPackage(mocks[0]);
+      } finally {
+        setIsLoadingProducts(false);
+      }
+    }
+    loadProducts();
+  }, [getMockPackages]);
 
   const features = [
     t('protected.paywall.feature1'),
@@ -30,24 +87,74 @@ export default function PaywallScreen() {
   ];
 
   const handleSubscribe = async () => {
+    if (!selectedPackage) return;
     setIsBuying(true);
     haptics.impact();
 
     try {
-      // Simulate Stripe/RevenueCat purchase flow
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      haptics.notification(haptics.Notification.Success);
-      toast.success(
-        t('protected.paywall.subscribeSuccessTitle'),
-        t('protected.paywall.subscribeSuccessMessage')
-      );
-      router.back();
-    } catch {
+      if (selectedPackage.identifier.startsWith('mock_')) {
+        // Simulate mockup purchase flow
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        haptics.notification(haptics.Notification.Success);
+        toast.success(
+          t('protected.paywall.subscribeSuccessTitle'),
+          t('protected.paywall.subscribeSuccessMessage') + ' (Mock Success)'
+        );
+        router.back();
+      } else {
+        // Real RevenueCat subscription flow
+        const success = await revenueCat.purchasePackage(selectedPackage as PurchasesPackage);
+        if (success) {
+          haptics.notification(haptics.Notification.Success);
+          toast.success(
+            t('protected.paywall.subscribeSuccessTitle'),
+            t('protected.paywall.subscribeSuccessMessage')
+          );
+          router.back();
+        }
+      }
+    } catch (error: any) {
       haptics.notification(haptics.Notification.Error);
-      toast.error('Payment Error', 'Purchase was canceled or transaction failed.');
+      if (!error.userCancelled) {
+        toast.error('Payment Error', error.message || 'Purchase transaction failed.');
+      }
     } finally {
       setIsBuying(false);
+    }
+  };
+
+  const handleRestore = async () => {
+    setIsRestoring(true);
+    haptics.impact();
+
+    try {
+      if (selectedPackage?.identifier.startsWith('mock_')) {
+        // Simulate mockup restore
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        haptics.notification(haptics.Notification.Success);
+        toast.success(
+          t('protected.paywall.restoreSuccessTitle'),
+          t('protected.paywall.restoreSuccessMessage') + ' (Mock Success)'
+        );
+      } else {
+        // Real RevenueCat restore
+        const success = await revenueCat.restorePurchases();
+        if (success) {
+          haptics.notification(haptics.Notification.Success);
+          toast.success(
+            t('protected.paywall.restoreSuccessTitle'),
+            t('protected.paywall.restoreSuccessMessage')
+          );
+        } else {
+          haptics.notification(haptics.Notification.Warning);
+          toast.error('Restore Failed', 'No active subscription entitlements found.');
+        }
+      }
+    } catch {
+      haptics.notification(haptics.Notification.Error);
+      toast.error('Restore Failed', 'Error communicating with app stores.');
+    } finally {
+      setIsRestoring(false);
     }
   };
 
@@ -121,71 +228,58 @@ export default function PaywallScreen() {
 
           {/* Plans selection list */}
           <VStack space="md" style={{ marginTop: theme.spacing.sm }}>
-            {/* Annual Card */}
-            <Card
-              onPress={() => setSelectedPlan('annual')}
-              style={{
-                borderColor:
-                  selectedPlan === 'annual' ? theme.colors.primary : theme.colors.border.default,
-                borderWidth: selectedPlan === 'annual' ? 2 : 1,
-                padding: theme.spacing.md,
-                backgroundColor:
-                  selectedPlan === 'annual'
-                    ? theme.colors.background.paper
-                    : theme.colors.background.card,
-              }}
-            >
-              <HStack justify="space-between" align="center">
-                <VStack space="xs" style={{ flex: 1 }}>
-                  <HStack space="xs" align="center">
-                    <Typography variant="body" style={{ fontWeight: '700' }}>
-                      {t('protected.paywall.planAnnual')}
-                    </Typography>
-                    <Badge
-                      label={t('protected.paywall.popular')}
-                      variant="solid"
-                      colorScheme="success"
-                      size="sm"
-                    />
-                  </HStack>
-                  <Typography variant="caption" color={theme.colors.text.subtle}>
-                    {t('protected.paywall.planAnnualDetail')}
-                  </Typography>
-                </VStack>
-                <Typography variant="h3" style={{ fontWeight: '800' }}>
-                  {t('protected.paywall.planAnnualPrice')}
-                </Typography>
-              </HStack>
-            </Card>
-
-            {/* Monthly Card */}
-            <Card
-              onPress={() => setSelectedPlan('monthly')}
-              style={{
-                borderColor:
-                  selectedPlan === 'monthly' ? theme.colors.primary : theme.colors.border.default,
-                borderWidth: selectedPlan === 'monthly' ? 2 : 1,
-                padding: theme.spacing.md,
-                backgroundColor:
-                  selectedPlan === 'monthly'
-                    ? theme.colors.background.paper
-                    : theme.colors.background.card,
-              }}
-            >
-              <HStack justify="space-between" align="center">
-                <VStack space="xs" style={{ flex: 1 }}>
-                  <Typography variant="body" style={{ fontWeight: '700' }}>
-                    {t('protected.paywall.planMonthly')}
-                  </Typography>
-                  <Typography variant="caption" color={theme.colors.text.subtle}>
-                    {t('protected.paywall.planMonthlyDetail')}
-                  </Typography>
-                </VStack>
-                <Typography variant="h3" style={{ fontWeight: '800' }}>
-                  {t('protected.paywall.planMonthlyPrice')}
-                </Typography>
-              </HStack>
-            </Card>
+            {isLoadingProducts ? (
+              <Box style={{ padding: theme.spacing.xl, alignItems: 'center' }}>
+                <ActivityIndicator size="large" color={theme.colors.primary} />
+              </Box>
+            ) : (
+              packages.map((pack) => {
+                const isSelected = selectedPackage?.identifier === pack.identifier;
+                const isAnnual = pack.packageType === 'ANNUAL';
+                return (
+                  <Card
+                    key={pack.identifier}
+                    onPress={() => setSelectedPackage(pack)}
+                    style={{
+                      borderColor: isSelected ? theme.colors.primary : theme.colors.border.default,
+                      borderWidth: isSelected ? 2 : 1,
+                      padding: theme.spacing.md,
+                      backgroundColor: isSelected
+                        ? theme.colors.background.paper
+                        : theme.colors.background.card,
+                    }}
+                  >
+                    <HStack justify="space-between" align="center">
+                      <VStack space="xs" style={{ flex: 1 }}>
+                        <HStack space="xs" align="center">
+                          <Typography variant="body" style={{ fontWeight: '700' }}>
+                            {isAnnual
+                              ? t('protected.paywall.planAnnual')
+                              : t('protected.paywall.planMonthly')}
+                          </Typography>
+                          {isAnnual && (
+                            <Badge
+                              label={t('protected.paywall.popular')}
+                              variant="solid"
+                              colorScheme="success"
+                              size="sm"
+                            />
+                          )}
+                        </HStack>
+                        <Typography variant="caption" color={theme.colors.text.subtle}>
+                          {isAnnual
+                            ? t('protected.paywall.planAnnualDetail')
+                            : t('protected.paywall.planMonthlyDetail')}
+                        </Typography>
+                      </VStack>
+                      <Typography variant="h3" style={{ fontWeight: '800' }}>
+                        {pack.product.priceString}
+                      </Typography>
+                    </HStack>
+                  </Card>
+                );
+              })
+            )}
           </VStack>
         </VStack>
       </Box>
@@ -199,8 +293,18 @@ export default function PaywallScreen() {
           label={t('protected.paywall.subscribe')}
           onPress={handleSubscribe}
           isLoading={isBuying}
+          disabled={isLoadingProducts}
           leftIcon={<Sparkles size={20} color="white" />}
           style={{ height: 50 }}
+        />
+
+        <Button
+          label={t('protected.paywall.restore')}
+          onPress={handleRestore}
+          isLoading={isRestoring}
+          disabled={isLoadingProducts}
+          variant="ghost"
+          size="sm"
         />
 
         <HStack space="sm" justify="center" align="center">
