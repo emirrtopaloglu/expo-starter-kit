@@ -66,7 +66,7 @@ export function useAppUpdate() {
       if (updateCheck.isAvailable) {
         setUpdateDownloading(true);
         const fetchResult = await Updates.fetchUpdateAsync();
-        
+
         if (fetchResult.isNew) {
           setUpdateAvailable(true);
         }

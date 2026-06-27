@@ -6,7 +6,7 @@ export const uploadService = {
     const formData = new FormData();
     // FormData requires standard name, type, and uri objects in React Native
     formData.append('file', { uri, type: 'image/jpeg', name: 'upload.jpg' } as any);
-    
+
     return client.post<ApiResponse<{ url: string }>>('/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress: (e) => {

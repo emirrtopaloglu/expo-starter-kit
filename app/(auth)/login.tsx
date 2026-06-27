@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'expo-router';
+import { useRouter, Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useStore, User } from '@/store';
 import { authService } from '@/api/services/authService';
@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/Button';
 import { Switch } from '@/components/ui/Switch';
 import { Card } from '@/components/ui/Card';
 import { Mail, Lock, Fingerprint, LogIn } from 'lucide-react-native';
+import { Image } from 'react-native';
 
 const VAULT_CREDENTIALS_KEY = 'vault_login_credentials';
 
@@ -80,13 +81,19 @@ export default function LoginScreen() {
       );
 
       haptics.notification(haptics.Notification.Success);
-      toast.success(t('auth.login.welcomeBackTitle'), t('auth.login.loginSuccess', { name: response.user.name }));
-      
+      toast.success(
+        t('auth.login.welcomeBackTitle'),
+        t('auth.login.loginSuccess', { name: response.user.name })
+      );
+
       // Navigate to protected root dashboard
       router.replace('/');
     } catch (error: any) {
       haptics.notification(haptics.Notification.Error);
-      toast.error(t('auth.login.loginFailedTitle'), error.message || t('auth.login.incorrectCredentials'));
+      toast.error(
+        t('auth.login.loginFailedTitle'),
+        error.message || t('auth.login.incorrectCredentials')
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -109,7 +116,7 @@ export default function LoginScreen() {
       }
 
       const { email: savedEmail, password: savedPassword } = JSON.parse(credentialsStr);
-      
+
       setIsSubmitting(true);
 
       // Trigger login API with decrypted credentials
@@ -123,7 +130,10 @@ export default function LoginScreen() {
       );
 
       haptics.notification(haptics.Notification.Success);
-      toast.success(t('auth.login.welcomeBackTitle'), t('auth.login.authSuccess', { name: response.user.name }));
+      toast.success(
+        t('auth.login.welcomeBackTitle'),
+        t('auth.login.authSuccess', { name: response.user.name })
+      );
       router.replace('/');
     } catch (err: any) {
       haptics.notification(haptics.Notification.Error);
@@ -145,14 +155,16 @@ export default function LoginScreen() {
         <VStack space="xl">
           {/* Logo & Header */}
           <Box style={{ alignItems: 'center' }}>
-            <Box
-              bg={theme.colors.primary}
-              p="md"
-              rounded="full"
-              style={{ marginBottom: theme.spacing.md }}
-            >
-              <Lock color="white" size={32} />
-            </Box>
+            <Image
+              source={require('../../assets/icon.png')}
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: theme.radius.xl,
+                marginBottom: theme.spacing.md,
+              }}
+              resizeMode="contain"
+            />
             <Typography variant="h1" align="center" style={{ fontWeight: '800' }}>
               {t('auth.login.title')}
             </Typography>
@@ -210,13 +222,33 @@ export default function LoginScreen() {
                   leftIcon={<Fingerprint size={20} color={theme.colors.primary} />}
                 />
               )}
+
+              <HStack justify="space-between" style={{ marginTop: 8 }}>
+                <Link href="/forgot-password" asChild>
+                  <Button label={t('auth.forgotPassword.title')} variant="ghost" size="sm" />
+                </Link>
+                <Link href="/register" asChild>
+                  <Button label={t('auth.register.signUp')} variant="ghost" size="sm" />
+                </Link>
+              </HStack>
             </VStack>
           </Card>
 
           {/* Quick Demo Credentials */}
-          <Card variant="filled" style={{ borderStyle: 'dashed', borderWidth: 1, borderColor: theme.colors.border.default }}>
+          <Card
+            variant="filled"
+            style={{
+              borderStyle: 'dashed',
+              borderWidth: 1,
+              borderColor: theme.colors.border.default,
+            }}
+          >
             <VStack space="xs" style={{ alignItems: 'center' }}>
-              <Typography variant="caption" style={{ fontWeight: '700' }} color={theme.colors.primary}>
+              <Typography
+                variant="caption"
+                style={{ fontWeight: '700' }}
+                color={theme.colors.primary}
+              >
                 {t('auth.login.demoTitle')}
               </Typography>
               <Typography variant="caption">{t('auth.login.demoEmail')}</Typography>

@@ -13,7 +13,7 @@ export const NetworkBanner = () => {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
-  
+
   // Animation value
   const slideAnim = useRef(new Animated.Value(-100)).current;
 
@@ -53,10 +53,7 @@ export const NetworkBanner = () => {
     >
       <HStack space="sm" align="center" justify="center" style={{ flex: 1 }}>
         <WifiOff size={18} color="white" />
-        <Typography
-          variant="bodySmall"
-          style={{ color: 'white', fontWeight: '600' }}
-        >
+        <Typography variant="bodySmall" style={{ color: 'white', fontWeight: '600' }}>
           {t('network.offline')}
         </Typography>
       </HStack>

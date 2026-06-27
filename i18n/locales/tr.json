@@ -6,75 +6,207 @@
     "list": "Yapılacaklar Listesine Git (Zustand + FlashList)",
     "form": "Form Demosuna Git (React Hook Form + Zod)"
   },
-    "language": {
-      "current": "Mevcut Dil: {{lang}}",
-      "switch": "Dili Değiştir"
-    },
-    "network": {
-      "offline": "İnternet Bağlantısı Yok"
-    },
-    "notFound": {
-      "title": "Sayfa Bulunamadı",
-      "description": "Aradığınız sayfa mevcut değil veya başka bir yere taşınmış olabilir.",
-      "backHome": "Ana Sayfaya Dön"
-    },
-    "actionSheet": {
-      "title": "Fotoğraf Kaynağı Seçin",
-      "message": "Fotoğrafı yüklemek istediğiniz kaynağı seçin",
-      "camera": "Kamerayı Aç / Fotoğraf Çek",
-      "gallery": "Galeriden Seç",
-      "cancel": "İptal"
-    },
-    "update": {
-      "available": "Yeni bir güncelleme mevcut. Yeniden başlatmak için tıklayın.",
-      "downloading": "Güncelleme indiriliyor..."
-    },
-    "auth": {
-      "login": {
-        "title": "Expo Starter Kit",
-        "subtitle": "Devam etmek için giriş bilgilerini girin veya biyometriyi kullanın",
-        "emailLabel": "E-posta Adresi",
-        "emailPlaceholder": "e-posta@ornek.com",
-        "passwordLabel": "Şifre",
-        "passwordPlaceholder": "••••••••",
-        "enableBiometrics": "Biyometrik Girişi Aktif Et",
-        "signIn": "Giriş Yap",
-        "signInBiometrics": "Biyometrik ile Giriş Yap",
-        "demoTitle": "DEMO GİRİŞ BİLGİLERİ",
-        "demoEmail": "E-posta: admin@starter.kit",
-        "demoPassword": "Şifre: password123",
-        "autofillDemo": "Demo Bilgilerini Otomatik Doldur",
-        "validationErrorTitle": "Doğrulama Hatası",
-        "validationErrorMessage": "Lütfen e-posta adresinizi ve şifrenizi girin.",
-        "welcomeBackTitle": "Tekrar Hoşgeldiniz!",
-        "loginSuccess": "{{name}} olarak başarıyla giriş yapıldı",
-        "loginFailedTitle": "Giriş Başarısız",
-        "incorrectCredentials": "Geçersiz giriş bilgileri.",
-        "biometricsPromptTitle": "Biyometrik",
-        "biometricsScanMessage": "Giriş bilgilerini almak için yüz veya parmak izinizi taratın...",
-        "biometricsReason": "Giriş bilgilerini almak için yetki verin",
-        "biometricsFailedTitle": "Biyometrik Başarısız",
-        "biometricsDenied": "Erişim reddedildi veya biyometrik kayıt iptal edildi.",
-        "authSuccess": "Biyometrik doğrulandı! Tekrar hoşgeldin, {{name}}",
-        "authErrorTitle": "Kimlik Doğrulama Hatası",
-        "decryptionFailed": "Şifre çözme başarısız oldu."
+  "language": {
+    "current": "Mevcut Dil: {{lang}}",
+    "switch": "Dili Değiştir"
+  },
+  "network": {
+    "offline": "İnternet Bağlantısı Yok"
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa mevcut değil veya başka bir yere taşınmış olabilir.",
+    "backHome": "Ana Sayfaya Dön"
+  },
+  "actionSheet": {
+    "title": "Fotoğraf Kaynağı Seçin",
+    "message": "Fotoğrafı yüklemek istediğiniz kaynağı seçin",
+    "camera": "Kamerayı Aç / Fotoğraf Çek",
+    "gallery": "Galeriden Seç",
+    "cancel": "İptal"
+  },
+  "update": {
+    "available": "Yeni bir güncelleme mevcut. Yeniden başlatmak için tıklayın.",
+    "downloading": "Güncelleme indiriliyor..."
+  },
+  "onboarding": {
+    "slides": [
+      {
+        "title": "Modern Native Mimari",
+        "description": "Hızlı ve çapraz platform bir uygulama altyapısı için Expo SDK 54, React Native ve Expo Router ile geliştirilmiştir."
+      },
+      {
+        "title": "Gelişmiş State & Network",
+        "description": "Zustand yerel uygulama durumunu yönetirken, TanStack Query önbellekleme, sayfalama ve API veri çekme işlemlerini organize eder."
+      },
+      {
+        "title": "Premium Tasarım Sistemi",
+        "description": "Sistem duyarlı Açık/Koyu tema, organik gölgeler ve Outfit tipografisi ile tasarlanmış 35'ten fazla atomik bileşen."
       }
-    },
-    "protected": {
-      "home": {
-        "welcome": "Tekrar hoşgeldiniz,",
-        "loggedInAs": "Giriş yapılan hesap: {{email}}",
-        "exploreDemos": "Boilerplate Demolarını İnceleyin",
-        "viewDesignSystem": "Tasarım Sistemini Görüntüle (Kitchen Sink)",
-        "logout": "Çıkış Yap",
-        "logoutSuccessTitle": "Çıkış Yapıldı",
-        "logoutSuccessMessage": "Başarıyla çıkış yaptınız.",
-        "toastSuccessTitle": "Başarılı!",
-        "toastSuccessMessage": "Geri bildirim sistemi çalışıyor.",
-        "toastErrorTitle": "Hata!",
-        "toastErrorMessage": "Sistem hatası tetiklendi.",
-        "successToastLabel": "Başarı Bildirimi",
-        "errorToastLabel": "Hata Bildirimi"
-      }
+    ],
+    "buttons": {
+      "next": "İleri",
+      "skip": "Geç",
+      "getStarted": "Başla"
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Expo Starter Kit",
+      "subtitle": "Devam etmek için giriş bilgilerini girin veya biyometriyi kullanın",
+      "emailLabel": "E-posta Adresi",
+      "emailPlaceholder": "e-posta@ornek.com",
+      "passwordLabel": "Şifre",
+      "passwordPlaceholder": "••••••••",
+      "enableBiometrics": "Biyometrik Girişi Aktif Et",
+      "signIn": "Giriş Yap",
+      "signInBiometrics": "Biyometrik ile Giriş Yap",
+      "demoTitle": "DEMO GİRİŞ BİLGİLERİ",
+      "demoEmail": "E-posta: admin@starter.kit",
+      "demoPassword": "Şifre: password123",
+      "autofillDemo": "Demo Bilgilerini Otomatik Doldur",
+      "validationErrorTitle": "Doğrulama Hatası",
+      "validationErrorMessage": "Lütfen e-posta adresinizi ve şifrenizi girin.",
+      "welcomeBackTitle": "Tekrar Hoşgeldiniz!",
+      "loginSuccess": "{{name}} olarak başarıyla giriş yapıldı",
+      "loginFailedTitle": "Giriş Başarısız",
+      "incorrectCredentials": "Geçersiz giriş bilgileri.",
+      "biometricsPromptTitle": "Biyometrik",
+      "biometricsScanMessage": "Giriş bilgilerini almak için yüz veya parmak izinizi taratın...",
+      "biometricsReason": "Giriş bilgilerini almak için yetki verin",
+      "biometricsFailedTitle": "Biyometrik Başarısız",
+      "biometricsDenied": "Erişim reddedildi veya biyometrik kayıt iptal edildi.",
+      "authSuccess": "Biyometrik doğrulandı! Tekrar hoşgeldin, {{name}}",
+      "authErrorTitle": "Kimlik Doğrulama Hatası",
+      "decryptionFailed": "Şifre çözme başarısız oldu."
+    },
+    "register": {
+      "title": "Hesap Oluştur",
+      "subtitle": "Starter Kit'in tüm premium özelliklerine erişmek için kaydolun",
+      "nameLabel": "Ad Soyad",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "E-posta Adresi",
+      "emailPlaceholder": "e-posta@ornek.com",
+      "passwordLabel": "Şifre",
+      "passwordPlaceholder": "En az 6 karakter",
+      "signUp": "Kaydol",
+      "alreadyHaveAccount": "Zaten hesabınız var mı? Giriş Yapın",
+      "successTitle": "Hesap Oluşturuldu",
+      "successMessage": "Hesabınız başarıyla kaydedildi.",
+      "errorTitle": "Kayıt Başarısız"
+    },
+    "forgotPassword": {
+      "title": "Şifre Sıfırlama",
+      "subtitle": "E-posta adresinizi girin, şifre kurtarma bağlantısı gönderelim",
+      "emailLabel": "E-posta Adresi",
+      "emailPlaceholder": "e-posta@ornek.com",
+      "submit": "Kurtarma Bağlantısı Gönder",
+      "backToLogin": "Giriş Ekranına Dön",
+      "successTitle": "E-posta Gönderildi",
+      "successMessage": "Kurtarma e-postası {{email}} adresine gönderilmiştir.",
+      "errorTitle": "İstek Başarısız"
+    }
+  },
+  "protected": {
+    "tabs": {
+      "home": "Ana Sayfa",
+      "dashboard": "Panel",
+      "premium": "Premium",
+      "settings": "Ayarlar"
+    },
+    "home": {
+      "welcome": "Tekrar hoşgeldiniz,",
+      "loggedInAs": "Giriş yapılan hesap: {{email}}",
+      "exploreDemos": "Boilerplate Demolarını İnceleyin",
+      "viewDesignSystem": "Tasarım Sistemini Görüntüle (Kitchen Sink)",
+      "logout": "Çıkış Yap",
+      "logoutSuccessTitle": "Çıkış Yapıldı",
+      "logoutSuccessMessage": "Başarıyla çıkış yaptınız.",
+      "toastSuccessTitle": "Başarılı!",
+      "toastSuccessMessage": "Geri bildirim sistemi çalışıyor.",
+      "toastErrorTitle": "Hata!",
+      "toastErrorMessage": "Sistem hatası tetiklendi.",
+      "successToastLabel": "Başarı Bildirimi",
+      "errorToastLabel": "Hata Bildirimi",
+      "quickStats": "Hızlı Uygulama İstatistikleri",
+      "totalUsers": "Toplam Kurulum",
+      "premiumSubscribers": "Premium Kullanıcı",
+      "activeTasks": "Aktif Oturum",
+      "conversionRate": "Dönüşüm",
+      "recentActivity": "Son Gelişmeler Akışı",
+      "activityFeedTitle": "Geliştirici Günlüğü",
+      "viewAll": "Detayları Gör"
+    },
+    "paywall": {
+      "header": "Premium'a Geçin",
+      "subtitle": "Tüm özel özelliklere ve geliştirici şablonlarına erişim sağlayın",
+      "feature1": "Çoklu slayt içeren onboarding akışı",
+      "feature2": "Doğrulanmış Kayıt & Şifre Sıfırlama formları",
+      "feature3": "Entegre iOS/Android Alt Menü (Tab Bar) tasarımı",
+      "feature4": "Kapsamlı Ayarlar ve Profil düzenleme görünümü",
+      "feature5": "Temiz ve tip güvenli TanStack Query detay sayfaları",
+      "planMonthly": "Aylık Paket",
+      "planMonthlyPrice": "₺149.99 / ay",
+      "planMonthlyDetail": "Aylık faturalandırılır, dilediğinizde iptal edin.",
+      "planAnnual": "Yıllık Premium",
+      "planAnnualPrice": "₺899.99 / yıl",
+      "planAnnualDetail": "%50 tasarruf edin! En avantajlı paket.",
+      "popular": "En Popüler",
+      "subscribe": "Şimdi Abone Ol",
+      "restore": "Satın Almaları Kurtar",
+      "secured": "Stripe & RevenueCat ile Güvenli Ödeme Altyapısı",
+      "restoreSuccessTitle": "Abonelik Kurtarıldı",
+      "restoreSuccessMessage": "Abonelik durumunuz başarıyla senkronize edildi.",
+      "subscribeSuccessTitle": "Premium'a Hoşgeldiniz",
+      "subscribeSuccessMessage": "Aboneliğiniz başarıyla aktif edildi!"
+    },
+    "settings": {
+      "title": "Ayarlar",
+      "subtitle": "Uygulama davranışlarını ve yerel tercihleri yönetin",
+      "sectionProfile": "Kullanıcı Profili",
+      "sectionPreferences": "Tercihler",
+      "sectionMore": "Bilgi & Destek",
+      "themeLabel": "Karanlık Mod",
+      "notificationsLabel": "Anlık Bildirimler",
+      "languageLabel": "Uygulama Dili",
+      "supportLabel": "Destek & Geri Bildirim",
+      "termsLabel": "Kullanım Koşulları",
+      "privacyLabel": "Gizlilik Politikası",
+      "restoreLabel": "Abonelikleri Kurtar",
+      "logoutLabel": "Çıkış Yap",
+      "deleteAccountLabel": "Hesabı Sil",
+      "deleteTitle": "Hesabı Sil",
+      "deleteMessage": "Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+      "deleteConfirm": "Sil",
+      "deleteCancel": "İptal",
+      "deleteSuccessTitle": "Hesap Silindi",
+      "deleteSuccessMessage": "Verileriniz bu cihazdan tamamen temizlendi."
+    },
+    "support": {
+      "title": "Destek & Geri Bildirim",
+      "subtitle": "Bir hata ile mi karşılaştınız yoksa yeni bir özellik mi istiyorsunuz? Bize yazın.",
+      "categoryLabel": "Destek Türü",
+      "categoryPlaceholder": "Bir kategori seçin...",
+      "catBug": "Hata Bildirimi",
+      "catFeature": "Özellik Talebi",
+      "catBilling": "Ödeme / Abonelik",
+      "catAccount": "Hesap Sorunları",
+      "catOther": "Diğer Geri Bildirimler",
+      "messageLabel": "Mesajınız",
+      "messagePlaceholder": "Yorumlarınızı yazın veya hatayı tarif edin...",
+      "submit": "Talebi Gönder",
+      "successTitle": "Talep Gönderildi",
+      "successMessage": "Teşekkürler! Destek ekibimiz mesajınızı inceleyecektir.",
+      "validationErrorTitle": "Doğrulama Hatası",
+      "validationErrorMessage": "Lütfen göndermeden önce tüm alanları doldurun."
+    },
+    "details": {
+      "title": "Detay Görünümü",
+      "subtitle": "Öğe #{{id}} Detaylı Açıklaması",
+      "published": "Yayınlanma: {{date}}",
+      "author": "Yazar: {{author}}",
+      "sampleParagraph": "Bu ekran TanStack Query dinamik yönlendirme parametresi geçişini doğrular. Öğe verisi çekilir, stil tokenları ile mükemmel biçimde işlenir ve organik gölge efektlerini devralır.",
+      "back": "Geri"
+    }
+  }
 }

@@ -80,4 +80,3 @@ export const secureStorage = {
     return await secureStorage.getItem(key);
   },
 };
-

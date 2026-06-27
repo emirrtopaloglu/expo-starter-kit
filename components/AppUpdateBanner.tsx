@@ -54,12 +54,7 @@ export function AppUpdateBanner() {
             ) : (
               <Download size={20} color="white" />
             )}
-            <Typography
-              variant="bodySmall"
-              color="white"
-              weight="semibold"
-              style={{ flex: 1 }}
-            >
+            <Typography variant="bodySmall" color="white" weight="semibold" style={{ flex: 1 }}>
               {isUpdateDownloading
                 ? t('update.downloading', 'Downloading update...')
                 : t('update.available', 'A new update is available. Click to relaunch.')}

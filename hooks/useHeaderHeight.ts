@@ -15,5 +15,5 @@ export function useHeaderHeight(): number {
   // Fallback defaults if no navigator context is found:
   // standard header heights: Android 56, iOS 44 + status bar top inset
   const defaultHeader = 56;
-  return contextHeight ?? (insets.top + defaultHeader);
+  return contextHeight ?? insets.top + defaultHeader;
 }

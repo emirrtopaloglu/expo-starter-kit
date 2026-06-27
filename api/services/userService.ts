@@ -14,7 +14,7 @@ export const userService = {
     // Under the hood, this would do:
     // const res = await client.get<ApiResponse<UserProfile>>(`/users/${id}`);
     // return res.data;
-    
+
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({

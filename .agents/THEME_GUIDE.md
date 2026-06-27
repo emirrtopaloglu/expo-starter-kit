@@ -9,7 +9,9 @@ This guide describes how the theme system is structured in the **Expo Starter Ki
 The boilerplate uses a **System-Aware Light & Dark Mode** theme architecture. It combines design tokens (colors, spacing, typography, layouts) with React Context and a custom style hook to ensure styles update reactively when toggling light/dark modes or system settings.
 
 ### File Structure
+
 All files related to themes are located in the `theme/` directory:
+
 - [theme/index.ts](file:///Users/emirtopaloglu/www/expo-starter-kit/theme/index.ts): Combines raw tokens into concrete `lightTheme` and `darkTheme` objects.
 - [theme/ThemeContext.tsx](file:///Users/emirtopaloglu/www/expo-starter-kit/theme/ThemeContext.tsx): Manages theme mode state (`light` | `dark` | `system`), handles AsyncStorage persistence, and provides the context provider.
 - [theme/useThemedStyles.ts](file:///Users/emirtopaloglu/www/expo-starter-kit/theme/useThemedStyles.ts): Custom hook for component styling. It memoizes style sheets and automatically rebuilds them on theme changes.
@@ -26,7 +28,9 @@ All files related to themes are located in the `theme/` directory:
 When copying this boilerplate to start a new project, follow these steps to configure your own branding.
 
 ### 1. Customizing the Color Palette
+
 Core color definitions are located in `theme/tokens/colors.ts`.
+
 - **Primary Color**: Modify the `primary` object (shades 50 to 900) to match your brand's primary color.
 - **Neutral Grays**: Modify the `neutral` gray scale to use slate, zinc, gray, or warm neutral tones.
 - **Semantic Colors**: Modify the `success`, `error`, `warning`, and `info` objects.
@@ -41,7 +45,7 @@ export const colors = {
     // ... update shades 600 to 900
   },
   // ...
-}
+};
 ```
 
 > [!NOTE]
@@ -50,16 +54,19 @@ export const colors = {
 ---
 
 ### 2. Customizing the App Fonts
+
 This boilerplate comes with Google Font **Plus Jakarta Sans** pre-configured. To replace it:
 
 1. **Install your new font package**:
    Search for your desired font on [Expo Google Fonts](https://directory.edisons.dev/expo-google-fonts) and install it:
+
    ```bash
    npx expo install @expo-google-fonts/inter expo-font
    ```
 
 2. **Load the font in `app/_layout.tsx`**:
    Import your font variants and register them in the `useFonts` hook:
+
    ```typescript
    // app/_layout.tsx
    import {
@@ -69,7 +76,7 @@ This boilerplate comes with Google Font **Plus Jakarta Sans** pre-configured. To
      Inter_600SemiBold,
      Inter_700Bold,
    } from '@expo-google-fonts/inter';
-   
+
    export default function RootLayout() {
      const [fontsLoaded] = useFonts({
        Inter_400Regular,
@@ -96,6 +103,7 @@ This boilerplate comes with Google Font **Plus Jakarta Sans** pre-configured. To
 ---
 
 ### 3. Modifying Spacing & Border Radii
+
 - **Border Radii**: Located in `theme/tokens/layout.ts`. Adjust `sm`, `md`, `lg`, and `xl` settings to choose between a sharp (smaller values) or organic/rounded (larger values) look.
 - **Spacing Scale**: Located in `theme/tokens/spacing.ts`. Adjust the spacing system to fit your layout grid (e.g. 4-pt grid vs 8-pt grid).
 - **Shadows**: Located in `theme/tokens/layout.ts`. Modify the shadow settings (`sm`, `md`, `lg`) to control shadow color, offset, and opacity.
@@ -107,6 +115,7 @@ This boilerplate comes with Google Font **Plus Jakarta Sans** pre-configured. To
 ## 💡 Best Practices for Using the Theme
 
 ### 1. Component Styling with `useThemedStyles`
+
 Avoid writing inline styles or using `StyleSheet.create` statically if you need access to the theme parameters. Instead, use the custom hook:
 
 ```tsx
@@ -131,7 +140,9 @@ const getStyles = (theme: Theme) => ({
 ```
 
 ### 2. Layouts with UI Primitives
+
 Never use raw `<View>` or `<Text>` if you can achieve the layout using the boilerplate's primitive UI components in `components/ui/`:
+
 - **`Box`**: Ideal for flex styling, background coloring, padding, margins, shadows, and borders using simple props.
 - **`Stack` (HStack / VStack)**: Simplifies grid/flex layouts by adding configurable gaps (`space`) between items.
 - **`Typography`**: Standardizes text rendering and applies correct font family weights dynamically.
@@ -147,8 +158,12 @@ export function UserProfileCard() {
       <HStack space="md" align="center">
         {/* Avatar */}
         <VStack space="xs">
-          <Typography variant="h4" weight="bold">John Doe</Typography>
-          <Typography variant="caption" color="subtle">Developer</Typography>
+          <Typography variant="h4" weight="bold">
+            John Doe
+          </Typography>
+          <Typography variant="caption" color="subtle">
+            Developer
+          </Typography>
         </VStack>
       </HStack>
     </Box>
@@ -162,7 +177,7 @@ export function UserProfileCard() {
 
 1. **Semantic Colors in Dark Mode**:
    By default, the semantic states (`success`, `error`, `warning`, `info`) inherit the same light-mode color definitions inside `darkTheme`.
-   *Caution*: Bright background shades like `success.light` (`#DCFCE7`) are too bright for dark surfaces. In dark mode, prefer using a translucent variant or custom dark shade for background fills (e.g. `rgba(34, 197, 94, 0.15)`).
+   _Caution_: Bright background shades like `success.light` (`#DCFCE7`) are too bright for dark surfaces. In dark mode, prefer using a translucent variant or custom dark shade for background fills (e.g. `rgba(34, 197, 94, 0.15)`).
 
 2. **StatusBar & Safe Areas on Android**:
    The app configures `edgeToEdgeEnabled: true` in `app.json`. To prevent your layout from clipping under the status bar or hardware notch, wrap your layouts with the `Screen` component (using `preset="scroll"` or `preset="fixed"`) which handles safe areas correctly on both iOS and Android.

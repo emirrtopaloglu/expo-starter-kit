@@ -29,7 +29,7 @@ export default function NotFoundScreen() {
     <>
       {/* Configure header behavior for the unmatched screen */}
       <Stack.Screen options={{ title: t('notFound.title'), headerShown: true }} />
-      
+
       <Screen preset="fixed" backgroundColor={theme.colors.background.default}>
         <Box
           style={{
@@ -40,14 +40,15 @@ export default function NotFoundScreen() {
           }}
         >
           <VStack space="2xl" align="center" style={{ width: '100%' }}>
-            
             {/* Glowing Illustration Box */}
             <Box
               style={{
                 width: 100,
                 height: 100,
                 borderRadius: theme.radius.xl,
-                backgroundColor: isDark ? theme.colors.background.paper : theme.colors.background.subtle,
+                backgroundColor: isDark
+                  ? theme.colors.background.paper
+                  : theme.colors.background.subtle,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderWidth: 1,
@@ -80,7 +81,6 @@ export default function NotFoundScreen() {
               isFullWidth
               style={{ marginTop: theme.spacing.lg }}
             />
-            
           </VStack>
         </Box>
       </Screen>

@@ -6,75 +6,207 @@
     "list": "Go to Todo List (Zustand + FlashList)",
     "form": "Go to Form Demo (React Hook Form + Zod)"
   },
-    "language": {
-      "current": "Current Language: {{lang}}",
-      "switch": "Switch Language"
-    },
-    "network": {
-      "offline": "No Internet Connection"
-    },
-    "notFound": {
-      "title": "Page Not Found",
-      "description": "The page you are looking for does not exist or has been moved.",
-      "backHome": "Go Back Home"
-    },
-    "actionSheet": {
-      "title": "Choose Photo Source",
-      "message": "Select where you would like to upload a photo from",
-      "camera": "Take Photo / Open Camera",
-      "gallery": "Choose from Gallery",
-      "cancel": "Cancel"
-    },
-    "update": {
-      "available": "A new update is available. Click to relaunch.",
-      "downloading": "Downloading update..."
-    },
-    "auth": {
-      "login": {
-        "title": "Expo Starter Kit",
-        "subtitle": "Enter credentials or use biometrics to continue",
-        "emailLabel": "Email Address",
-        "emailPlaceholder": "email@example.com",
-        "passwordLabel": "Password",
-        "passwordPlaceholder": "••••••••",
-        "enableBiometrics": "Enable Biometric Login",
-        "signIn": "Sign In",
-        "signInBiometrics": "Sign In with Biometrics",
-        "demoTitle": "DEMO LOGIN DETAILS",
-        "demoEmail": "Email: admin@starter.kit",
-        "demoPassword": "Password: password123",
-        "autofillDemo": "Autofill Demo Credentials",
-        "validationErrorTitle": "Validation Error",
-        "validationErrorMessage": "Please enter your email and password.",
-        "welcomeBackTitle": "Welcome Back!",
-        "loginSuccess": "Logged in successfully as {{name}}",
-        "loginFailedTitle": "Login Failed",
-        "incorrectCredentials": "Incorrect credentials.",
-        "biometricsPromptTitle": "Biometrics",
-        "biometricsScanMessage": "Scan face or fingerprint to retrieve credentials...",
-        "biometricsReason": "Authorize to retrieve login credentials",
-        "biometricsFailedTitle": "Biometric Failed",
-        "biometricsDenied": "Access denied or biometric enrollment canceled.",
-        "authSuccess": "Biometrics matched! Welcome back, {{name}}",
-        "authErrorTitle": "Authentication Error",
-        "decryptionFailed": "Decryption failed."
+  "language": {
+    "current": "Current Language: {{lang}}",
+    "switch": "Switch Language"
+  },
+  "network": {
+    "offline": "No Internet Connection"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "backHome": "Go Back Home"
+  },
+  "actionSheet": {
+    "title": "Choose Photo Source",
+    "message": "Select where you would like to upload a photo from",
+    "camera": "Take Photo / Open Camera",
+    "gallery": "Choose from Gallery",
+    "cancel": "Cancel"
+  },
+  "update": {
+    "available": "A new update is available. Click to relaunch.",
+    "downloading": "Downloading update..."
+  },
+  "onboarding": {
+    "slides": [
+      {
+        "title": "Modern Native Architecture",
+        "description": "Built using Expo SDK 54, React Native, and Expo Router for a fast cross-platform app foundation."
+      },
+      {
+        "title": "Robust State & Networking",
+        "description": "Zustand handles client state, while TanStack Query organizes caching, pagination, and API fetching."
+      },
+      {
+        "title": "Premium Design System",
+        "description": "Over 35 atomic UI components designed with system-aware Light & Dark themes, organic shadows, and Outfit typography."
       }
-    },
-    "protected": {
-      "home": {
-        "welcome": "Welcome back,",
-        "loggedInAs": "Logged in as: {{email}}",
-        "exploreDemos": "Explore Boilerplate Demos",
-        "viewDesignSystem": "View Design System (Kitchen Sink)",
-        "logout": "Logout",
-        "logoutSuccessTitle": "Logged Out",
-        "logoutSuccessMessage": "You have been logged out successfully.",
-        "toastSuccessTitle": "Success!",
-        "toastSuccessMessage": "Feedback system working.",
-        "toastErrorTitle": "Error!",
-        "toastErrorMessage": "System error triggered.",
-        "successToastLabel": "Success Toast",
-        "errorToastLabel": "Error Toast"
-      }
+    ],
+    "buttons": {
+      "next": "Next",
+      "skip": "Skip",
+      "getStarted": "Get Started"
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Expo Starter Kit",
+      "subtitle": "Enter credentials or use biometrics to continue",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "email@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "enableBiometrics": "Enable Biometric Login",
+      "signIn": "Sign In",
+      "signInBiometrics": "Sign In with Biometrics",
+      "demoTitle": "DEMO LOGIN DETAILS",
+      "demoEmail": "Email: admin@starter.kit",
+      "demoPassword": "Password: password123",
+      "autofillDemo": "Autofill Demo Credentials",
+      "validationErrorTitle": "Validation Error",
+      "validationErrorMessage": "Please enter your email and password.",
+      "welcomeBackTitle": "Welcome Back!",
+      "loginSuccess": "Logged in successfully as {{name}}",
+      "loginFailedTitle": "Login Failed",
+      "incorrectCredentials": "Incorrect credentials.",
+      "biometricsPromptTitle": "Biometrics",
+      "biometricsScanMessage": "Scan face or fingerprint to retrieve credentials...",
+      "biometricsReason": "Authorize to retrieve login credentials",
+      "biometricsFailedTitle": "Biometric Failed",
+      "biometricsDenied": "Access denied or biometric enrollment canceled.",
+      "authSuccess": "Biometrics matched! Welcome back, {{name}}",
+      "authErrorTitle": "Authentication Error",
+      "decryptionFailed": "Decryption failed."
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Sign up to access all starter kit premium features",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "email@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Min 6 characters",
+      "signUp": "Sign Up",
+      "alreadyHaveAccount": "Already have an account? Sign In",
+      "successTitle": "Account Created",
+      "successMessage": "Your account has been registered successfully.",
+      "errorTitle": "Registration Failed"
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email address and we'll send a recovery link",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "email@example.com",
+      "submit": "Send Reset Link",
+      "backToLogin": "Back to Sign In",
+      "successTitle": "Email Sent",
+      "successMessage": "A recovery email has been sent to {{email}}.",
+      "errorTitle": "Request Failed"
+    }
+  },
+  "protected": {
+    "tabs": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "premium": "Premium",
+      "settings": "Settings"
+    },
+    "home": {
+      "welcome": "Welcome back,",
+      "loggedInAs": "Logged in as: {{email}}",
+      "exploreDemos": "Explore Boilerplate Demos",
+      "viewDesignSystem": "View Design System (Kitchen Sink)",
+      "logout": "Logout",
+      "logoutSuccessTitle": "Logged Out",
+      "logoutSuccessMessage": "You have been logged out successfully.",
+      "toastSuccessTitle": "Success!",
+      "toastSuccessMessage": "Feedback system working.",
+      "toastErrorTitle": "Error!",
+      "toastErrorMessage": "System error triggered.",
+      "successToastLabel": "Success Toast",
+      "errorToastLabel": "Error Toast",
+      "quickStats": "Quick App Stats",
+      "totalUsers": "Total Installs",
+      "premiumSubscribers": "Premium Users",
+      "activeTasks": "Active Sessions",
+      "conversionRate": "Conversion",
+      "recentActivity": "Recent Activity Feed",
+      "activityFeedTitle": "Developer Feed",
+      "viewAll": "View Details"
+    },
+    "paywall": {
+      "header": "Go Premium",
+      "subtitle": "Access all exclusive features and developer templates",
+      "feature1": "Complete multi-slide Onboarding flow",
+      "feature2": "Validated Sign Up & Forgot Password forms",
+      "feature3": "Integrated iOS/Android Bottom Tab Bar navigation",
+      "feature4": "Premium Settings and Profile customization view",
+      "feature5": "Clean, type-safe TanStack Query detail views",
+      "planMonthly": "Monthly Plan",
+      "planMonthlyPrice": "$4.99 / mo",
+      "planMonthlyDetail": "Billed monthly, cancel anytime.",
+      "planAnnual": "Annual Premium",
+      "planAnnualPrice": "$29.99 / yr",
+      "planAnnualDetail": "Save 50%! Best value package.",
+      "popular": "Most Popular",
+      "subscribe": "Subscribe Now",
+      "restore": "Restore Purchase",
+      "secured": "Secured Checkout via Stripe & RevenueCat",
+      "restoreSuccessTitle": "Purchases Restored",
+      "restoreSuccessMessage": "Your subscription status has been synced.",
+      "subscribeSuccessTitle": "Welcome to Premium",
+      "subscribeSuccessMessage": "Subscription activated successfully!"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Manage app behaviors and local preferences",
+      "sectionProfile": "Account Profile",
+      "sectionPreferences": "Preferences",
+      "sectionMore": "About & Support",
+      "themeLabel": "Dark Mode",
+      "notificationsLabel": "Push Notifications",
+      "languageLabel": "App Language",
+      "supportLabel": "Support & Feedback",
+      "termsLabel": "Terms of Service",
+      "privacyLabel": "Privacy Policy",
+      "restoreLabel": "Restore Subscriptions",
+      "logoutLabel": "Sign Out",
+      "deleteAccountLabel": "Delete Account",
+      "deleteTitle": "Delete Account",
+      "deleteMessage": "Are you sure you want to delete your account? This action is permanent.",
+      "deleteConfirm": "Delete",
+      "deleteCancel": "Cancel",
+      "deleteSuccessTitle": "Account Deleted",
+      "deleteSuccessMessage": "Your data has been wiped from local device."
+    },
+    "support": {
+      "title": "Support & Feedback",
+      "subtitle": "Encountered a bug or want to request a feature? Send us a ticket.",
+      "categoryLabel": "Support Type",
+      "categoryPlaceholder": "Select a category...",
+      "catBug": "Bug Report",
+      "catFeature": "Feature Request",
+      "catBilling": "Billing / Subscription",
+      "catAccount": "Account Issue",
+      "catOther": "Other Feedback",
+      "messageLabel": "Your Message",
+      "messagePlaceholder": "Write your comments or describe the bug...",
+      "submit": "Submit Ticket",
+      "successTitle": "Ticket Submitted",
+      "successMessage": "Thank you! Our support team will review your message.",
+      "validationErrorTitle": "Validation Error",
+      "validationErrorMessage": "Please fill out all fields before submitting."
+    },
+    "details": {
+      "title": "Details View",
+      "subtitle": "Item #{{id}} Detailed Description",
+      "published": "Published: {{date}}",
+      "author": "Author: {{author}}",
+      "sampleParagraph": "This screen demonstrates TanStack Query dynamic navigation parameter passing. The item data is fetched, rendered beautifully using our styling grid tokens, and inherits organic layout shadows.",
+      "back": "Back"
+    }
+  }
 }

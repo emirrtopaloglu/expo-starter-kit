@@ -7,10 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
  * @param fetchPageFn Callback function that takes a page index and returns a list of items.
  * @param initialPage The starting page index (defaults to 1).
  */
-export function useInfiniteList<T>(
-  fetchPageFn: (page: number) => Promise<T[]>,
-  initialPage = 1
-) {
+export function useInfiniteList<T>(fetchPageFn: (page: number) => Promise<T[]>, initialPage = 1) {
   const [items, setItems] = useState<T[]>([]);
   const [page, setPage] = useState<number>(initialPage);
   const [loading, setLoading] = useState<boolean>(false);

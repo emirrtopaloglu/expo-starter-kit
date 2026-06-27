@@ -37,9 +37,9 @@ export function useStorage<T>(
       try {
         setStoredValue((prev) => {
           const valueToStore = value instanceof Function ? value(prev) : value;
-          storage.setItem(key, JSON.stringify(valueToStore)).catch((err) =>
-            console.error(`useStorage: Error setting key "${key}"`, err)
-          );
+          storage
+            .setItem(key, JSON.stringify(valueToStore))
+            .catch((err) => console.error(`useStorage: Error setting key "${key}"`, err));
           return valueToStore;
         });
       } catch (error) {

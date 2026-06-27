@@ -13,10 +13,10 @@ const client = axios.create({
 
 // Flag to track whether the token is currently being refreshed in response interceptor
 let isRefreshing = false;
-let failedQueue: Array<{
+let failedQueue: {
   resolve: (token: string) => void;
   reject: (error: any) => void;
-}> = [];
+}[] = [];
 
 const processQueue = (error: any, token: string | null = null) => {
   failedQueue.forEach((promise) => {
@@ -98,7 +98,7 @@ client.interceptors.response.use(
         return client(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
-        
+
         // Refresh token flow failed -> Clear storage and logout user globally
         await tokenManager.clearTokens();
         useStore.getState().logout();

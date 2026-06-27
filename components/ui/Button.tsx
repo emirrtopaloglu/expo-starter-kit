@@ -15,6 +15,7 @@ interface ButtonProps extends PressableProps {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   isFullWidth?: boolean;
+  textColor?: string;
 }
 
 export function Button({
@@ -25,6 +26,7 @@ export function Button({
   leftIcon,
   rightIcon,
   isFullWidth,
+  textColor,
   disabled,
   style,
   ...props
@@ -40,17 +42,19 @@ export function Button({
 
   const currentSize = sizes[size];
 
+  const isIconOnly = !label;
+
   // Variant configurations
   const getVariantStyle = (pressed: boolean): ViewStyle => {
     const base: ViewStyle = {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: theme.radius.md,
-      paddingHorizontal: currentSize.px,
+      borderRadius: isIconOnly ? theme.radius.full : theme.radius.md,
+      paddingHorizontal: isIconOnly ? 0 : currentSize.px,
       height: currentSize.height,
+      width: isIconOnly ? currentSize.height : isFullWidth ? '100%' : undefined,
       opacity: pressed || disabled || isLoading ? 0.7 : 1,
-      width: isFullWidth ? '100%' : undefined,
     };
 
     switch (variant) {
@@ -75,6 +79,7 @@ export function Button({
   };
 
   const getTextColor = () => {
+    if (textColor) return textColor;
     if (variant === 'solid') return theme.colors.text.inverse;
     return theme.colors.primary;
   };
@@ -89,17 +94,23 @@ export function Button({
         <ActivityIndicator color={getTextColor()} />
       ) : (
         <>
-          {leftIcon && <Box m={theme.spacing.xs}>{leftIcon}</Box>}
-          <Typography
-            style={{
-              color: getTextColor(),
-              fontSize: currentSize.fontSize,
-              fontWeight: theme.typography.weights.semibold as any,
-            }}
-          >
-            {label}
-          </Typography>
-          {rightIcon && <Box m={theme.spacing.xs}>{rightIcon}</Box>}
+          {isIconOnly ? (
+            leftIcon || rightIcon
+          ) : (
+            <>
+              {leftIcon && <Box style={{ marginRight: theme.spacing.xs }}>{leftIcon}</Box>}
+              <Typography
+                style={{
+                  color: getTextColor(),
+                  fontSize: currentSize.fontSize,
+                  fontWeight: theme.typography.weights.semibold as any,
+                }}
+              >
+                {label}
+              </Typography>
+              {rightIcon && <Box style={{ marginLeft: theme.spacing.xs }}>{rightIcon}</Box>}
+            </>
+          )}
         </>
       )}
     </Pressable>

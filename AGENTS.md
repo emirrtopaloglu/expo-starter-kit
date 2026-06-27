@@ -52,11 +52,13 @@ This document establishes the architecture, coding standards, design system rule
 ## 🎨 Styling & Theming Guidelines
 
 ### 1. Style Mapping & Theme Context
+
 - The app supports a dynamic **System-Aware Light & Dark Mode** via `useTheme` in `@/theme/ThemeContext`.
 - **Never hardcode hex colors or layout properties** (padding, margin, border-radius). Use values defined in `theme.colors`, `theme.spacing`, `theme.radius`, or `theme.shadows`.
 - For component-specific styles, use the **`useThemedStyles`** hook. Avoid manual inline stylesheets where theme variables are required.
 
 #### Example Usage:
+
 ```tsx
 import { useThemedStyles } from '@/theme/useThemedStyles';
 import { Theme } from '@/theme';
@@ -81,7 +83,9 @@ const getStyles = (theme: Theme) => ({
 ```
 
 ### 2. Layout & UI Primitives
+
 Always prefer using the high-level custom components in `@/components/ui/` instead of raw React Native components:
+
 - Use **`Box`** instead of `<View>` for block layout with utility props (`p`, `m`, `bg`, `rounded`, `shadow`).
 - Use **`Stack`**, **`VStack`**, or **`HStack`** for flex layouts with configurable `space` gaps.
 - Use **`Typography`** instead of `<Text>`. Pass the `variant` prop (`h1`, `h2`, `h3`, `h4`, `body`, `bodySmall`, `caption`) to style typography text.
@@ -93,12 +97,14 @@ Always prefer using the high-level custom components in `@/components/ui/` inste
 ## 🛡️ Native Modules & Utilities
 
 ### 1. Centralized Permissions Management
+
 Do not call raw `expo-camera`, `expo-location`, or similar modules directly for permissions. Use **`PermissionManager`** (`@/utils/PermissionManager`) or the **`useRunPermission`** hook (`@/hooks/useRunPermission`).
 
 - **Supported permission types**: `'camera' | 'gallery' | 'locationForeground' | 'notifications' | 'audio'`
 - **App Configuration**: Remember to update the plugin permissions block in `app.json` for Android and iOS builds whenever a new permission type is added to the app.
 
 #### Example:
+
 ```tsx
 import { useRunPermission } from '@/hooks/useRunPermission';
 
@@ -110,6 +116,7 @@ const takePhotoAction = useRunPermission('camera', () => {
 ```
 
 ### 2. Haptics & Feedback
+
 Always trigger appropriate haptic feedback during interactive events (e.g., button presses, toggles, success/error notifications) using the `haptics` utility (`@/utils/haptics`).
 
 - `haptics.selection()` - For simple item selections or tabs.
@@ -117,7 +124,9 @@ Always trigger appropriate haptic feedback during interactive events (e.g., butt
 - `haptics.notification(haptics.Notification.Success / Error / Warning)` - For operation feedback.
 
 ### 3. Toast Notifications
+
 Use the centralized `toast` utility (`@/utils/toast`) for displaying feedback toast notifications instead of direct alert popups.
+
 - `toast.success('Title', 'Message')`
 - `toast.error('Title', 'Message')`
 
@@ -126,10 +135,12 @@ Use the centralized `toast` utility (`@/utils/toast`) for displaying feedback to
 ## 🌐 State & Localization
 
 ### 1. Client-side State (Zustand)
+
 - Centralize client-side stores in `@/store/` (e.g., `useStore.ts`).
 - Avoid bloated global stores; keep stores atomic, modular, and focused on specific domains.
 
 ### 2. Localization (i18n)
+
 - **Do not hardcode UI strings.** All developer-facing UI text labels must use `t('key')` from `react-i18next`.
 - Add all localization mappings in both `i18n/locales/en.json` and `i18n/locales/tr.json` to keep translation files synchronized.
 
@@ -138,6 +149,7 @@ Use the centralized `toast` utility (`@/utils/toast`) for displaying feedback to
 ## 🛠️ Coding Rules for AI Agents
 
 When modifying or expanding this codebase, you must adhere strictly to these constraints:
+
 1. **Type Safety**: Maintain strict TypeScript typing. Do not use `any` unless absolutely necessary and documented.
 2. **Design Integrity**: Under no circumstances add Tailwind CSS or NativeWind. Custom styling is fully unified around the React Native theme tokens system and `useThemedStyles`.
 3. **No Raw Elements**: Never create raw layouts using `<View>` and `<Text>` if `Box`, `Stack`, and `Typography` components can achieve the same layout.

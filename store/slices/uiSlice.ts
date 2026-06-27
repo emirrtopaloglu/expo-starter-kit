@@ -1,12 +1,7 @@
 import { StateCreator } from 'zustand';
 import { UISlice, RootState } from '../types';
 
-export const createUISlice: StateCreator<
-  RootState,
-  [],
-  [],
-  UISlice
-> = (set) => ({
+export const createUISlice: StateCreator<RootState, [], [], UISlice> = (set) => ({
   isModalOpen: false,
   isBottomSheetOpen: false,
 

@@ -35,8 +35,12 @@ export const ListItem = ({
           alignItems: 'center',
           paddingVertical: theme.spacing.md,
           paddingHorizontal: theme.spacing.md,
-          backgroundColor: pressed ? theme.colors.neutral[100] : 'transparent',
-          opacity: pressed ? 0.9 : 1,
+          backgroundColor: pressed
+            ? theme.mode === 'dark'
+              ? 'rgba(255, 255, 255, 0.05)'
+              : 'rgba(0, 0, 0, 0.05)'
+            : 'transparent',
+          opacity: pressed ? 0.95 : 1,
         },
         style,
       ]}

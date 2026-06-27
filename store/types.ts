@@ -4,11 +4,6 @@ export interface User {
   name: string;
 }
 
-export interface Item {
-  id: string;
-  title: string;
-}
-
 export interface AuthSlice {
   isAuthenticated: boolean;
   isAuthLoading: boolean;
@@ -39,10 +34,9 @@ export interface NetworkSlice {
 }
 
 export interface AppSlice {
-  items: Item[];
+  hasCompletedOnboarding: boolean;
   language: string;
-  addItem: (title: string) => void;
-  removeItem: (id: string) => void;
+  setCompletedOnboarding: (completed: boolean) => void;
   setLanguage: (lang: string) => void;
 }
 

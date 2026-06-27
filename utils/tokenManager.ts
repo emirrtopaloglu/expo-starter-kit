@@ -112,7 +112,7 @@ export const tokenManager = {
       }
 
       console.log('TokenManager: Token expired. Pre-emptively refreshing...');
-      
+
       // Wrap the refresh in a promise to prevent duplicate concurrent refresh requests
       isRefreshingPromise = (async () => {
         try {

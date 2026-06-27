@@ -15,13 +15,7 @@ interface ActionSheetOptions {
  */
 export const actionSheet = {
   show: (
-    {
-      options,
-      cancelButtonIndex,
-      destructiveButtonIndex,
-      title,
-      message,
-    }: ActionSheetOptions,
+    { options, cancelButtonIndex, destructiveButtonIndex, title, message }: ActionSheetOptions,
     callback: (index: number) => void
   ) => {
     if (Platform.OS === 'ios') {

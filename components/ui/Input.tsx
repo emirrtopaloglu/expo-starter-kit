@@ -29,16 +29,22 @@ export const Input = forwardRef<TextInput, InputProps>(
         <Box
           style={{
             flexDirection: 'row',
-            alignItems: 'center',
+            alignItems: props.multiline ? 'flex-start' : 'center',
             borderWidth: 1,
             borderColor: error ? theme.colors.error.main : theme.colors.border.default,
             borderRadius: theme.radius.md,
             backgroundColor: theme.colors.background.paper,
             paddingHorizontal: theme.spacing.md,
-            height: 48,
+            paddingVertical: props.multiline ? theme.spacing.sm : 0,
+            height: props.multiline ? undefined : 48,
+            minHeight: props.multiline ? 100 : undefined,
           }}
         >
-          {leftIcon && <Box mr={theme.spacing.sm}>{leftIcon}</Box>}
+          {leftIcon && (
+            <Box style={{ marginRight: theme.spacing.sm, marginTop: props.multiline ? 2 : 0 }}>
+              {leftIcon}
+            </Box>
+          )}
           <TextInput
             ref={ref}
             style={[
@@ -47,7 +53,8 @@ export const Input = forwardRef<TextInput, InputProps>(
                 color: theme.colors.text.default,
                 fontSize: theme.typography.sizes.md,
                 fontFamily: theme.typography.families.regular,
-                height: '100%',
+                height: props.multiline ? '100%' : '100%',
+                textAlignVertical: props.multiline ? 'top' : 'center',
               },
               style,
             ]}

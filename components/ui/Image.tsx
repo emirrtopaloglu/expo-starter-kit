@@ -123,7 +123,12 @@ export const Image = ({
 
       {/* Loading Overlay */}
       {isLoading && showLoader && (
-        <Box style={[StyleSheet.absoluteFillObject, { backgroundColor: theme.colors.background.subtle }]}>
+        <Box
+          style={[
+            StyleSheet.absoluteFillObject,
+            { backgroundColor: theme.colors.background.subtle },
+          ]}
+        >
           <Skeleton style={{ width: '100%', height: '100%' }} />
         </Box>
       )}

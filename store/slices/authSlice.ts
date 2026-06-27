@@ -2,12 +2,7 @@ import { StateCreator } from 'zustand';
 import { AuthSlice, RootState, User } from '../types';
 import { tokenManager } from '@/utils/tokenManager';
 
-export const createAuthSlice: StateCreator<
-  RootState,
-  [],
-  [],
-  AuthSlice
-> = (set) => ({
+export const createAuthSlice: StateCreator<RootState, [], [], AuthSlice> = (set) => ({
   isAuthenticated: false,
   isAuthLoading: true,
   user: null,

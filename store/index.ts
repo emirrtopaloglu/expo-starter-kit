@@ -30,7 +30,7 @@ export const useStore = create<RootState>()(
         // Selectively persist only critical credentials profile & preference data
         isAuthenticated: state.isAuthenticated,
         user: state.user,
-        items: state.items,
+        hasCompletedOnboarding: state.hasCompletedOnboarding,
         language: state.language,
       }),
     }

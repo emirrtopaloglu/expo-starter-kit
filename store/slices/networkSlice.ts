@@ -2,12 +2,7 @@ import { StateCreator } from 'zustand';
 import NetInfo from '@react-native-community/netinfo';
 import { NetworkSlice, RootState } from '../types';
 
-export const createNetworkSlice: StateCreator<
-  RootState,
-  [],
-  [],
-  NetworkSlice
-> = (set, get) => {
+export const createNetworkSlice: StateCreator<RootState, [], [], NetworkSlice> = (set, get) => {
   // Register NetInfo listener once upon store construction
   NetInfo.addEventListener((state) => {
     if (!get().isSimulatedOffline) {

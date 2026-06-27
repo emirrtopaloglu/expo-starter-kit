@@ -38,7 +38,9 @@ export const biometrics = {
    * @param promptMessage Optional customized message shown in iOS TouchID (ignored by FaceID/Android).
    * @returns boolean indicating success.
    */
-  authenticate: async (promptMessage: string = 'Please authenticate to continue'): Promise<boolean> => {
+  authenticate: async (
+    promptMessage: string = 'Please authenticate to continue'
+  ): Promise<boolean> => {
     try {
       const supported = await biometrics.isSupported();
       if (!supported) {

@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import {
   ThemeProvider as NavigationThemeProvider,
@@ -8,11 +8,11 @@ import {
 import { ThemeProvider, useTheme } from '@/theme/ThemeContext';
 import {
   useFonts,
-  PlusJakartaSans_400Regular,
-  PlusJakartaSans_500Medium,
-  PlusJakartaSans_600SemiBold,
-  PlusJakartaSans_700Bold,
-} from '@expo-google-fonts/plus-jakarta-sans';
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
@@ -34,10 +34,40 @@ export { GlobalErrorBoundary as ErrorBoundary } from '@/components/GlobalErrorBo
 
 function RootLayoutNav() {
   const { theme } = useTheme();
+  const { isAuthenticated, isAuthLoading, hasCompletedOnboarding } = useStore();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthLoading) return;
+
+    const inAuthGroup = segments[0] === '(auth)';
+    const inProtectedGroup = segments[0] === '(protected)';
+    const isOnboarding = segments[0] === 'onboarding';
+
+    if (!hasCompletedOnboarding) {
+      if (!isOnboarding) {
+        // Force redirect to onboarding if not completed
+        router.replace('/onboarding');
+      }
+    } else if (!isAuthenticated) {
+      if (!inAuthGroup) {
+        // Redirect to login if not authenticated
+        router.replace('/login');
+      }
+    } else {
+      // Authenticated and onboarding complete
+      if (inAuthGroup || isOnboarding || !segments[0]) {
+        // Send to protected root
+        router.replace('/');
+      }
+    }
+  }, [isAuthenticated, isAuthLoading, hasCompletedOnboarding, segments]);
 
   return (
     <NavigationThemeProvider value={theme.mode === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="onboarding" />
         <Stack.Screen name="(protected)" />
         <Stack.Screen name="(auth)" />
       </Stack>
@@ -54,12 +84,12 @@ function RootLayoutNav() {
  */
 export default function RootLayout() {
   const initializeAuth = useStore((state) => state.initializeAuth);
-  
+
   const [fontsLoaded] = useFonts({
-    PlusJakartaSans_400Regular,
-    PlusJakartaSans_500Medium,
-    PlusJakartaSans_600SemiBold,
-    PlusJakartaSans_700Bold,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
   });
 
   useEffect(() => {
@@ -84,7 +114,7 @@ export default function RootLayout() {
         <GlobalErrorBoundary>
           <RootLayoutNav />
         </GlobalErrorBoundary>
-          <AppUpdateBanner />
+        <AppUpdateBanner />
         <NetworkBanner />
         <Toast config={toastConfig} />
       </QueryClientProvider>
