@@ -1,139 +1,115 @@
-# Expo Starter Kit
+# 🚀 Expo Starter Kit (SDK 54)
 
-This is a comprehensive starter kit for Universal React Native applications built with **Expo**. It is designed to serve as a solid foundation for your projects, with **Expo Router** pre-configured and ready to use.
+A premium, universal React Native boilerplate designed for rapid development. This starter kit combines industry best practices, robust architecture, and a custom-designed atomic layout system to serve as a solid foundation for cross-platform iOS, Android, and Web applications.
 
-## Features
+---
 
-- **Expo Router**: File-based routing for React Native and web.
-- **TypeScript**: Statically typed code for better maintainability.
-- **Absolute Paths**: Cleaner imports using the `@/` alias (e.g., `@/components/Test`).
-- **Lucide Icons**: Beautiful & consistent icons via `lucide-react-native`.
-- **State Management**: Simple and fast state management with **Zustand**.
-- **Splash Screen**: Configured with `expo-splash-screen` for smooth startup and manual control.
-- **UI Feedback**: Built-in support for **Haptics** and custom **Toast Notifications** (styled like react-hot-toast).
-- **Code Quality**: Pre-configured with **ESLint**, **Prettier**, **Husky**, and **Lint-staged** for robust coding standards.
-- **Storage Utilities**: Abstracted `AsyncStorage` and `Expo SecureStore` wrappers for data persistence.
-- **Forms & Validation**: Built with **React Hook Form** and **Zod** schema validation.
-- **Dark Mode**: System-aware dark mode with persistence using **AsyncStorage**.
-- **Internationalization (i18n)**: Multi-language support with **i18next**, including auto-detection and persistence.
-- **Data Fetching**: Powerful asynchronous state management with **TanStack React Query** and **Axios**.
-- **High Performance Lists**: Fast & efficient lists using **FlashList**.
-- **Organized Structure**: Robust folder structure including `components/ui`, `hooks`, `constants`, and `utils`.
-- **Expo**: A framework for universal React applications.
-- **Scalable Structure**: Designed to support additional features and integrations.
-- **Modules & Permissions**: Centralized `PermissionManager` for consistent Camera, Gallery, Location, and Notification access.
-- **Global Error Boundary**: Catches unhandled errors and displays a user-friendly crash screen with restart functionality.
-- **Design System**: A comprehensive suite of 30+ reusable UI components located in `@/components/ui`.
+## ✨ Features & Architecture
 
-## Components Available
+*   **📱 Expo SDK 54 & Router v6**: Modern file-based routing with deep linking, modal sheets, and nested protected layouts.
+*   **🎨 Glassmorphic Floating Tab Bar**: A premium, system-aware bottom navigation bar featuring frosted glass translucencies and custom Lucide icons.
+*   **💳 RevenueCat Purchases**: Out-of-the-box support for App Store/Google Play subscriptions, featuring secure checkouts, purchase restorations, and offline/simulator sandbox fallbacks.
+*   **🔔 Push Notifications Utility**: A clean, centralized helper to register Expo Push Tokens, manage native Android notification channels, and handle foreground/tap response listeners.
+*   **🌐 Internationalization (i18n)**: Pre-configured multi-language system (`react-i18next`) with automatic language detection (`expo-localization`) and storage persistence.
+*   **📦 State & Networking**: Atomized state management using **Zustand** combined with **TanStack React Query v5** for network data fetching, caching, and state synchronization.
+*   **⚡ High-Performance Lists**: Built-in **FlashList** configuration for fluid 60fps lists on lower-end devices.
+*   **🛡️ Permission Manager**: Centralized permissions client (`Camera`, `Gallery`, `Location`, `Notifications`, `Audio`) with system settings redirection flows.
+*   **🚨 Error Boundaries**: A global exception handler displaying a beautiful custom crash screen, letting users reboot the app without losing store states.
 
-### Layout & primitives
+---
 
-- **Box**: Low-level layout primitive with spacing and border props.
-- **Stack (HStack/VStack)**: Flexbox wrappers for easy row/column layouts.
-- **Screen**: Safe-area aware screen wrapper with scroll presets.
-- **Divider**: Visual separator with optional text label.
-- **Card**: Container with shadow and border variants.
-- **MasonryList**: Pinterest-style 2-column staggered grid.
-- **Skeleton**: Loading placeholder animations.
+## 📂 Project Directory Structure
 
-### Typography
+```
+.
+├── api/                  # TanStack Query configurations & Axios network clients
+├── app/                  # Expo Router directory (screens and layouts)
+│   ├── (auth)/           # Authentication flows (Login, Register, Reset Password)
+│   ├── (protected)/      # Authenticated views (Paywall, Support, Detail view)
+│   │   └── (tabs)/       # Floating Glass Tab Bar (Home, Settings/Profile)
+│   └── onboarding.tsx    # Swipeable page onboarding deck
+├── assets/               # Static resources (icons, splash, Inter Google fonts)
+├── components/           # General components and atomic design primitive UI units
+├── hooks/                # Custom hooks (Permissions, Stopwatches, Async loaders)
+├── i18n/                 # Translation locales (en.json, tr.json)
+├── store/                # Persistent global Zustand store slices
+├── theme/                # Theme context provider, token definitions, stylesheet hooks
+└── utils/                # Native helpers (Secure storage, Haptics, Toast, RevenueCat)
+```
 
-- **Typography**: Text component with standardized presets (h1-h4, body, caption).
+---
 
-### Forms & Input
+## 🎨 Design System & UI Primitives
 
-- **Button**: Customizable buttons with variants (solid, outline, ghost) and loading states.
-- **Input**: Stylized text inputs with icon support.
-- **Select**: BottomSheet-based select with search and multi-select support.
-- **DatePicker**: Robust Date picker with confirm-flow and consistent styling.
-- **Checkbox/Radio/Switch**: Native-feeling toggle controls.
-- **Slider**: Range slider with custom track and thumb.
-- **Switch**: Toggle switch component.
-- **OTPInput**: segmented input for One-Time Passwords.
-- **FormController**: Wrapper for easy `react-hook-form` integration.
-- **SegmentedControl**: iOS-style segmented toggle.
-- **SearchBar**: Dedicated search input with clear action.
-- **Stepper**: Number input with increment/decrement buttons.
+To maintain visual consistency and dark/light theme alignment, avoid raw `<View>` or `<Text>` components and utilize our atomic primitives in `components/ui/`:
 
-### Navigation & Feedback
+### Primitives Table
 
-- **Tabs**: Custom tab bar or segment switcher.
-- **Avatar**: Image or text avatars with fallback support.
-- **Badge**: Status indicators and notification counts.
-- **Image**: High-performance cached image with blurhash/transition support (uses `expo-image`).
-- **ProgressBar**: Visual progress indicator.
-- **Spinner**: Loading spinner.
-- **FAB**: Floating Action Button.
-- **EmptyState**: Placeholder for empty lists or data.
-- **ErrorState**: Placeholder for error states with retry action.
+| Primitive | Inherits From | Key Features / Purpose |
+| :--- | :--- | :--- |
+| **`Screen`** | `<SafeAreaView>` | Scroll/fixed presets, keyboard offsets, status bar styling. |
+| **`Box`** | `<View>` | Layout wrapper with utility spacing, rounding, and shadow props. |
+| **`Stack`** | `<View>` | Grid/row layouts with gaps using the `space` prop. |
+| **`HStack` / `VStack`** | `<View>` | Horizontal and vertical stack extensions. |
+| **`Typography`** | `<Text>` | Handles fonts and sizes (`h1` to `caption` variants) mapped to **Inter**. |
+| **`Button`** | `<Pressable>` | Variants (solid, outline, ghost), spinner overlays, and icon support. |
+| **`Card`** | `<View>` | Content container surfaces (`elevated`, `outlined`, `filled`). |
+| **`ListItem`** | `<Pressable>` | List row container with left/right icons, chevrons, and active overlays. |
+| **`Badge`** | `<View>` | Status pills (`solid`, `outline`, `subtle` variants). |
 
-### Overlays
+---
 
-- **Modal**: Center-aligned modal dialogs.
-- **BottomSheet**: Draggable bottom sheet/drawer.
-- **Accordion**: Collapsible content sections.
-- **Toast**: (Config via `ToastConfig.tsx` and `react-hot-toast-native`).
+## 🔧 Environment Setup & Config
 
-### Utilities & Native Hooks
+Copy `.env` variables and replace placeholders with your credentials:
 
-- **PermissionManager**: Unified API for handling generic permissions (Camera, Location, Notifications).
-- **useRunPermission**: Hook to wrap functions with automatic permission requesting and settings-redirection flow.
-- **SystemPickers**: Helper examples for `expo-document-picker` and `expo-image-picker`.
-- **CameraView**: Custom Camera screen implementation using `expo-camera` with flash and flip controls.
-- **GlobalErrorBoundary**: Class component that wraps the app to catch potential crashes and show a fallback UI (`CrashScreen`).
+```env
+EXPO_PUBLIC_APP_ENV=development
+EXPO_PUBLIC_API_URL=https://api.example.com
 
-## 🎨 Custom Fonts
+# RevenueCat API Keys
+EXPO_PUBLIC_REVENUECAT_APPLE_KEY=your_revenuecat_apple_api_key
+EXPO_PUBLIC_REVENUECAT_GOOGLE_KEY=your_revenuecat_google_api_key
+EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID=premium
+```
 
-The project comes pre-configured with **Plus Jakarta Sans** from Google Fonts.
+---
 
-**How to change the font:**
-
-1.  Install a new font package (search for `@expo-google-fonts/[font-name]`).
-    ```bash
-    npx expo install @expo-google-fonts/roboto expo-font
-    ```
-2.  Update `app/_layout.tsx`:
-    - Import the new font variants.
-    - Add them to the `useFonts` hook configuration.
-3.  Update `theme/tokens/typography.ts`:
-    - Change the `fontFamily` property in `variants` to match your new font (e.g., `'Roboto_400Regular'`).
-
-The `Typography` component will automatically pick up these changes via the theme.
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
-
-Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+Make sure you have [Node.js](https://nodejs.org/) installed.
 
 ### Installation
-
 1. Install dependencies:
-
    ```bash
    npm install
    ```
 
-2. Start the development server:
-
+2. Start the Metro development server:
    ```bash
    npx expo start
    ```
 
-## Project Structure
+3. Run on local platforms (Development Build):
+   ```bash
+   # For iOS Simulator
+   npm run ios
+   
+   # For Android Emulator
+   npm run android
+   ```
 
-- `app/`: Contains the routes for your application.
-  - `app/_layout.tsx`: The root layout file (Stack Navigator).
-  - `app/index.tsx`: The entry screen (Home).
-  - `app/details.tsx`: An example detail screen.
-- `assets/`: Contains images and other static assets.
+---
 
-## Documentation
+## 📝 Code Standards & Linting
 
-- [Expo Router Documentation](https://docs.expo.dev/router/introduction/)
-- [Expo Documentation](https://docs.expo.dev/)
+Maintain high type safety and formatting checks prior to commit:
 
-## License
+*   **Type Checker**: `npx tsc --noEmit`
+*   **Linter & Formatter**: `npm run lint` (runs ESLint and Prettier auto-fixes)
 
-This project is open source and available under the [MIT License](LICENSE).
+---
+
+## 📄 License
+This project is open-source and licensed under the [MIT License](LICENSE).
