@@ -18,7 +18,7 @@ import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '@/components/ui/ToastConfig';
 import '@/i18n'; // Initialize i18n
-import '@/api/services/authService'; // Registers token refresh handler
+import '@/api/services/authService'; // Registers token refresh handler for custom mode
 import { GlobalErrorBoundary } from '@/components/GlobalErrorBoundary';
 import { NetworkBanner } from '@/components/NetworkBanner';
 import { AppUpdateBanner } from '@/components/AppUpdateBanner';

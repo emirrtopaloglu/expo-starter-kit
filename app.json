@@ -95,7 +95,9 @@
         {
           "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID for authentication."
         }
-      ]
+      ],
+      "expo-localization",
+      "expo-video"
     ]
   }
 }

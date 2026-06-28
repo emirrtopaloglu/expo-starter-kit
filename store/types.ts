@@ -8,13 +8,10 @@ export interface AuthSlice {
   isAuthenticated: boolean;
   isAuthLoading: boolean;
   user: User | null;
-  login: (
-    accessToken: string,
-    refreshToken: string,
-    expiresIn: number,
-    user: User
-  ) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   initializeAuth: () => Promise<void>;
   setAuthLoading: (loading: boolean) => void;
 }

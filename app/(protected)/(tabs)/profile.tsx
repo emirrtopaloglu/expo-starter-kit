@@ -27,6 +27,7 @@ import {
   Moon,
   Bell,
   Shield,
+  Database,
 } from 'lucide-react-native';
 
 export default function ProfileScreen() {
@@ -238,6 +239,19 @@ export default function ProfileScreen() {
 
             <Card padding="none">
               <VStack>
+                {/* Supabase Demo Link */}
+                <Link href="/supabase-demo" asChild>
+                  <ListItem
+                    title={t('protected.settings.supabaseDemoLabel')}
+                    leftIcon={<Database size={20} color={theme.colors.text.default} />}
+                    showChevron
+                    style={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: theme.colors.border.default,
+                    }}
+                  />
+                </Link>
+
                 {/* Support Form Link */}
                 <Link href="/support" asChild>
                   <ListItem

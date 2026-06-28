@@ -170,6 +170,7 @@
       "notificationsLabel": "Anlık Bildirimler",
       "languageLabel": "Uygulama Dili",
       "supportLabel": "Destek & Geri Bildirim",
+      "supabaseDemoLabel": "Supabase Geliştirici Demosu",
       "termsLabel": "Kullanım Koşulları",
       "privacyLabel": "Gizlilik Politikası",
       "restoreLabel": "Abonelikleri Kurtar",
@@ -207,6 +208,11 @@
       "author": "Yazar: {{author}}",
       "sampleParagraph": "Bu ekran TanStack Query dinamik yönlendirme parametresi geçişini doğrular. Öğe verisi çekilir, stil tokenları ile mükemmel biçimde işlenir ve organik gölge efektlerini devralır.",
       "back": "Geri"
+    },
+    "supabaseDemo": {
+      "todoAdded": "Yapılacak başarıyla eklendi",
+      "todoDeleted": "Yapılacak silindi",
+      "uploadSuccess": "Resim başarıyla yüklendi"
     }
   }
 }

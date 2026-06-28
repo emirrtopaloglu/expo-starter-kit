@@ -13,11 +13,13 @@ import { User, Mail, Lock } from 'lucide-react-native';
 import { toast } from '@/utils/toast';
 import { haptics } from '@/utils/haptics';
 import { Image } from 'react-native';
+import { useStore } from '@/store';
 
 export default function RegisterScreen() {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const router = useRouter();
+  const registerGlobal = useStore((state) => state.register);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -39,8 +41,8 @@ export default function RegisterScreen() {
     haptics.impact();
 
     try {
-      // Simulate API call for registration
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Trigger register action from store (which abstracts Supabase vs Custom backend)
+      await registerGlobal(email, password, name);
 
       haptics.notification(haptics.Notification.Success);
       toast.success(t('auth.register.successTitle'), t('auth.register.successMessage'));

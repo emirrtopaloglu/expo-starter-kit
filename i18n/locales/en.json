@@ -170,6 +170,7 @@
       "notificationsLabel": "Push Notifications",
       "languageLabel": "App Language",
       "supportLabel": "Support & Feedback",
+      "supabaseDemoLabel": "Supabase Developer Demo",
       "termsLabel": "Terms of Service",
       "privacyLabel": "Privacy Policy",
       "restoreLabel": "Restore Subscriptions",
@@ -207,6 +208,11 @@
       "author": "Author: {{author}}",
       "sampleParagraph": "This screen demonstrates TanStack Query dynamic navigation parameter passing. The item data is fetched, rendered beautifully using our styling grid tokens, and inherits organic layout shadows.",
       "back": "Back"
+    },
+    "supabaseDemo": {
+      "todoAdded": "Todo added successfully",
+      "todoDeleted": "Todo deleted successfully",
+      "uploadSuccess": "Image uploaded successfully"
     }
   }
 }

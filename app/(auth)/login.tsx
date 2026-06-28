@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { useStore, User } from '@/store';
-import { authService } from '@/api/services/authService';
+import { useStore } from '@/store';
 import { secureStorage } from '@/utils/secureStorage';
 import { biometrics } from '@/utils/biometrics';
 import { toast } from '@/utils/toast';
@@ -16,6 +15,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Switch } from '@/components/ui/Switch';
 import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
 import { Mail, Lock, Fingerprint, LogIn } from 'lucide-react-native';
 import { Image } from 'react-native';
 
@@ -60,8 +60,8 @@ export default function LoginScreen() {
     haptics.impact();
 
     try {
-      // 1. Fire API login
-      const response = await authService.login(email, password);
+      // 1. Call loginGlobal (which calls Supabase signInWithPassword)
+      await loginGlobal(email, password);
 
       // 2. Save biometrics credential configuration if enabled
       if (enableBiometrics && biometricsAvailable) {
@@ -72,18 +72,10 @@ export default function LoginScreen() {
         setHasSavedCredentials(true);
       }
 
-      // 3. Complete global store login
-      await loginGlobal(
-        response.accessToken,
-        response.refreshToken,
-        response.expiresIn,
-        response.user as User
-      );
-
       haptics.notification(haptics.Notification.Success);
       toast.success(
         t('auth.login.welcomeBackTitle'),
-        t('auth.login.loginSuccess', { name: response.user.name })
+        t('auth.login.loginSuccess', { name: email.split('@')[0] })
       );
 
       // Navigate to protected root dashboard
@@ -119,20 +111,13 @@ export default function LoginScreen() {
 
       setIsSubmitting(true);
 
-      // Trigger login API with decrypted credentials
-      const response = await authService.login(savedEmail, savedPassword);
-
-      await loginGlobal(
-        response.accessToken,
-        response.refreshToken,
-        response.expiresIn,
-        response.user as User
-      );
+      // Trigger login via Zustand store with decrypted credentials
+      await loginGlobal(savedEmail, savedPassword);
 
       haptics.notification(haptics.Notification.Success);
       toast.success(
         t('auth.login.welcomeBackTitle'),
-        t('auth.login.authSuccess', { name: response.user.name })
+        t('auth.login.authSuccess', { name: savedEmail.split('@')[0] })
       );
       router.replace('/');
     } catch (err: any) {
@@ -161,10 +146,24 @@ export default function LoginScreen() {
                 width: 80,
                 height: 80,
                 borderRadius: theme.radius.xl,
-                marginBottom: theme.spacing.md,
+                marginBottom: theme.spacing.xs,
               }}
               resizeMode="contain"
             />
+
+            {/* Active Provider Badge */}
+            <Box style={{ marginBottom: theme.spacing.md }}>
+              <Badge
+                label={
+                  process.env.EXPO_PUBLIC_AUTH_PROVIDER === 'supabase'
+                    ? 'Supabase Auth Active'
+                    : 'Custom Backend Active'
+                }
+                variant="subtle"
+                colorScheme="primary"
+              />
+            </Box>
+
             <Typography variant="h1" align="center" style={{ fontWeight: '800' }}>
               {t('auth.login.title')}
             </Typography>
@@ -251,8 +250,21 @@ export default function LoginScreen() {
               >
                 {t('auth.login.demoTitle')}
               </Typography>
-              <Typography variant="caption">{t('auth.login.demoEmail')}</Typography>
-              <Typography variant="caption">{t('auth.login.demoPassword')}</Typography>
+              {process.env.EXPO_PUBLIC_AUTH_PROVIDER === 'supabase' ? (
+                <Typography
+                  variant="caption"
+                  align="center"
+                  style={{ paddingHorizontal: theme.spacing.sm }}
+                >
+                  {t('auth.login.supabaseDemoHelp') ||
+                    'Authenticate using credentials from your Supabase auth instance.'}
+                </Typography>
+              ) : (
+                <>
+                  <Typography variant="caption">{t('auth.login.demoEmail')}</Typography>
+                  <Typography variant="caption">{t('auth.login.demoPassword')}</Typography>
+                </>
+              )}
               <Button
                 label={t('auth.login.autofillDemo')}
                 size="sm"

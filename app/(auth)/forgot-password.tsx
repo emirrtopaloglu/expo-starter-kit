@@ -13,11 +13,13 @@ import { Mail } from 'lucide-react-native';
 import { toast } from '@/utils/toast';
 import { haptics } from '@/utils/haptics';
 import { Image } from 'react-native';
+import { useStore } from '@/store';
 
 export default function ForgotPasswordScreen() {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const router = useRouter();
+  const resetPasswordGlobal = useStore((state) => state.resetPassword);
 
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,8 +34,8 @@ export default function ForgotPasswordScreen() {
     haptics.impact();
 
     try {
-      // Simulate API call for password reset
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Trigger reset password action from store (which abstracts Supabase vs Custom backend)
+      await resetPasswordGlobal(email);
 
       haptics.notification(haptics.Notification.Success);
       toast.success(

@@ -1,4 +1,5 @@
 import { secureStorage } from './secureStorage';
+import { supabase } from './supabase';
 
 export const ACCESS_TOKEN_KEY = 'access_token';
 export const REFRESH_TOKEN_KEY = 'refresh_token';
@@ -11,30 +12,30 @@ type RefreshTokenCallback = (
 let refreshHandler: RefreshTokenCallback | null = null;
 let isRefreshingPromise: Promise<string | null> | null = null;
 
+const provider = process.env.EXPO_PUBLIC_AUTH_PROVIDER || 'supabase';
+
 /**
- * TokenManager: Utility to securely store, retrieve, and evaluate JWT tokens and expiration.
- * Gated with pre-emptive automatic token renewal.
+ * TokenManager: Bridges application request authorization with either Supabase
+ * sessions or a Custom backend token system dynamically based on configuration.
  */
 export const tokenManager = {
   /**
-   * Register the refresh callback to prevent circular dependencies.
-   * Typically registered by the Auth Service.
+   * Register the refresh callback (used in custom mode).
    */
   registerRefreshHandler: (handler: RefreshTokenCallback) => {
     refreshHandler = handler;
   },
 
   /**
-   * Save access token, refresh token, and calculate expiration timestamp.
-   * @param accessToken JWT Access Token
-   * @param refreshToken JWT Refresh Token
-   * @param expiresInSeconds Expiration lifespan in seconds (e.g., 3600)
+   * Save access token, refresh token, and calculate expiration timestamp (used in custom mode).
    */
   setTokens: async (
     accessToken: string,
     refreshToken: string,
     expiresInSeconds: number = 3600
   ): Promise<void> => {
+    if (provider === 'supabase') return;
+
     try {
       const expiryTimestamp = Date.now() + expiresInSeconds * 1000;
       await secureStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
@@ -46,9 +47,18 @@ export const tokenManager = {
   },
 
   /**
-   * Delete all tokens and expiration data from secure storage.
+   * Delete all tokens and expiration data.
    */
   clearTokens: async (): Promise<void> => {
+    if (provider === 'supabase') {
+      try {
+        await supabase.auth.signOut();
+      } catch (error) {
+        console.error('TokenManager: Error signing out from Supabase:', error);
+      }
+      return;
+    }
+
     try {
       await secureStorage.removeItem(ACCESS_TOKEN_KEY);
       await secureStorage.removeItem(REFRESH_TOKEN_KEY);
@@ -59,14 +69,26 @@ export const tokenManager = {
   },
 
   getAccessToken: async (): Promise<string | null> => {
+    if (provider === 'supabase') {
+      const { data } = await supabase.auth.getSession();
+      return data.session?.access_token || null;
+    }
     return await secureStorage.getItem(ACCESS_TOKEN_KEY);
   },
 
   getRefreshToken: async (): Promise<string | null> => {
+    if (provider === 'supabase') {
+      const { data } = await supabase.auth.getSession();
+      return data.session?.refresh_token || null;
+    }
     return await secureStorage.getItem(REFRESH_TOKEN_KEY);
   },
 
   getExpiryTime: async (): Promise<number | null> => {
+    if (provider === 'supabase') {
+      const { data } = await supabase.auth.getSession();
+      return data.session?.expires_at ? data.session.expires_at * 1000 : null;
+    }
     const timeStr = await secureStorage.getItem(TOKEN_EXPIRY_KEY);
     return timeStr ? parseInt(timeStr, 10) : null;
   },
@@ -76,7 +98,7 @@ export const tokenManager = {
    */
   isTokenExpired: async (): Promise<boolean> => {
     const expiry = await tokenManager.getExpiryTime();
-    if (!expiry) return true; // No expiry timestamp means expired/invalid
+    if (!expiry) return true;
 
     const buffer = 30 * 1000; // 30 seconds buffer
     return Date.now() + buffer >= expiry;
@@ -84,10 +106,25 @@ export const tokenManager = {
 
   /**
    * Retrieves a valid access token.
-   * If the current token is expired, it pre-emptively calls the registered refresh handler,
-   * saves the refreshed tokens, and returns the new token.
+   * - In Supabase mode, delegates to getSession() which auto-refreshes tokens.
+   * - In Custom mode, checks if expired and uses the registered refresh handler.
    */
   getValidToken: async (): Promise<string | null> => {
+    if (provider === 'supabase') {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+          console.error('TokenManager: Error retrieving Supabase session:', error);
+          return null;
+        }
+        return data.session?.access_token || null;
+      } catch (error) {
+        console.error('TokenManager: Exception fetching valid Supabase token:', error);
+        return null;
+      }
+    }
+
+    // Custom Mode
     try {
       const accessToken = await tokenManager.getAccessToken();
       const refreshToken = await tokenManager.getRefreshToken();
@@ -107,11 +144,11 @@ export const tokenManager = {
       }
 
       if (!refreshHandler) {
-        console.warn('TokenManager: Refresh handler not registered.');
+        console.warn('TokenManager: Custom refresh handler not registered.');
         return null;
       }
 
-      console.log('TokenManager: Token expired. Pre-emptively refreshing...');
+      console.log('TokenManager: Custom token expired. Pre-emptively refreshing...');
 
       // Wrap the refresh in a promise to prevent duplicate concurrent refresh requests
       isRefreshingPromise = (async () => {
@@ -124,7 +161,7 @@ export const tokenManager = {
           await tokenManager.setTokens(newAccess, newRefresh, newExpiresIn);
           return newAccess;
         } catch (err) {
-          console.error('TokenManager: Failed to refresh token pre-emptively:', err);
+          console.error('TokenManager: Failed to refresh custom token pre-emptively:', err);
           await tokenManager.clearTokens();
           return null;
         } finally {
@@ -134,7 +171,7 @@ export const tokenManager = {
 
       return await isRefreshingPromise;
     } catch (error) {
-      console.error('TokenManager: Error getting valid token:', error);
+      console.error('TokenManager: Error getting valid custom token:', error);
       return null;
     }
   },
