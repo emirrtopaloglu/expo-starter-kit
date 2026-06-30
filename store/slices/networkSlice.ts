@@ -3,11 +3,14 @@ import NetInfo from '@react-native-community/netinfo';
 import { NetworkSlice, RootState } from '../types';
 
 export const createNetworkSlice: StateCreator<RootState, [], [], NetworkSlice> = (set, get) => {
-  // Register NetInfo listener once upon store construction
-  NetInfo.addEventListener((state) => {
-    if (!get().isSimulatedOffline) {
-      set({ isConnected: state.isConnected ?? false });
-    }
+  // Register NetInfo listener after store construction to avoid race conditions with get() returning undefined
+  Promise.resolve().then(() => {
+    NetInfo.addEventListener((state) => {
+      const storeState = get();
+      if (storeState && !storeState.isSimulatedOffline) {
+        set({ isConnected: state.isConnected ?? false });
+      }
+    });
   });
 
   return {
